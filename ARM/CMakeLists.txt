@@ -25,6 +25,9 @@ include_directories(${CORERobotLib}/src)
 set(SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/Robot.cpp
         ${PROJECT_SOURCE_DIR}/src/DriveSubsystem.cpp
         ${PROJECT_SOURCE_DIR}/src/Autonomous/DriveForwardAuton.cpp
+        ${PROJECT_SOURCE_DIR}/src/HopperSubsystem.cpp
+        ${PROJECT_SOURCE_DIR}/src/GearSubsystem.cpp
+        ${PROJECT_SOURCE_DIR}/src/ClimberSubsystem.cpp
         ${CORERobotLib}/src/COREAuton.cpp
         ${CORERobotLib}/src/COREDrive.cpp
         ${CORERobotLib}/src/COREHardware/COREEncoder.cpp

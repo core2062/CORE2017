@@ -3,6 +3,7 @@
 	<name>CORE2017</name>
 	<comment></comment>
 	<projects>
+		<project>CORERobotLib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -29,7 +30,7 @@
 		<link>
 			<name>CORERobotLib</name>
 			<type>2</type>
-			<location>/mnt/Programming/git/CORERobotLib</location>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/CORERobotLib</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

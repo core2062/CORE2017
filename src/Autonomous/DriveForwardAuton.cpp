@@ -1,6 +1,6 @@
 #include "DriveForwardAuton.h"
 
-DriveForwardAuton::DriveForwardAuton() /*: m_driveForward()*/ {
+DriveForwardAuton::DriveForwardAuton() : COREAuton("Drive Forward", nullptr) /*: m_driveForward()*/ {
 
 }
 

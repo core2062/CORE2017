@@ -2,7 +2,7 @@
 
 #include "CORERobotLib.h"
 
-class DriveSubsystem : CORESubsystem {
+class DriveSubsystem : public CORESubsystem {
 public:
     DriveSubsystem();
     void robotInit() override;

@@ -12,6 +12,12 @@ using namespace std;
 class Robot : public CORERobot {
 public:
     static shared_ptr<DriveSubsystem> driveSubsystem;
+    static shared_ptr<HopperSubsystem> hopperSubsystem;
+    static shared_ptr<ClimberSubsystem> climberSubsystem;
+    static shared_ptr<GearSubsystem> gearSubsystem;
+    static shared_ptr<COREJoystick> driverJoystick;
+    static shared_ptr<COREJoystick> operatorJoystick;
+
     Robot() {
 
     }
@@ -27,6 +33,9 @@ public:
 
     }
 };
+
+
+
 
 
 #ifdef __arm__

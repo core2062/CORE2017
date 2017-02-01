@@ -1,5 +1,5 @@
 #pragma once
-
+#include "WPILib.h"
 #include "CORERobotLib.h"
 
 class ClimberSubsystem : public CORESubsystem {
@@ -9,5 +9,13 @@ public:
     void teleopInit() override;
     void teleop() override;
 private:
-    COREMotor LeftClimb, RightClimb;
+    COREMotor m_leftClimbMotor, m_rightClimbMotor;
+    COREConstant<double> m_climbMotorCurrentLimit;
+    DigitalInput m_climbLimitSwitch;
+    bool m_climbing;
+
+
+    bool isClimbing();
+    void startClimbing();
+    void stopClimbing();
 };

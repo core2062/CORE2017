@@ -20,9 +20,8 @@ private:
     COREMotor liftMotor;
     DoubleSolenoid dumpFlap;
     COREPID liftPID;
-    const double TOP_LIMIT = -1.0;
-    const double BOTTOM_LIMIT = -1.0;//TODO: fill these data in
-    const double RAISE_LIMIT = -1.0;
-    const double LOWER_LIMIT = -1.0;
+    COREConstant<double> m_bottomPos, m_topPos, m_raiseVel, m_lowerVel;
+
 
 };
+

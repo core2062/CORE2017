@@ -10,5 +10,5 @@ public:
     void teleop() override;
 private:
     DoubleSolenoid PunchSolenoid;
-    DoubleSolenoid FlapSolenoid;
+    COREMotor FlapMotor;
 };

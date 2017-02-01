@@ -1,12 +1,18 @@
 #include "HopperSubsystem.h"
+#include "Robot.h"
 
-HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"), liftMotor(14), dumpFlap(1, 2),
-									liftPID(&liftMotor, &liftMotor, POS_VEL, 0, 0, 0) {
+HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"), liftMotor(LIFT_MOTOR_PORT),
+									dumpFlap(DUMP_FLAP_SOLENOID_OPEN_PORT, DUMP_FLAP_SOLENOID_CLOSE_PORT),
+									liftPID(&liftMotor, &liftMotor, POS_VEL, 0, 0, 0),
+									m_bottomPos("Lift Bottom Position", -1), m_topPos("Lift Top Position", -1),
+									m_raiseVel("Lift Raise Velocity", -1), m_lowerVel("Lift Lower Velocity", -1){
 
 }
 
 void HopperSubsystem::robotInit(){
-
+	Robot::operatorJoystick->registerButton(A_BUTTON);
+	Robot::operatorJoystick->registerButton(Y_BUTTON);
+	Robot::operatorJoystick->registerButton(B_BUTTON);
 }
 
 void HopperSubsystem::teleopInit(){
@@ -14,24 +20,30 @@ void HopperSubsystem::teleopInit(){
 }
 
 void HopperSubsystem::teleop(){
-	if (true /*hopperButtonIsPressed*/){
+	if (Robot::operatorJoystick->getButtonState(B_BUTTON) == PRESSED){
 		if (flapIsOpen()){
 			closeFlap();
-		}else {
+		} else {
 			openFlap();
 		}
+	}
+
+	if (Robot::operatorJoystick->getButtonState(A_BUTTON) == PRESSED){
+		setLiftBottom();
+	} else if (Robot::operatorJoystick->getButtonState(Y_BUTTON) == PRESSED){
+		setLiftTop();
 	}
 }
 
 void HopperSubsystem::setLiftTop(){
-	liftPID.setPos(TOP_LIMIT);
-	liftPID.setVel(RAISE_LIMIT);
+	liftPID.setPos(m_topPos.Get());
+	liftPID.setVel(m_raiseVel.Get());
 
 }
 
 void HopperSubsystem::setLiftBottom(){
-	liftPID.setPos(BOTTOM_LIMIT);
-	liftPID.setVel(LOWER_LIMIT);
+	liftPID.setPos(m_bottomPos.Get());
+	liftPID.setVel(m_lowerVel.Get());
 
 }
 
@@ -47,6 +59,6 @@ void HopperSubsystem::closeFlap(){
 bool HopperSubsystem::flapIsOpen(){
 	if (dumpFlap.Get() == DoubleSolenoid::kForward)
 		return true;
-	 else
+	else
 		 return false;
 }

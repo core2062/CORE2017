@@ -5,6 +5,9 @@
 
 #include "CORERobotLib.h"
 #include "DriveSubsystem.h"
+#include "HopperSubsystem.h"
+#include "GearSubsystem.h"
+#include "ClimberSubsystem.h"
 
 #define CLIMB_LIMIT_SWITCH_PORT 0
 #define PUNCH_SOLENOID_OPEN_PORT 1
@@ -13,8 +16,6 @@
 #define DRIVE_SHIFTER_A_CLOSE_PORT 4
 #define DRIVE_SHIFTER_B_OPEN_PORT 5
 #define DRIVE_SHIFTER_B_CLOSE_PORT 6
-#define DUMP_FLAP_SOLENOID_OPEN_PORT 7
-#define DUMP_FLAP_SOLENOID_CLOSE_PORT 8
 #define GEAR_FLAP_SOLENOID_OPEN_PORT 7
 #define GEAR_FLAP_SOLENOID_CLOSE_PORT 8
 #define FR_DRIVE_MOTOR_PORT 10
@@ -26,6 +27,7 @@
 #define RIGHT_CLIMB_MOTOR_PORT 16
 #define DUMP_FLAP_MOTOR_PORT 17
 #define GEAR_FLAP_MOTOR_PORT 18
+
 using namespace CORE;
 using namespace std;
 
@@ -54,13 +56,3 @@ public:
 
     }
 };
-
-
-
-
-
-#ifdef __arm__
-START_ROBOT_CLASS(Robot)
-#else
-START_SIMULATED_ROBOT_CLASS(offSeasonRobot)
-#endif

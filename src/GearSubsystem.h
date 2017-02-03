@@ -9,6 +9,9 @@ public:
     void teleopInit() override;
     void teleop() override;
 private:
-    DoubleSolenoid PunchSolenoid;
-    COREMotor FlapMotor;
+    void openFlap();
+    void closeFlap();
+    bool flapIsOpen();
+    DoubleSolenoid m_punchSolenoid;
+    COREMotor m_gearFlapMotor;
 };

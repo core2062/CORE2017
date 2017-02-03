@@ -1,11 +1,13 @@
 #include "HopperSubsystem.h"
 #include "Robot.h"
 
-HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"), liftMotor(LIFT_MOTOR_PORT),
-									dumpFlap(DUMP_FLAP_SOLENOID_OPEN_PORT, DUMP_FLAP_SOLENOID_CLOSE_PORT),
-									liftPID(&liftMotor, &liftMotor, POS_VEL, 0, 0, 0),
-									m_bottomPos("Lift Bottom Position", -1), m_topPos("Lift Top Position", -1),
-									m_raiseVel("Lift Raise Velocity", -1), m_lowerVel("Lift Lower Velocity", -1){
+HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"), m_liftMotor(LIFT_MOTOR_PORT),
+									m_dumpFlapMotor(DUMP_FLAP_MOTOR_PORT),
+									m_liftPID(&m_liftMotor, &m_liftMotor, POS_VEL, 0, 0, 0),
+									m_bottomPos("Lift Bottom Position", -1.0),
+									m_topPos("Lift Top Position", -1.0),
+									m_raiseVel("Lift Raise Velocity", -1.0),
+									m_lowerVel("Lift Lower Velocity", -1.0) {
 
 }
 
@@ -36,28 +38,28 @@ void HopperSubsystem::teleop(){
 }
 
 void HopperSubsystem::setLiftTop(){
-	liftPID.setPos(m_topPos.Get());
-	liftPID.setVel(m_raiseVel.Get());
+	m_liftPID.setPos(m_topPos.Get());
+	m_liftPID.setVel(m_raiseVel.Get());
 
 }
 
 void HopperSubsystem::setLiftBottom(){
-	liftPID.setPos(m_bottomPos.Get());
-	liftPID.setVel(m_lowerVel.Get());
+	m_liftPID.setPos(m_bottomPos.Get());
+	m_liftPID.setVel(m_lowerVel.Get());
 
 }
 
 void HopperSubsystem::openFlap(){
-	dumpFlap.Set(DoubleSolenoid::kForward);
+	m_dumpFlapMotor.Set(DoubleSolenoid::kForward);
 }
 
 void HopperSubsystem::closeFlap(){
-	dumpFlap.Set(DoubleSolenoid::kReverse);
+	m_dumpFlapMotor.Set(DoubleSolenoid::kReverse);
 }
 
 
 bool HopperSubsystem::flapIsOpen(){
-	if (dumpFlap.Get() == DoubleSolenoid::kForward)
+	if (m_dumpFlapMotor.Get() == DoubleSolenoid::kForward)
 		return true;
 	else
 		 return false;

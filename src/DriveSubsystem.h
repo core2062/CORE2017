@@ -9,5 +9,5 @@ public:
     void teleopInit() override;
     void teleop() override;
 private:
-    COREMotor FRDrive, BRDrive, BLDrive, FLDrive;
+    COREMotor m_FRDrive, m_BRDrive, m_BLDrive, m_FLDrive;
 };

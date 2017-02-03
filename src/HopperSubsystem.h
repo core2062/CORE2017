@@ -2,7 +2,7 @@
 
 #include "CORERobotLib.h"
 
-class HopperSubsystem : public CORESubsystem{
+class HopperSubsystem : public CORESubsystem {
 public:
     HopperSubsystem();
     void robotInit() override;
@@ -17,9 +17,9 @@ public:
 
 
 private:
-    COREMotor liftMotor;
-    DoubleSolenoid dumpFlap;
-    COREPID liftPID;
+    COREMotor m_liftMotor;
+    COREMotor m_dumpFlapMotor;
+    COREPID m_liftPID;
     COREConstant<double> m_bottomPos, m_topPos, m_raiseVel, m_lowerVel;
 
 

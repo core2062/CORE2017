@@ -7,6 +7,19 @@ shared_ptr<GearSubsystem> Robot::gearSubsystem = make_shared<GearSubsystem>();
 shared_ptr<COREJoystick> Robot::driverJoystick = make_shared<COREJoystick>(0);
 shared_ptr<COREJoystick> Robot::operatorJoystick = make_shared<COREJoystick>(1);
 
+Robot::Robot() {
+
+}
+
+void Robot::robotInit() {
+
+}
+void Robot::teleopInit() {
+
+}
+void Robot::teleop(){
+
+}
 
 #ifdef __arm__
 START_ROBOT_CLASS(Robot)

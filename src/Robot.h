@@ -16,8 +16,6 @@
 #define DRIVE_SHIFTER_A_CLOSE_PORT 4
 #define DRIVE_SHIFTER_B_OPEN_PORT 5
 #define DRIVE_SHIFTER_B_CLOSE_PORT 6
-#define GEAR_FLAP_SOLENOID_OPEN_PORT 7
-#define GEAR_FLAP_SOLENOID_CLOSE_PORT 8
 #define FR_DRIVE_MOTOR_PORT 10
 #define BR_DRIVE_MOTOR_PORT 11
 #define BL_DRIVE_MOTOR_PORT 12
@@ -40,19 +38,8 @@ public:
     static shared_ptr<COREJoystick> driverJoystick;
     static shared_ptr<COREJoystick> operatorJoystick;
 
-    Robot() {
-
-    }
-    void robotInit() {
-
-    }
-
-
-    void teleopInit() {
-
-    }
-
-    void teleop() {
-
-    }
+    Robot();
+    void robotInit() override;
+    void teleopInit() override;
+    void teleop() override;
 };

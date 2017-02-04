@@ -29,6 +29,22 @@
 using namespace CORE;
 using namespace std;
 
+/****************************************************MOTORS************************************************************/
+#define FR_DRIVE_MOTOR_PORT 10
+#define BR_DRIVE_MOTOR_PORT 11
+#define BL_DRIVE_MOTOR_PORT 12
+#define FL_DRIVE_MOTOR_PORT 13
+#define HOPPER_FLAP_MOTOR_PORT 14
+#define GEAR_FLAP_MOTOR_PORT 15
+#define LIFT_MOTOR_PORT 16
+
+/****************************************************SOLENOIDS*********************************************************/
+#define FL_DRIVE_MOTOR_PORT 10
+#define FL_DRIVE_MOTOR_PORT 10
+#define FL_DRIVE_MOTOR_PORT 10
+#define FL_DRIVE_MOTOR_PORT 10
+#define FL_DRIVE_MOTOR_PORT 10
+
 class Robot : public CORERobot {
 public:
     static shared_ptr<DriveSubsystem> driveSubsystem;

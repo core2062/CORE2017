@@ -82,7 +82,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="build|Debug|cmake-build-debug|CORERobotLib" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry excluding="main.cpp|linux_simulate|Debug|build|3rdparty" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="CORERobotLib"/>
+						<entry excluding="cmake-build-debug|main.cpp|linux_simulate|Debug|build|3rdparty" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="CORERobotLib"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -169,7 +169,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="CORERobotLib/linux_simulate|build|CORERobotLib/main.cpp|CORERobotLib/build|CORERobotLib/Debug|Debug|cmake-build-debug|CORERobotLib/3rdparty" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="CORERobotLib/cmake-build-debug|CORERobotLib/linux_simulate|build|CORERobotLib/main.cpp|CORERobotLib/build|CORERobotLib/Debug|Debug|cmake-build-debug|CORERobotLib/3rdparty" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

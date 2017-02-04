@@ -20,6 +20,8 @@ private:
     COREMotor m_liftMotor;
     COREMotor m_dumpFlapMotor;
     COREPID m_liftPID;
-    COREConstant<double> m_bottomPos, m_topPos, m_raiseVel, m_lowerVel;
+    COREConstant<double> m_liftBottomPos, m_liftTopPos, m_raiseVel, m_lowerVel, m_flapBottomPos, m_flapTopPos;
+    COREPID m_flapPID;
+    bool m_flapIsOpen;
 };
 

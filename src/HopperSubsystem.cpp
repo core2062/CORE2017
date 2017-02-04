@@ -12,9 +12,9 @@ HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"), m_liftMotor(LIFT_M
 }
 
 void HopperSubsystem::robotInit(){
-	Robot::operatorJoystick->registerButton(A_BUTTON);
-	Robot::operatorJoystick->registerButton(Y_BUTTON);
-	Robot::operatorJoystick->registerButton(B_BUTTON);
+	Robot::operatorJoystick->registerButton(COREJoystick::A_BUTTON);
+	Robot::operatorJoystick->registerButton(COREJoystick::Y_BUTTON);
+	Robot::operatorJoystick->registerButton(COREJoystick::B_BUTTON);
 }
 
 void HopperSubsystem::teleopInit(){
@@ -22,7 +22,7 @@ void HopperSubsystem::teleopInit(){
 }
 
 void HopperSubsystem::teleop(){
-	if (Robot::operatorJoystick->getButtonState(B_BUTTON) == PRESSED){
+	if (Robot::operatorJoystick->getButtonState(COREJoystick::B_BUTTON) == COREJoystick::RISING_EDGE){
 		if (flapIsOpen()){
 			closeFlap();
 		} else {
@@ -30,9 +30,9 @@ void HopperSubsystem::teleop(){
 		}
 	}
 
-	if (Robot::operatorJoystick->getButtonState(A_BUTTON) == PRESSED){
+	if (Robot::operatorJoystick->getButtonState(COREJoystick::A_BUTTON) == COREJoystick::RISING_EDGE){
 		setLiftBottom();
-	} else if (Robot::operatorJoystick->getButtonState(Y_BUTTON) == PRESSED){
+	} else if (Robot::operatorJoystick->getButtonState(COREJoystick::Y_BUTTON) == COREJoystick::RISING_EDGE){
 		setLiftTop();
 	}
 }

@@ -7,18 +7,18 @@ GearSubsystem::GearSubsystem() : CORESubsystem("Gear"),
 
 }
 
-void GearSubsystem::robotInit(){
-	Robot::operatorJoystick->registerButton(X_BUTTON);
+void GearSubsystem::robotInit() {
+	Robot::operatorJoystick->registerButton(COREJoystick::X_BUTTON);
 	//robot::operatorJoystick->registerButton();
 	m_gearFlapMotor.setReversed(false);
 }
 
-void GearSubsystem::teleopInit(){
+void GearSubsystem::teleopInit() {
 
 }
 
 void GearSubsystem::teleop(){
-	if (Robot::operatorJoystick->getButtonState(X_BUTTON)==PRESSED){
+	if (Robot::operatorJoystick->getButtonState(COREJoystick::X_BUTTON) == COREJoystick::RISING_EDGE) {
 		if (flapIsOpen()){
 			closeFlap();
 		}else{

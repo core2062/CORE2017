@@ -21,7 +21,5 @@ private:
     COREMotor m_dumpFlapMotor;
     COREPID m_liftPID;
     COREConstant<double> m_bottomPos, m_topPos, m_raiseVel, m_lowerVel;
-
-
 };
 

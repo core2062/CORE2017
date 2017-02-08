@@ -32,6 +32,10 @@
 /****************************************************SENSORS**********************************************************/
 #define CLIMB_LIMIT_SWITCH_PORT 0
 
+/****************************************************SERVO_CHANNELS**********************************************************/
+#define LEFT_DUMP_FLAP_SERVO_CHANNEL 0
+#define RIGHT_DUMP_FLAP_SERVO_CHANNEL 1
+
 using namespace CORE;
 using namespace std;
 

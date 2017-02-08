@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CORERobotLib.h"
+#include "WPILIB.h"
 
 class GearSubsystem : public CORESubsystem {
 public:
@@ -13,7 +14,7 @@ private:
     void closeFlap();
     bool flapIsOpen();
     DoubleSolenoid m_punchSolenoid;
-    COREMotor m_gearFlapMotor;
+    Servo m_leftGearFlapServo, m_rightGearFlap;
     COREConstant<double> m_gearFlapBottomPos, m_gearFlapTopPos;
     COREPID m_gearFlapPID;
 };

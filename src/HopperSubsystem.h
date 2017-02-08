@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CORERobotLib.h"
+#include "WPILIB.h"
 
 class HopperSubsystem : public CORESubsystem {
 public:
@@ -18,7 +19,7 @@ public:
 
 private:
     COREMotor m_liftMotor;
-    COREMotor m_dumpFlapMotor;
+    Servo m_leftDumpFlapServo, m_rightDumpFlapServo;
     COREPID m_liftPID;
     COREConstant<double> m_liftBottomPos, m_liftTopPos, m_raiseVel, m_lowerVel, m_flapBottomPos, m_flapTopPos;
     COREPID m_flapPID;

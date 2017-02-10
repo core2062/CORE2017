@@ -14,7 +14,7 @@ private:
     void closeFlap();
     bool flapIsOpen();
     DoubleSolenoid m_punchSolenoid;
-    Servo m_leftGearFlapServo, m_rightGearFlap;
+    COREMotor m_gearFlapMotor;
     COREConstant<double> m_gearFlapBottomPos, m_gearFlapTopPos;
     COREPID m_gearFlapPID;
 };

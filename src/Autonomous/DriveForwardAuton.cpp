@@ -1,7 +1,8 @@
 #include "DriveForwardAuton.h"
+#include "Robot.h"
 
-DriveForwardAuton::DriveForwardAuton() : COREAuton("Drive Forward", nullptr) /*: m_driveForward()*/ {
-	addFirstNode(nullptr);
+
+DriveForwardAuton() : COREAuton("Drive Forward", &m_driveForward, true) , m_driveForward(new driveDistance()) {
 
 }
 

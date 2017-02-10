@@ -17,7 +17,6 @@
 #define HOPPER_FLAP_MOTOR_PORT 14
 #define LEFT_CLIMB_MOTOR_PORT 15
 #define RIGHT_CLIMB_MOTOR_PORT 16
-#define DUMP_FLAP_MOTOR_PORT 17
 #define GEAR_FLAP_MOTOR_PORT 18
 #define LIFT_MOTOR_PORT 19
 
@@ -35,6 +34,7 @@
 /****************************************************SERVO_CHANNELS**********************************************************/
 #define LEFT_DUMP_FLAP_SERVO_CHANNEL 0
 #define RIGHT_DUMP_FLAP_SERVO_CHANNEL 1
+
 
 using namespace CORE;
 using namespace std;

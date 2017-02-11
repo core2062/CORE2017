@@ -36,26 +36,35 @@ include_directories(${CORERobotLib}/src)
 # in project root
 set(SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/Robot.cpp
         ${PROJECT_SOURCE_DIR}/src/DriveSubsystem.cpp
-        ${PROJECT_SOURCE_DIR}/src/Autonomous/DriveForwardAuton.cpp
         ${PROJECT_SOURCE_DIR}/src/HopperSubsystem.cpp
         ${PROJECT_SOURCE_DIR}/src/GearSubsystem.cpp
         ${PROJECT_SOURCE_DIR}/src/ClimberSubsystem.cpp
+        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/DriveDistanceAction.cpp
+        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/DumpBallsAction.cpp
+        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/IntakeBallsAction.cpp
+        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/LoadGearOntoPegAction.cpp
+        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/TurnAngleAction.cpp
+        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/VisionGetBallsAction.cpp
+        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/VisionAlignGearAction.cpp
+
         ${CORERobotLib}/src/COREAuton.cpp
+        ${CORERobotLib}/src/COREConstant.cpp
+        ${CORERobotLib}/src/COREDataLog.cpp
+        ${CORERobotLib}/src/COREDrive/COREEtherDrive.cpp
+        ${CORERobotLib}/src/COREDrive/CORESwerveDrive.cpp
         ${CORERobotLib}/src/COREDrive.cpp
         ${CORERobotLib}/src/COREHardware/COREEncoder.cpp
         ${CORERobotLib}/src/COREHardware/COREJoystick.cpp
         ${CORERobotLib}/src/COREHardware/COREMotor.cpp
-        ${CORERobotLib}/src/COREHardware/CORETimer.cpp
         ${CORERobotLib}/src/COREHardware/CORESensor.cpp
+        ${CORERobotLib}/src/COREHardware/CORETimer.cpp
+        ${CORERobotLib}/src/COREHardware.cpp
         ${CORERobotLib}/src/CORELog.cpp
         ${CORERobotLib}/src/COREPID.cpp
         ${CORERobotLib}/src/CORERobot.cpp
         ${CORERobotLib}/src/COREScheduler.cpp
-        ${CORERobotLib}/src/COREDrive/CORESwerve.cpp
-        ${CORERobotLib}/src/COREDataLog.cpp
-        ${CORERobotLib}/src/COREConstant.cpp
-        ${CORERobotLib}/src/COREDrive/COREEtherDrive.cpp
-        ${CORERobotLib}/src/COREHardware.cpp)
+        ${CORERobotLib}/src/COREController/COREMotionProfile.cpp
+        ${CORERobotLib}/src/COREController.cpp)
 
 include_directories(${PROJECT_SOURCE_DIR}/src)
 

@@ -2,9 +2,9 @@
 #include "Robot.h"
 #include "CORERobotLib.h"
 
-class DriveDistance : public COREAutonAction {
+class DriveDistanceAction : public COREAutonAction {
 public:
-    DriveDistance();
+    DriveDistanceAction();
     void actionInit() override;
     actionStatus action() override;
     void actionEnd() override;

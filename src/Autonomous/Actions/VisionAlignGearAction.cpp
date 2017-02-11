@@ -1,4 +1,4 @@
-#include "VisionAlignGearAuton.h"
+#include "VisionAlignGearAction.h"
 
 VisionAlignGearAuton::VisionAlignGearAuton() : COREAuton("Vision Align Gear", nullptr) /*: m_driveForward()*/ {
 

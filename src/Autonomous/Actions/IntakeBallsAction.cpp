@@ -1,4 +1,4 @@
-#include "IntakeBallsAuton.h"
+#include "IntakeBallsAction.h"
 
 IntakeBallsAuton::IntakeBallsAuton() : COREAuton("Intake Balls", nullptr) /*: m_driveForward()*/ {
 

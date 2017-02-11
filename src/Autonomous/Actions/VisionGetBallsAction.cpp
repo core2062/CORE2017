@@ -1,4 +1,4 @@
-#include "VisionGetBallsAuton.h"
+#include "VisionGetBallsAction.h"
 
 VisionGetBallsAuton::VisionGetBallsAuton() : COREAuton("Vision Get Balls", nullptr) /*: m_driveForward()*/ {
 

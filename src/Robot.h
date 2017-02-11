@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <memory>
+#include "WPILib.h"
 
 #include "CORERobotLib.h"
 #include "DriveSubsystem.h"

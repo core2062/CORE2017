@@ -19,7 +19,7 @@ public:
     void resetEncoders(DriveSide whichSide);
     double getDistanceInFeet(DriveSide whichSide);
 private:
-    COREConstant<double> m_etherAValue, m_etherBValue, m_etherQuickTurnValue, m_ticksPerFoot;
+    COREConstant<double> m_etherAValue, m_etherBValue, m_etherQuickTurnValue, m_ticksPerInch;
     COREMotor m_FRDrive, m_BRDrive, m_BLDrive, m_FLDrive;
     COREEtherDrive m_drive;
     DoubleSolenoid m_leftDriveShifter, m_rightDriveShifter;

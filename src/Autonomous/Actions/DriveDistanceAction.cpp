@@ -1,16 +1,16 @@
 #include "Robot.h"
-#include <Autonomous/Actions/DriveDistance.h>
+#include <Autonomous/Actions/DriveDistanceAction.h>
 
-DriveDistance::DriveDistance(double speedInFraction, double distanceInFeet) {
+DriveDistanceAction::DriveDistanceAction(double speedInFraction, double distanceInFeet) {
 	m_speedInFraction = speedInFraction;
 	m_distanceInFeet = distanceInFeet;
 }
 
-    void DriveDistance::actionInit() {
+    void DriveDistanceAction::actionInit() {
         //driveMotorFR.CANTalonController->SetEncPosition(0);
         Robot::driveSubsystem->resetEncoders();
     }
-    actionStatus DriveDistance::action() {
+    actionStatus DriveDistanceAction::action() {
     	//How far have we gone since the reset?
     	double averDist = Robot::driveSubsystem->getDistanceInFeet();
 
@@ -24,7 +24,7 @@ DriveDistance::DriveDistance(double speedInFraction, double distanceInFeet) {
     	}
     }
 
-    void DriveDistance::actionEnd() {
+    void DriveDistanceAction::actionEnd() {
 
     }
 

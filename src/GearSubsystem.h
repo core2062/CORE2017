@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CORERobotLib.h"
-#include "WPILIB.h"
+#include "WPILib.h"
 
 class GearSubsystem : public CORESubsystem {
 public:

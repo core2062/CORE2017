@@ -11,7 +11,7 @@ DriveSubsystem::DriveSubsystem() : CORESubsystem("Drive Subsystem"),
                                            m_etherBValue.Get(),m_etherQuickTurnValue.Get()),
                                    m_leftDriveShifter(LEFT_DRIVE_SHIFTER_HIGH_GEAR_PORT, LEFT_DRIVE_SHIFTER_LOW_GEAR_PORT),
                                    m_rightDriveShifter(RIGHT_DRIVE_SHIFTER_HIGH_GEAR_PORT, RIGHT_DRIVE_SHIFTER_LOW_GEAR_PORT),
-								   m_highGear(true) {
+								   m_highGear(true), m_ticksPerInch("Drive ticks per inch", -1) {
 
 }
 
@@ -79,5 +79,5 @@ double DriveSubsystem::getDistanceInFeet(DriveSide whichSide){
 	if (whichSide == DriveSide::BOTH){
 		accumulator *= 0.5;
 	}
-	return accumulator / m_ticksPerFoot.Get();
+	return accumulator / m_ticksPerInch.Get();
 }

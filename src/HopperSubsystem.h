@@ -15,14 +15,19 @@ public:
     void openFlap();
     void closeFlap();
     bool flapIsOpen();
+    bool flapIsClosed();
+    bool hopperIsUp();
+    bool hopperIsDown();
+    void turnOnSweeper();
+    void turnOffSweeper();
+    bool sweeperIsOn();
 
 
 private:
-    COREMotor m_liftMotor;
+    COREMotor m_liftMotor, m_sweepMotor;
     Servo m_leftDumpFlapServo, m_rightDumpFlapServo;
     COREPID m_liftPID;
     COREConstant<double> m_liftBottomPos, m_liftTopPos, m_raiseVel, m_lowerVel, m_flapBottomPos, m_flapTopPos;
-    COREPID m_flapPID;
     bool m_flapIsOpen;
 };
 

@@ -3,12 +3,13 @@
 #include <memory>
 
 #include "CORERobotLib.h"
+#include "Actions/DriveDistance.h"
 #include "Robot.h"
 
 class DriveForwardAuton : public COREAuton {
 public:
-    DriveForwardAuton();
+    DriveForwardAuton(double speedInFraction, double distanceInFeet);
     void addNodes() override;
 private:
-    Node m_driveForward;
+    DriveDistance m_driveForward;
 };

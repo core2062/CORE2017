@@ -1,8 +1,9 @@
 #include "DriveForwardAuton.h"
+#include "Actions/DriveDistance.h"
 #include "Robot.h"
 
 
-DriveForwardAuton() : COREAuton("Drive Forward", &m_driveForward, true) , m_driveForward(new driveDistance()) {
+DriveForwardAuton::DriveForwardAuton(double speedInFraction, double distanceInFeet) : COREAuton("Drive Forward", new Node(&m_driveForward), true) , m_driveForward(speedInFraction, distanceInFeet) {
 
 }
 

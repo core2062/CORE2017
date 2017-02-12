@@ -1,13 +1,15 @@
-#pragma once
+#pragma once;
 
-#include <memory>
+#include "Robot.h"
+#include "CORERobotLib.h"
 
-#include "../../../CORERobotLib/CORERobotLib.h"
-
-class IntakeBallsAuton : public COREAuton {
+class IntakeBalls : public COREAutonAction {
 public:
-	IntakeBallsAuton();
-    void addNodes() override;
+	IntakeBalls();
+	void actionInit() override;
+	actionStatus action() override;
+	void actionEnd() override;
 private:
-    /*Node m_driveForward;*/
+
 };
+

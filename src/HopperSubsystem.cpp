@@ -2,6 +2,7 @@
 #include "Robot.h"
 
 HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"), m_liftMotor(LIFT_MOTOR_PORT),
+									m_sweepMotor(SWEEP_MOTOR_PORT),
 									m_leftDumpFlapServo(LEFT_DUMP_FLAP_SERVO_CHANNEL),
 									m_rightDumpFlapServo(RIGHT_DUMP_FLAP_SERVO_CHANNEL),
 									m_liftPID(&m_liftMotor, &m_liftMotor, POS_VEL, 0, 0, 0),
@@ -34,7 +35,7 @@ void HopperSubsystem::teleop(){
 	}*/
 
 	if (Robot::operatorJoystick->getButtonState(COREJoystick::B_BUTTON) == COREJoystick::RISING_EDGE){
-		if (flapIsOpen()){
+		if (m_flapIsOpen){
 			closeFlap();
 		} else {
 			openFlap();
@@ -80,11 +81,19 @@ void HopperSubsystem::closeFlap(){
 	m_leftDumpFlapServo.SetAngle(m_flapTopPos.Get());
 	m_flapIsOpen = false;
 }
-
-
 bool HopperSubsystem::flapIsOpen(){
-	if (m_flapIsOpen)
-		return true;
-	else
-		 return false;
+	return (m_rightDumpFlapServo.GetAngle() == m_flapTopPos.Get()) &&
+		   (m_leftDumpFlapServo.GetAngle() == m_flapTopPos.Get());
+}
+bool HopperSubsystem::flapIsClosed(){
+	return (m_rightDumpFlapServo.GetAngle() == m_flapBottomPos.Get()) &&
+			   (m_leftDumpFlapServo.GetAngle() == m_flapBottomPos.Get());
+}
+bool HopperSubsystem::hopperIsUp(){
+	return (m_liftPID.getPos() == m_liftTopPos.Get() &&
+			(m_liftPID.getVel() == 0));
+}
+bool HopperSubsystem::hopperIsDown(){
+	return (m_liftPID.getPos() == m_liftBottomPos.Get() &&
+				(m_liftPID.getVel() == 0));
 }

@@ -20,6 +20,7 @@
 #define RIGHT_CLIMB_MOTOR_PORT 16
 #define GEAR_FLAP_MOTOR_PORT 18
 #define LIFT_MOTOR_PORT 19
+#define SWEEP_MOTOR_PORT 20
 
 /****************************************************SOLENOIDS*********************************************************/
 #define PUNCH_SOLENOID_OPEN_PORT 1

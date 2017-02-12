@@ -1,6 +1,8 @@
-#include "DumpBallsAction.h"
+#include "DumpBallsAuton.h"
+#include "Actions/DumpBalls.h"
+#include "Robot.h"
 
-DumpBallsAuton::DumpBallsAuton() : COREAuton("Dump Balls", nullptr) {
+DumpBallsAuton::DumpBallsAuton(bool reset) : COREAuton("Dump Balls", new Node(&m_dumpBalls), true), m_dumpBalls(reset) {
 
 }
 

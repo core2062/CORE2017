@@ -2,13 +2,13 @@
 #include "Robot.h"
 #include "CORERobotLib.h"
 
-class DriveDistanceAction : public COREAutonAction {
+class DriveDistance : public COREAutonAction {
 public:
-    DriveDistanceAction();
+    DriveDistance(double speedInFraction, double distanceInFeet);
     void actionInit() override;
     actionStatus action() override;
     void actionEnd() override;
 private:
-    double m_distanceInFeet;
 	double m_speedInFraction;
+    double m_distanceInFeet;
 };

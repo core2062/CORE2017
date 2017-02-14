@@ -9,6 +9,7 @@
 #include "HopperSubsystem.h"
 #include "GearSubsystem.h"
 #include "ClimberSubsystem.h"
+#include "Controllers/DriveOpenController.h"
 
 /****************************************************MOTORS************************************************************/
 #define FR_DRIVE_MOTOR_PORT 10
@@ -49,9 +50,11 @@ public:
     static shared_ptr<GearSubsystem> gearSubsystem;
     static shared_ptr<COREJoystick> driverJoystick;
     static shared_ptr<COREJoystick> operatorJoystick;
+    static shared_ptr<DriveOpenController> driveTeleopController;
 
     Robot();
     void robotInit() override;
     void teleopInit() override;
     void teleop() override;
+    void Test() override;
 };

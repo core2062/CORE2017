@@ -6,6 +6,7 @@ shared_ptr<ClimberSubsystem> Robot::climberSubsystem = make_shared<ClimberSubsys
 shared_ptr<GearSubsystem> Robot::gearSubsystem = make_shared<GearSubsystem>();
 shared_ptr<COREJoystick> Robot::driverJoystick = make_shared<COREJoystick>(0);
 shared_ptr<COREJoystick> Robot::operatorJoystick = make_shared<COREJoystick>(1);
+shared_ptr<DriveOpenController> Robot::driveTeleopController = make_shared<DriveOpenController>();
 
 Robot::Robot() {
 

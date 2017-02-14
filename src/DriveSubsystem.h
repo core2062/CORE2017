@@ -6,12 +6,13 @@
 
 enum DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
 
-class DriveSubsystem : CORESubsystem {
+class DriveSubsystem : COREVariableControlledSubsystem {
 public:
     DriveSubsystem();
     void robotInit() override;
     void teleopInit() override;
-    void teleop() override;
+    //void teleop() override;	removed for now
+    void initTalons();
     void setHighGear(bool highGear = true);
     void setLowGear(bool lowGear = true);
     bool getHighGear();
@@ -19,15 +20,22 @@ public:
     void resetEncoders(DriveSide whichSide);
     double getDistanceInFeet(DriveSide whichSide);
     void setMotorSpeed(double speedInFraction, DriveSide);
+    void setMotorSpeed(double leftPercent, double rightPercent);
     void resetYaw();
     double getYaw();
     bool isTurning();
     void startTurning(double angle, double tolerance);
 
+	std::pair<double, double> getEncoderInches();
+	std::pair<double, double> getEncoderSpeed();
+
+	Rotation2d getGyroAngle();
+
+    COREConstant<double>driveScrub;
 private:
     COREConstant<double> m_etherAValue, m_etherBValue, m_etherQuickTurnValue, m_ticksPerInch;
-    COREMotor m_FRDrive, m_BRDrive, m_BLDrive, m_FLDrive;
-    COREEtherDrive m_drive;
+    COREMotor m_leftMaster, m_rightMaster;
+    CANTalon m_leftSlave, m_rightSlave;
     DoubleSolenoid m_leftDriveShifter, m_rightDriveShifter;
     bool m_highGear;
     AHRS * m_pGyro;

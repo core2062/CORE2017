@@ -1,15 +1,13 @@
 #pragma once
 
-#include <memory>
-
 #include "CORERobotLib.h"
-#include "Actions/DumpBalls.h"
 
-class DumpBallsAuton : public COREAuton {
+class DumpBallsAction : public COREAutonAction {
 public:
-	DumpBallsAuton(bool reset);
-    void addNodes() override;
+	DumpBallsAction(bool reset);
+    void actionInit() override;
+    void actionEnd() override;
+    actionStatus action() override;
 private:
-    /*Node m_driveForward;*/
-    DumpBalls m_dumpBalls;
+    bool m_reset;
 };

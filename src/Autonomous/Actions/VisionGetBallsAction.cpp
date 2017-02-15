@@ -1,9 +1,18 @@
 #include "VisionGetBallsAction.h"
 
-VisionGetBallsAuton::VisionGetBallsAuton() : COREAuton("Vision Get Balls", nullptr) /*: m_driveForward()*/ {
+VisionGetBallsAction::VisionGetBallsAction() {
 
 }
 
-void VisionGetBallsAuton::addNodes() {
-
+void VisionGetBallsAction::actionInit() {
+    COREAutonAction::actionInit();
 }
+
+void VisionGetBallsAction::actionEnd() {
+    COREAutonAction::actionEnd();
+}
+
+COREAutonAction::actionStatus VisionGetBallsAction::action() {
+    return COREAutonAction::END;
+}
+

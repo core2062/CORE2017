@@ -1,9 +1,11 @@
 #include "LoadGearOntoPegAction.h"
+#include <Robot.h>
 
-LoadGearOntoPegAuton::LoadGearOntoPegAuton() : COREAuton("Load Gear Onto Peg", nullptr) /*: m_driveForward()*/ {
-
-}
-
-void LoadGearOntoPegAuton::addNodes() {
+LoadGearOntoPegAuton::LoadGearOntoPegAuton() {
 
 }
+
+COREAutonAction::actionStatus LoadGearOntoPegAuton::action() {
+    return COREAutonAction::END;
+}
+

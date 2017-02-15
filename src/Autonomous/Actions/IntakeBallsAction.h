@@ -1,4 +1,4 @@
-#pragma once;
+#pragma once
 
 #include "Robot.h"
 #include "CORERobotLib.h"

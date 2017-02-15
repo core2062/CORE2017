@@ -2,12 +2,14 @@
 
 #include <memory>
 
-#include "../../../CORERobotLib/CORERobotLib.h"
+#include "CORERobotLib.h"
 
-class VisionGetBallsAuton : public COREAuton {
+class VisionGetBallsAction : public COREAutonAction {
 public:
-	VisionGetBallsAuton();
-    void addNodes() override;
+	VisionGetBallsAction();
+    void actionInit() override;
+    void actionEnd() override;
+    actionStatus action() override;
 private:
-    /*Node m_driveForward;*/
+
 };

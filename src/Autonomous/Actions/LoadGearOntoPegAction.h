@@ -1,13 +1,11 @@
 #pragma once
 
-#include <memory>
+#include "CORERobotLib.h"
 
-#include "../../../CORERobotLib/CORERobotLib.h"
-
-class LoadGearOntoPegAuton : public COREAuton {
+class LoadGearOntoPegAuton : public COREAutonAction {
 public:
-	LoadGearOntoPegAuton();
-    void addNodes() override;
+    LoadGearOntoPegAuton();
+	actionStatus action() override;
 private:
-    /*Node m_driveForward;*/
+
 };

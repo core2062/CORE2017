@@ -1,10 +1,9 @@
 #pragma once
-#include "Robot.h"
 #include "CORERobotLib.h"
 
-class DriveDistance : public COREAutonAction {
+class DriveDistanceAction : public COREAutonAction {
 public:
-    DriveDistance(double speedInFraction, double distanceInFeet);
+    DriveDistanceAction(double speedInFraction, double distanceInFeet);
     void actionInit() override;
     actionStatus action() override;
     void actionEnd() override;

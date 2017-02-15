@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "../../../CORERobotLib/CORERobotLib.h"
+#include "CORERobotLib.h"
 
 class VisionAlignGearAuton : public COREAuton {
 public:

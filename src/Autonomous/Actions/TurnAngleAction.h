@@ -2,12 +2,16 @@
 
 #include <memory>
 
-#include "../../../CORERobotLib/CORERobotLib.h"
+#include "CORERobotLib.h"
 
-class TurnAngleAuton : public COREAuton {
+class TurnAngleAuton : public COREAutonAction {
 public:
-	TurnAngleAuton();
-    void addNodes() override;
+	TurnAngleAuton(double angle, double tolerance);
+	void actionInit() override;
+	actionStatus action() override;
+	void actionEnd() override;
 private:
-    /*Node m_driveForward;*/
+	double m_angle;
+	double m_tolerance;
+
 };

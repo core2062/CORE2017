@@ -4,9 +4,9 @@
 
 #include "CORERobotLib.h"
 
-class TurnAngleAuton : public COREAutonAction {
+class TurnAngleAction : public COREAutonAction {
 public:
-	TurnAngleAuton(double angle, double tolerance);
+	TurnAngleAction(double angle, double tolerance);
 	void actionInit() override;
 	actionStatus action() override;
 	void actionEnd() override;

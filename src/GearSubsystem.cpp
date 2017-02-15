@@ -6,7 +6,7 @@ GearSubsystem::GearSubsystem() : CORESubsystem("Gear"),
 								m_gearFlapMotor(GEAR_FLAP_MOTOR_PORT),
 								m_gearFlapBottomPos("Gear Flap Bottom Position", -1.0),
 								m_gearFlapTopPos("Gear Flap Top Position", -1.0),
-								m_gearFlapPID(&m_gearFlapMotor, &m_gearFlapMotor, POS, 0, 0, 0){
+								m_gearFlapPID(m_gearFlapMotor.Encoder.get(), &m_gearFlapMotor, POS, 0, 0, 0){
 
 }
 

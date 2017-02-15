@@ -5,7 +5,7 @@ HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"), m_liftMotor(LIFT_M
 									m_sweepMotor(SWEEP_MOTOR_PORT),
 									m_leftDumpFlapServo(LEFT_DUMP_FLAP_SERVO_CHANNEL),
 									m_rightDumpFlapServo(RIGHT_DUMP_FLAP_SERVO_CHANNEL),
-									m_liftPID(&m_liftMotor, &m_liftMotor, POS_VEL, 0, 0, 0),
+									m_liftPID(m_liftMotor.Encoder.get(), &m_liftMotor, POS_VEL, 0, 0, 0),
 									m_liftBottomPos("Lift Bottom Position", -1.0),
 									m_liftTopPos("Lift Top Position", -1.0),
 									m_raiseVel("Lift Raise Velocity", -1.0),

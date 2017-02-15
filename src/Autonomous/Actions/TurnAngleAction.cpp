@@ -1,16 +1,16 @@
 #include "TurnAngleAction.h"
 #include <Robot.h>
 
-TurnAngleAuton::TurnAngleAuton(double angle, double tolerance): m_angle(angle), m_tolerance(tolerance) {
+TurnAngleAction::TurnAngleAction(double angle, double tolerance): m_angle(angle), m_tolerance(tolerance) {
 
 
 }
 
-void TurnAngleAuton::actionInit() {
+void TurnAngleAction::actionInit() {
     Robot::driveSubsystem->startTurning(m_angle, m_tolerance);
 }
 
-COREAutonAction::actionStatus TurnAngleAuton::action() {
+COREAutonAction::actionStatus TurnAngleAction::action() {
     //If we are still turning, CONTINUEs
     if (Robot::driveSubsystem-> isTurning()){
         return COREAutonAction::CONTINUE;
@@ -19,6 +19,6 @@ COREAutonAction::actionStatus TurnAngleAuton::action() {
     return COREAutonAction::END;
 }
 
-void TurnAngleAuton::actionEnd() {
+void TurnAngleAction::actionEnd() {
 
 }

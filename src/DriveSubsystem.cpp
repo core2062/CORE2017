@@ -5,7 +5,7 @@ DriveSubsystem::DriveSubsystem() : CORESubsystem("Drive Subsystem"),
 								   m_etherAValue("Ether A Value", 1),
                                    m_etherBValue("Ether B Value", 1),
 								   m_etherQuickTurnValue("Ether Quick Turn Value", 2),
-                                   m_ticksPerFoot("Ticks Per Foot", 10000),
+                                   m_ticksPerInch("Ticks Per Inch", 10000),
 								   m_FRDrive(FR_DRIVE_MOTOR_PORT), m_BRDrive(BR_DRIVE_MOTOR_PORT),
 								   m_BLDrive(BL_DRIVE_MOTOR_PORT), m_FLDrive(FL_DRIVE_MOTOR_PORT),
                                    m_drive(&m_BLDrive, &m_FLDrive, &m_BRDrive, &m_FRDrive, m_etherAValue.Get(),
@@ -19,7 +19,7 @@ DriveSubsystem::DriveSubsystem() : CORESubsystem("Drive Subsystem"),
 								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1)
 								   {
 	try{
-		m_pGyro = new AHRS(SerialPort::Port::kMXP);
+		//m_pGyro = new AHRS(SerialPort::Port::kMXP);
 	}
 	catch(std::exception & ex){
 		std::cout<<"Couldn't find NavX"<<std::endl;
@@ -90,7 +90,7 @@ double DriveSubsystem::getDistanceInFeet(DriveSide whichSide){
 	if (whichSide == DriveSide::BOTH){
 		accumulator *= 0.5;
 	}
-	return accumulator / m_ticksPerFoot.Get();
+	return accumulator / m_ticksPerInch.Get();
 }
 
 void DriveSubsystem::setMotorSpeed(double speedInFraction, DriveSide whichSide){

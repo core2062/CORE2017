@@ -1,6 +1,6 @@
 #pragma once
+
 #include <AHRS.h>
-#include <src/COREDrive/COREEtherDrive.h>
 #include "CORERobotLib.h"
 #include "WPILib.h"
 

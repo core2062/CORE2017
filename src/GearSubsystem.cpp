@@ -7,7 +7,7 @@ GearSubsystem::GearSubsystem() : CORESubsystem("Gear"),
 								m_punchSolenoid(PUNCH_SOLENOID_PCM, PUNCH_SOLENOID_OUT_PORT, PUNCH_SOLENOID_IN_PORT),
 								m_leftFlapSolenoid(LEFT_GEAR_FLAP_SOLENOID_PCM, LEFT_GEAR_FLAP_SOLENOID_OUT_PORT, LEFT_GEAR_FLAP_SOLENOID_IN_PORT),
 								m_rightFlapSolenoid(RIGHT_GEAR_FLAP_SOLENOID_PCM, RIGHT_GEAR_FLAP_SOLENOID_OUT_PORT, LEFT_GEAR_FLAP_SOLENOID_IN_PORT),
-								m_punchTime("Punch Out Time", 1.5){
+								m_punchTime("Punch Out Time", 1.5) {
 
 }
 

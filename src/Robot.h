@@ -52,7 +52,6 @@
 #define RIGHT_GEAR_FLAP_SOLENOID_IN_PORT 3
 #define RIGHT_GEAR_FLAP_SOLENOID_PCM 2
 
-
 using namespace CORE;
 using namespace std;
 

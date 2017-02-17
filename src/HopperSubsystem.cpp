@@ -39,7 +39,7 @@ void HopperSubsystem::teleop(){
 	if (Robot->operatorJoystick.getButtonState(COREJoystick::B_BUTTON) == COREJoystick::RISING_EDGE){
 		m_flapIsOpen = !m_flapIsOpen;
 	}
-	if (m_flapIsOpen){
+	if (m_flapIsOpen) {
 		closeFlap();
 	} else {
 		openFlap();
@@ -48,7 +48,7 @@ void HopperSubsystem::teleop(){
 	double liftVal = -Robot->operatorJoystick.getAxis(COREJoystick::LEFT_STICK_Y);
 	if(abs(liftVal) > .05){
 		setLift(liftVal);
-	}else{
+	} else {
 		if (Robot->operatorJoystick.getButtonState(COREJoystick::A_BUTTON) == COREJoystick::RISING_EDGE){
 			setLiftBottom();
 		} else if (Robot->operatorJoystick.getButtonState(COREJoystick::Y_BUTTON) == COREJoystick::RISING_EDGE){
@@ -57,10 +57,10 @@ void HopperSubsystem::teleop(){
 	}
 
 	if(Robot->operatorJoystick.getButton(COREJoystick::DPAD_N)){
-		setSweeper(-.5);
+		setIntake(-.5);
 	}
 	if(Robot->operatorJoystick.getButton(COREJoystick::DPAD_S)){
-		setSweeper(.5);
+		setIntake(.5);
 	}
 }
 
@@ -105,19 +105,19 @@ bool HopperSubsystem::hopperIsDown(){
 	return (m_liftPID.getPos() < m_liftBottomPos.Get() + m_liftTolerance.Get() * 1.1);
 }
 
-void HopperSubsystem::turnOnSweeper() {
-	setSweeper(m_sweepSpeed.Get());
+void HopperSubsystem::turnOnIntake() {
+	setIntake(m_sweepSpeed.Get());
 }
 
-void HopperSubsystem::turnOffSweeper() {
-	setSweeper(0.0);
+void HopperSubsystem::turnOffIntake() {
+	setIntake(0.0);
 }
 
-void HopperSubsystem::setSweeper(double val) {
+void HopperSubsystem::setIntake(double val) {
 	m_intakeMotor.Set(val);
 }
 
-bool HopperSubsystem::sweeperIsOn() {
+bool HopperSubsystem::intakeIsOn() {
 	return (m_intakeMotor.Get() > 0);
 }
 
@@ -139,11 +139,11 @@ void IntakeController::postLoopTask() {
 	double pow = Robot->driveSubsystem.getForwardPower();
 	if(pow > 0){
 		if(Robot->hopperSubsystem.hopperIsDown()){
-			Robot->hopperSubsystem.setSweeper(pow + .1);
+			Robot->hopperSubsystem.setIntake(pow + .1);
 		}
 	}
 }
 
 void IntakeController::disabledTask() {
-	Robot->hopperSubsystem.setSweeper(0.0);
+	Robot->hopperSubsystem.setIntake(0.0);
 }

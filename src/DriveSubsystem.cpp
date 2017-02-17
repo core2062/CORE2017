@@ -22,7 +22,7 @@ DriveSubsystem::DriveSubsystem() : COREVariableControlledSubsystem("Drive Subsys
 								   m_currentYawTolerance(0),
 								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1) {
 	try {
-		m_pGyro = new AHRS(SerialPort::Port::kMXP);
+		m_pGyro = new AHRS(SerialPort::kMXP);
 	} catch(std::exception & ex) {
 		CORELog::logWarning("Couldn't find NavX!");
 	}
@@ -84,7 +84,7 @@ void DriveSubsystem::resetEncoders(DriveSide whichSide){
 	}
 }
 
-double DriveSubsystem::getDistanceInInches(DriveSide whichSide){
+double DriveSubsystem::getDistanceInInches(DriveSide whichSide) {
 	double accumulator = 0;
 	//Encoders only on front drive motors
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::RIGHT){
@@ -99,7 +99,7 @@ double DriveSubsystem::getDistanceInInches(DriveSide whichSide){
 	return accumulator / m_ticksPerInch.Get();
 }
 
-void DriveSubsystem::setMotorSpeed(double speedInFraction, DriveSide whichSide){
+void DriveSubsystem::setMotorSpeed(double speedInFraction, DriveSide whichSide) {
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::RIGHT){
 		m_rightMaster.Set(speedInFraction);
 	}
@@ -142,13 +142,16 @@ void DriveSubsystem::initTalons() {
 	m_leftMaster.CANTalonController->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
 	m_rightMaster.CANTalonController->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
 	m_leftMaster.CANTalonController->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	m_rightMaster.CANTalonController->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+
 	m_leftMaster.Set(0);
 	m_leftSlave.SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
 	m_leftSlave.Set(FL_DRIVE_MOTOR_PORT);
-	m_rightMaster.CANTalonController->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+
 	m_rightMaster.Set(0);
 	m_rightSlave.SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
 	m_rightSlave.Set(FR_DRIVE_MOTOR_PORT);
+
 	m_leftMaster.CANTalonController->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
 	m_leftMaster.CANTalonController->SetSensorDirection(false);
 	m_leftMaster.CANTalonController->ConfigEncoderCodesPerRev(1024);
@@ -169,7 +172,7 @@ std::pair<double, double> DriveSubsystem::getEncoderInches() {
 }
 
 std::pair<double, double> DriveSubsystem::getEncoderSpeed() {
-	double factor = 4.0 * PI * .0166666666;
+	double factor = 4.0 * PI * .0166666666; //Multiply by 1/60 to get RPS from RPM
 	return {m_leftMaster.CANTalonController->GetSpeed() * factor, m_rightMaster.CANTalonController->GetSpeed() * factor};
 }
 
@@ -194,7 +197,7 @@ double DriveSubsystem::getForwardPower() {
 	double left = m_leftMaster.Get();
 	double right = m_rightMaster.Get();
 	double power  = 0;
-	if(left > 0 || right > 0){
+	if(left > 0 || right > 0) {
 		power = left + right;
 		power*=.45;
 		power = (power < 0)?0:power;

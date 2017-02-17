@@ -19,10 +19,10 @@ public:
     void closeFlap();
     bool hopperIsUp();
     bool hopperIsDown();
-    void turnOnSweeper();
-    void turnOffSweeper();
-    void setSweeper(double val);
-    bool sweeperIsOn();
+    void turnOnIntake();
+    void turnOffIntake();
+    void setIntake(double val);
+    bool intakeIsOn();
     double getLiftSpeed();
     double getLiftEncoder();
 

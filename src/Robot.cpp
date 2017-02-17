@@ -4,7 +4,7 @@ using namespace CORE;
 
 CORE2017* Robot = nullptr;
 
-CORE2017::CORE2017() :testMotor(78),
+CORE2017::CORE2017() ://testMotor(78),
 		driveSubsystem(),
 		//hopperSubsystem(),
 		climberSubsystem(),
@@ -21,7 +21,7 @@ void CORE2017::teleopInit() {
 
 }
 void CORE2017::teleop(){
-	testMotor.getCurrent();
+	//testMotor.getCurrent();
 	//TestSubsystem.teleop();
 //	cout << testMotor.Encoder.get() << endl;
 //	cout << testMotor.getName()  << endl;

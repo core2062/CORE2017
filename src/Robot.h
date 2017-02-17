@@ -68,7 +68,7 @@ public:
     void teleopInit() override;
     void teleop() override;
 
-    COREMotor testMotor;
+   // COREMotor testMotor;
 
     DriveSubsystem driveSubsystem;
     //HopperSubsystem hopperSubsystem;

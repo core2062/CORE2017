@@ -11,13 +11,13 @@
 #include "ClimberSubsystem.h"
 
 /****************************************************MOTORS************************************************************/
-#define FR_DRIVE_MOTOR_PORT 10
+#define FR_DRIVE_MOTOR_PORT 56
 #define BR_DRIVE_MOTOR_PORT 11
 #define BL_DRIVE_MOTOR_PORT 12
 #define FL_DRIVE_MOTOR_PORT 13
 #define HOPPER_FLAP_MOTOR_PORT 14
 #define LEFT_CLIMB_MOTOR_PORT 15
-#define RIGHT_CLIMB_MOTOR_PORT 16
+#define RIGHT_CLIMB_MOTOR_PORT 10
 #define GEAR_FLAP_MOTOR_PORT 18
 #define LIFT_MOTOR_PORT 19
 #define SWEEP_MOTOR_PORT 20
@@ -41,17 +41,42 @@
 using namespace CORE;
 using namespace std;
 
-class Robot : public CORERobot {
+class testSubsystem : public CORESubsystem {
 public:
-    static shared_ptr<DriveSubsystem> driveSubsystem;
-    static shared_ptr<HopperSubsystem> hopperSubsystem;
-    static shared_ptr<ClimberSubsystem> climberSubsystem;
-    static shared_ptr<GearSubsystem> gearSubsystem;
-    static shared_ptr<COREJoystick> driverJoystick;
-    static shared_ptr<COREJoystick> operatorJoystick;
+		testSubsystem() : CORESubsystem("Testing") {
+			cout << "Constructor!" << endl;
+		}
+		void robotInit() {
+			cout << "Robot Init!" << endl;
+		}
+		void teleopInit() {
 
-    Robot();
+		}
+		inline void teleop() {
+			cout << "It works!" << endl;
+		}
+		~testSubsystem() {
+			cout << "deleting" << endl;
+		}
+
+};
+
+class CORE2017 : public CORERobot {
+public:
+	CORE2017();
     void robotInit() override;
     void teleopInit() override;
     void teleop() override;
+
+    COREMotor testMotor;
+
+    DriveSubsystem driveSubsystem;
+    //HopperSubsystem hopperSubsystem;
+    ClimberSubsystem climberSubsystem;
+    GearSubsystem gearSubsystem;
+    COREJoystick driverJoystick;
+    COREJoystick operatorJoystick;
+
 };
+
+extern CORE2017* Robot;

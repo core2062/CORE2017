@@ -1,6 +1,8 @@
 #include "DriveSubsystem.h"
 #include "Robot.h"
 
+using namespace CORE;
+
 DriveSubsystem::DriveSubsystem() : CORESubsystem("Drive Subsystem"),
 								   m_etherAValue("Ether A Value", 1),
                                    m_etherBValue("Ether B Value", 1),
@@ -16,8 +18,7 @@ DriveSubsystem::DriveSubsystem() : CORESubsystem("Drive Subsystem"),
 								   m_currentlyTurning(false),
 								   m_currentYawTarget(0),
 								   m_currentYawTolerance(0),
-								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1)
-								   {
+								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1) {
 	try{
 		//m_pGyro = new AHRS(SerialPort::Port::kMXP);
 	}
@@ -31,7 +32,7 @@ void DriveSubsystem::robotInit() {
 	m_BRDrive.setReversed(false);
 	m_BLDrive.setReversed(false);
 	m_FLDrive.setReversed(false);
-    Robot::driverJoystick->registerButton(COREJoystick::LEFT_BUTTON);
+    Robot->driverJoystick.registerButton(COREJoystick::LEFT_BUTTON);
 }
 
 void DriveSubsystem::teleopInit() {
@@ -39,10 +40,10 @@ void DriveSubsystem::teleopInit() {
 }
 
 void DriveSubsystem::teleop() {
-    double y = Robot::driverJoystick->getAxis(COREJoystick::LEFT_STICK_Y);
-    double rot = Robot::driverJoystick->getAxis(COREJoystick::RIGHT_STICK_X);
+    double y = Robot->driverJoystick.getAxis(COREJoystick::LEFT_STICK_Y);
+    double rot = Robot->driverJoystick.getAxis(COREJoystick::RIGHT_STICK_X);
     m_drive.cartesian(0, y, rot);
-    if(Robot::driverJoystick->getRisingEdge(COREJoystick::LEFT_BUTTON)) {
+    if(Robot->driverJoystick.getRisingEdge(COREJoystick::LEFT_BUTTON)) {
         if(m_highGear) {
             setLowGear();
         } else {
@@ -105,12 +106,12 @@ void DriveSubsystem::setMotorSpeed(double speedInFraction, DriveSide whichSide){
 }
 
 void DriveSubsystem::resetYaw() {
-	m_pGyro->ZeroYaw();
+	m_gyro->ZeroYaw();
 
 }
 
 double DriveSubsystem::getYaw() {
-	return (double) m_pGyro->GetYaw();
+	return (double) m_gyro->GetYaw();
 }
 
 bool DriveSubsystem::isTurning() {

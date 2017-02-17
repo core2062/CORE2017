@@ -1,6 +1,9 @@
 #pragma once
+
 #include "WPILib.h"
 #include "CORERobotLib.h"
+
+using namespace CORE;
 
 class ClimberSubsystem : public CORESubsystem {
 public:

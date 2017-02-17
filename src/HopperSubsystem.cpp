@@ -1,6 +1,8 @@
 #include "HopperSubsystem.h"
 #include "Robot.h"
 
+using namespace CORE;
+
 HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"), m_liftMotor(LIFT_MOTOR_PORT),
 									m_sweepMotor(SWEEP_MOTOR_PORT),
 									m_leftDumpFlapServo(LEFT_DUMP_FLAP_SERVO_CHANNEL),
@@ -13,13 +15,14 @@ HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"), m_liftMotor(LIFT_M
 									m_flapBottomPos("Flap Bottom Position", -1.0),
 									m_flapTopPos("Flap Bottom Position", -1.0),
 									m_flapIsOpen(false){
+	cout << "Hopper subsystem done" << endl;
 
 }
 
 void HopperSubsystem::robotInit(){
-	Robot::operatorJoystick->registerButton(COREJoystick::A_BUTTON);
-	Robot::operatorJoystick->registerButton(COREJoystick::Y_BUTTON);
-	Robot::operatorJoystick->registerButton(COREJoystick::B_BUTTON);
+	Robot->operatorJoystick.registerButton(COREJoystick::A_BUTTON);
+	Robot->operatorJoystick.registerButton(COREJoystick::Y_BUTTON);
+	Robot->operatorJoystick.registerButton(COREJoystick::B_BUTTON);
 }
 
 void HopperSubsystem::teleopInit(){
@@ -29,12 +32,12 @@ void HopperSubsystem::teleopInit(){
 
 void HopperSubsystem::teleop(){
 	//TODO:Setting the motors to an initial value belongs in teleopInit instead of teleop?
-	/*(Robot::operatorJoystick->getButtonState(COREJoystick::B_BUTTON) == COREJoystick::OFF){
+	/*(Robot::operatorJoystick.getButtonState(COREJoystick::B_BUTTON) == COREJoystick::OFF){
 		m_leftDumpFlapServo.Set(0);
 		m_rightDumpFlapServo.Set(0);
 	}*/
 
-	if (Robot::operatorJoystick->getButtonState(COREJoystick::B_BUTTON) == COREJoystick::RISING_EDGE){
+	if (Robot->operatorJoystick.getButtonState(COREJoystick::B_BUTTON) == COREJoystick::RISING_EDGE){
 		if (m_flapIsOpen){
 			closeFlap();
 		} else {
@@ -43,14 +46,14 @@ void HopperSubsystem::teleop(){
 	}
 
 	//TODO:Setting the motors to an initial value belongs in teleopInit instead of teleop?
-	/*if (Robot::operatorJoystick->getButtonState(COREJoystick::A_BUTTON) == COREJoystick::OFF &&
-		Robot::operatorJoystick->getButtonState(COREJoystick::Y_BUTTON) == COREJoystick::OFF){
+	/*if (Robot::operatorJoystick.getButtonState(COREJoystick::A_BUTTON) == COREJoystick::OFF &&
+		Robot::operatorJoystick.getButtonState(COREJoystick::Y_BUTTON) == COREJoystick::OFF){
 		m_liftMotor.Set(0);
 	}*/
 
-	if (Robot::operatorJoystick->getButtonState(COREJoystick::A_BUTTON) == COREJoystick::RISING_EDGE){
+	if (Robot->operatorJoystick.getButtonState(COREJoystick::A_BUTTON) == COREJoystick::RISING_EDGE){
 		setLiftBottom();
-	} else if (Robot::operatorJoystick->getButtonState(COREJoystick::Y_BUTTON) == COREJoystick::RISING_EDGE){
+	} else if (Robot->operatorJoystick.getButtonState(COREJoystick::Y_BUTTON) == COREJoystick::RISING_EDGE){
 		setLiftTop();
 	}
 }
@@ -72,7 +75,6 @@ void HopperSubsystem::openFlap(){
 	m_rightDumpFlapServo.SetAngle(m_flapBottomPos.Get());
 	m_leftDumpFlapServo.SetAngle(m_flapBottomPos.Get());
 	m_flapIsOpen = true;
-
 }
 
 void HopperSubsystem::closeFlap(){

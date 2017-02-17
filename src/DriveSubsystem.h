@@ -4,6 +4,8 @@
 #include "CORERobotLib.h"
 #include "WPILib.h"
 
+using namespace CORE;
+
 enum DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
 
 class DriveSubsystem : CORESubsystem {
@@ -30,7 +32,7 @@ private:
     COREEtherDrive m_drive;
     DoubleSolenoid m_leftDriveShifter, m_rightDriveShifter;
     bool m_highGear;
-    AHRS * m_pGyro;
+    AHRS * m_gyro;
     bool m_currentlyTurning;
     double m_currentYawTarget;
     double m_currentYawTolerance;

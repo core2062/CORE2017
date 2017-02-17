@@ -1,6 +1,8 @@
 #include "ClimberSubsystem.h"
 #include "Robot.h"
 
+using namespace CORE;
+
 ClimberSubsystem::ClimberSubsystem() : CORESubsystem("Climber"),
 										m_leftClimbMotor(LEFT_CLIMB_MOTOR_PORT),
 										m_rightClimbMotor(RIGHT_CLIMB_MOTOR_PORT),
@@ -11,7 +13,7 @@ ClimberSubsystem::ClimberSubsystem() : CORESubsystem("Climber"),
 }
 
 void ClimberSubsystem::robotInit() {
-	Robot::operatorJoystick->registerButton(COREJoystick::START_BUTTON);
+	Robot->operatorJoystick.registerButton(COREJoystick::START_BUTTON);
 	m_leftClimbMotor.setReversed(true);
 	m_rightClimbMotor.setReversed(false);
 }
@@ -21,7 +23,7 @@ void ClimberSubsystem::teleopInit() {
 }
 
 void ClimberSubsystem::teleop() {
-	if (Robot::operatorJoystick->getButtonState(COREJoystick::START_BUTTON) == COREJoystick::OFF){
+	if (Robot->operatorJoystick.getButtonState(COREJoystick::START_BUTTON) == COREJoystick::OFF){
 		m_leftClimbMotor.Set(0);
 		m_rightClimbMotor.Set(0);
 	}
@@ -35,7 +37,7 @@ void ClimberSubsystem::teleop() {
 	if (m_climbLimitSwitch.Get()) {
 			stopClimbing();
 	}
-	if (Robot::operatorJoystick->getButtonState(COREJoystick::START_BUTTON) == COREJoystick::RISING_EDGE){
+	if (Robot->operatorJoystick.getButtonState(COREJoystick::START_BUTTON) == COREJoystick::RISING_EDGE){
 		startClimbing();
 		if (isClimbing()){
 		m_leftClimbMotor.Set(1.0);

@@ -25,6 +25,10 @@ public:
     double getYaw();
     bool isTurning();
     void startTurning(double angle, double tolerance);
+    CANTalon * getLeftMaster();
+    CANTalon * getRightMaster();
+    AHRS * getGyro();
+    double getForwardPower();
 
 	std::pair<double, double> getEncoderInches();
 	std::pair<double, double> getEncoderSpeed();
@@ -32,6 +36,7 @@ public:
 	Rotation2d getGyroAngle();
 
     COREConstant<double>driveScrub;
+    COREConstant<double>driveTurnProportional;
 private:
     COREConstant<double> m_etherAValue, m_etherBValue, m_etherQuickTurnValue, m_ticksPerInch;
     COREMotor m_leftMaster, m_rightMaster;

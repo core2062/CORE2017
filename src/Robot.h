@@ -10,6 +10,8 @@
 #include "GearSubsystem.h"
 #include "ClimberSubsystem.h"
 #include "Controllers/DriveOpenController.h"
+#include "Controllers/DriveGyroController.h"
+#include "Controllers/DriveWaypointController.h"
 
 /****************************************************MOTORS************************************************************/
 #define FR_DRIVE_MOTOR_PORT 10
@@ -51,6 +53,8 @@ public:
     static shared_ptr<COREJoystick> driverJoystick;
     static shared_ptr<COREJoystick> operatorJoystick;
     static shared_ptr<DriveOpenController> driveTeleopController;
+    static shared_ptr<DriveGyroController> driveGyroController;
+    static shared_ptr<IntakeController> intakeController;
 
     Robot();
     void robotInit() override;

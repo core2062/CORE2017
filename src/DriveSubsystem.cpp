@@ -2,6 +2,8 @@
 #include "Robot.h"
 
 DriveSubsystem::DriveSubsystem() : COREVariableControlledSubsystem("Drive Subsystem"),
+								   driveScrub("Drive Scrub", 0.15),
+								   driveTurnProportional("Drive P Value", .3),
 								   m_etherAValue("Ether A Value", 1),
                                    m_etherBValue("Ether B Value", 1),
 								   m_etherQuickTurnValue("Ether Quick Turn Value", 2),
@@ -168,4 +170,28 @@ std::pair<double, double> DriveSubsystem::getEncoderSpeed() {
 Rotation2d DriveSubsystem::getGyroAngle() {
 	double degrees = m_pGyro->GetYaw();
 	return Rotation2d::fromDegrees(degrees);
+}
+
+CANTalon* DriveSubsystem::getLeftMaster() {
+	return m_leftMaster.CANTalonController.get();
+}
+
+CANTalon* DriveSubsystem::getRightMaster() {
+	return m_rightMaster.CANTalonController.get();
+}
+
+AHRS* DriveSubsystem::getGyro() {
+	return m_pGyro;
+}
+
+double DriveSubsystem::getForwardPower() {
+	double left = m_leftMaster.Get();
+	double right = m_rightMaster.Get();
+	double power  = 0;
+	if(left > 0 || right > 0){
+		power = left + right;
+		power*=.45;
+		power = (power < 0)?0:power;
+	}
+	return power;
 }

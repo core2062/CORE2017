@@ -1,7 +1,7 @@
 #include "DriveOpenController.h"
 #include "Robot.h"
 
-DriveOpenController::DriveOpenController() : COREController("teleop"){
+DriveOpenController::DriveOpenController() : COREController(){
 }
 
 void DriveOpenController::robotInitTask() {

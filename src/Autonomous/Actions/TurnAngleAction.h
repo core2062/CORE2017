@@ -2,12 +2,15 @@
 
 #include <memory>
 
-#include "../../../CORERobotLib/CORERobotLib.h"
+#include "../../CORERobotLib/CORERobotLib.h"
+#include "../../Robot.h"
 
-class TurnAngleAuton : public COREAuton {
+class TurnAngleAction : public COREAutonAction {
 public:
-	TurnAngleAuton();
-    void addNodes() override;
+	TurnAngleAction(double target, double tolerance, bool relative = false);
+    void actionInit() override;
+    actionStatus action() override;
+    void actionEnd() override;
 private:
     /*Node m_driveForward;*/
 };

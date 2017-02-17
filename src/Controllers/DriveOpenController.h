@@ -1,3 +1,5 @@
+#pragma once
+
 #include "COREScheduler.h"
 
 class DriveOpenController : COREController{

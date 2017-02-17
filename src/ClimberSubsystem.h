@@ -18,4 +18,5 @@ private:
     bool isClimbing();
     void startClimbing();
     void stopClimbing();
+    void setClimber(double val);
 };

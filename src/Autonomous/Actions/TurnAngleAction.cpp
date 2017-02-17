@@ -1,9 +1,14 @@
 #include "TurnAngleAction.h"
 
-TurnAngleAuton::TurnAngleAuton() : COREAuton("Turn Angle", nullptr) /*: m_driveForward()*/ {
+TurnAngleAction::TurnAngleAction(double target, double tolerance, bool relative){
 
 }
 
-void TurnAngleAuton::addNodes() {
+void TurnAngleAction::actionInit() {
+}
 
+actionStatus TurnAngleAction::action() {
+}
+
+void TurnAngleAction::actionEnd() {
 }

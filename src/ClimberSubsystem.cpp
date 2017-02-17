@@ -23,42 +23,43 @@ void ClimberSubsystem::teleopInit() {
 }
 
 void ClimberSubsystem::teleop() {
-	if (Robot->operatorJoystick.getButtonState(COREJoystick::START_BUTTON) == COREJoystick::OFF){
-		m_leftClimbMotor.Set(0);
-		m_rightClimbMotor.Set(0);
-	}
-
 	double leftCurrent = m_leftClimbMotor.getCurrent();
 	double rightCurrent = m_rightClimbMotor.getCurrent();
 	double currentLimit = m_climbMotorCurrentLimit.Get();
+	if (Robot->operatorJoystick.getButtonState(COREJoystick::START_BUTTON) == COREJoystick::RISING_EDGE){
+		if(isClimbing()){
+			stopClimbing();
+		} else {
+			startClimbing();
+		}
+	}
 	if (leftCurrent > currentLimit || rightCurrent > currentLimit){
 			stopClimbing();
 	}
 	if (m_climbLimitSwitch.Get()) {
 			stopClimbing();
 	}
-	if (Robot->operatorJoystick.getButtonState(COREJoystick::START_BUTTON) == COREJoystick::RISING_EDGE){
-		startClimbing();
-		if (isClimbing()){
-		m_leftClimbMotor.Set(1.0);
-		m_rightClimbMotor.Set(1.0);
-	} else {
-		m_leftClimbMotor.Set(0.0);
-		m_rightClimbMotor.Set(0.0);
-	}
 
+	if (isClimbing()){
+		setClimber(1.0);
+	} else {
+		setClimber(0.0);
 	}
 }
 
-bool ClimberSubsystem::isClimbing(){
+bool ClimberSubsystem::isClimbing() {
 	return m_climbing;
 }
 
-void ClimberSubsystem::startClimbing(){
+void ClimberSubsystem::startClimbing() {
     m_climbing = true;
 }
 
-void ClimberSubsystem::stopClimbing(){
+void ClimberSubsystem::stopClimbing() {
     m_climbing = false;
 }
 
+void ClimberSubsystem::setClimber(double val) {
+	m_leftClimbMotor.Set(val);
+	m_rightClimbMotor.Set(val);
+}

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <CORERobotLib.h>
+#include "CORERobotLib.h"
 #include "WPILib.h"
 
 using namespace CORE;
@@ -11,9 +11,14 @@ public:
     void robotInit() override;
     void teleopInit() override;
     void teleop() override;
-private:
+    void punchOut();
+    void punchIn();
+    bool checkPunchShouldClose();
     void openFlap();
     void closeFlap();
     bool flapIsOpen();
-    DoubleSolenoid m_punchSolenoid;
+private:
+    DoubleSolenoid m_punchSolenoid, m_leftFlapSolenoid, m_rightFlapSolenoid;
+    COREConstant<double> m_punchTime;
+    Timer m_punchTimer;
 };

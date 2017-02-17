@@ -14,22 +14,30 @@ public:
 
     void setLiftTop();
     void setLiftBottom();
+    void setLift(double val);
     void openFlap();
     void closeFlap();
-    bool flapIsOpen();
-    bool flapIsClosed();
     bool hopperIsUp();
     bool hopperIsDown();
     void turnOnSweeper();
     void turnOffSweeper();
+    void setSweeper(double val);
     bool sweeperIsOn();
+    double getLiftSpeed();
+    double getLiftEncoder();
 
 
 private:
-    COREMotor m_liftMotor, m_sweepMotor;
+    COREMotor m_liftMotor, m_intakeMotor;
     Servo m_leftDumpFlapServo, m_rightDumpFlapServo;
     COREPID m_liftPID;
-    COREConstant<double> m_liftBottomPos, m_liftTopPos, m_raiseVel, m_lowerVel, m_flapBottomPos, m_flapTopPos;
+    COREConstant<double> m_liftBottomPos, m_liftTopPos, m_liftTolerance, m_raiseVel, m_lowerVel, m_flapBottomPos, m_flapTopPos, m_sweepSpeed;
     bool m_flapIsOpen;
 };
 
+class IntakeController : public CORETask {
+public:
+	IntakeController();
+	void postLoopTask() override;
+	void disabledTask() override;
+};

@@ -80,9 +80,9 @@ bool DriveSubsystem::getLowGear() {
 void DriveSubsystem::resetEncoders(DriveSide whichSide){
 	//Encoders only on front drive motors
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::RIGHT){
-		m_rightMaster.CANTalonController->SetEncPosition(0);
+		m_rightMaster.getCANTalon()->SetEncPosition(0);
 	}if (whichSide == DriveSide::BOTH || whichSide == DriveSide::LEFT){
-		m_leftMaster.CANTalonController->SetEncPosition(0);
+		m_leftMaster.getCANTalon()->SetEncPosition(0);
 	}
 }
 
@@ -90,10 +90,10 @@ double DriveSubsystem::getDistanceInInches(DriveSide whichSide) {
 	double accumulator = 0;
 	//Encoders only on front drive motors
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::RIGHT){
-		accumulator += abs(m_rightMaster.CANTalonController->GetEncPosition());
+		accumulator += abs(m_rightMaster.getCANTalon()->GetEncPosition());
 	}
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::LEFT){
-		accumulator += abs(m_leftMaster.CANTalonController->GetEncPosition());
+		accumulator += abs(m_leftMaster.getCANTalon()->GetEncPosition());
 	}
 	if (whichSide == DriveSide::BOTH){
 		accumulator *= 0.5;
@@ -141,41 +141,44 @@ void DriveSubsystem::startTurning(double angle, double tolerance) {
 }
 
 void DriveSubsystem::initTalons() {
-	m_leftMaster.CANTalonController->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
-	m_rightMaster.CANTalonController->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
-	m_leftMaster.CANTalonController->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-	m_rightMaster.CANTalonController->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	shared_ptr<CANTalon> leftMaster = m_leftMaster.getCANTalon();
+	shared_ptr<CANTalon> rightMaster = m_leftMaster.getCANTalon();
+	shared_ptr<CANTalon> leftSlave = m_leftMaster.getCANTalon();
+	shared_ptr<CANTalon> rightSlave = m_leftMaster.getCANTalon();
+
+	leftMaster->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
+	rightMaster->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
+
+	leftMaster->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	rightMaster->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 
 	m_leftMaster.Set(0);
-	m_leftSlave.SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-	m_leftSlave.Set(FL_DRIVE_MOTOR_PORT);
+	m_leftSlave.setFollower(FL_DRIVE_MOTOR_PORT);
 
 	m_rightMaster.Set(0);
-	m_rightSlave.SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-	m_rightSlave.Set(FR_DRIVE_MOTOR_PORT);
+	m_rightSlave.setFollower(FR_DRIVE_MOTOR_PORT);
 
-	m_leftMaster.CANTalonController->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
-	m_leftMaster.CANTalonController->SetSensorDirection(false);
-	m_leftMaster.CANTalonController->ConfigEncoderCodesPerRev(1024);
-	m_leftMaster.CANTalonController->SetInverted(false);
-	m_leftSlave.SetInverted(false);
+	leftMaster->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
+	leftMaster->SetSensorDirection(false);
+	leftMaster->ConfigEncoderCodesPerRev(1024);
+	leftMaster->SetInverted(false);
+	leftSlave->SetInverted(false);
 
-	m_rightMaster.CANTalonController->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
-	m_rightMaster.CANTalonController->SetSensorDirection(true);
-	m_rightMaster.CANTalonController->ConfigEncoderCodesPerRev(1024);
-	m_rightMaster.CANTalonController->SetInverted(true);
-	m_rightSlave.SetInverted(false);
-
+	rightMaster->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
+	rightMaster->SetSensorDirection(true);
+	rightMaster->ConfigEncoderCodesPerRev(1024);
+	rightMaster->SetInverted(true);
+	rightSlave->SetInverted(false);
 }
 
 std::pair<double, double> DriveSubsystem::getEncoderInches() {
 	double factor = 4.0 * PI;
-	return {m_leftMaster.CANTalonController->GetPosition() * factor, m_rightMaster.CANTalonController->GetPosition() * factor};
+	return {m_leftMaster.getCANTalon()->GetPosition() * factor, m_rightMaster.getCANTalon()->GetPosition() * factor};
 }
 
 std::pair<double, double> DriveSubsystem::getEncoderSpeed() {
 	double factor = 4.0 * PI * .0166666666; //Multiply by 1/60 to get RPS from RPM
-	return {m_leftMaster.CANTalonController->GetSpeed() * factor, m_rightMaster.CANTalonController->GetSpeed() * factor};
+	return {m_leftMaster.getCANTalon()->GetSpeed() * factor, m_rightMaster.getCANTalon()->GetSpeed() * factor};
 }
 
 Rotation2d DriveSubsystem::getGyroAngle() {
@@ -184,13 +187,13 @@ Rotation2d DriveSubsystem::getGyroAngle() {
 }
 
 CANTalon* DriveSubsystem::getLeftMaster() {
-	std::cout << "Drive Get Left master: " << m_leftMaster.CANTalonController.get() << std::endl;
-	return m_leftMaster.CANTalonController.get();
+	std::cout << "Drive Get Left master: " << m_leftMaster.getCANTalon().get() << std::endl;
+	return m_leftMaster.getCANTalon().get();
 }
 
 CANTalon* DriveSubsystem::getRightMaster() {
 	std::cout << "Drive Get Right Master" << std::endl;
-	return m_rightMaster.CANTalonController.get();
+	return m_rightMaster.getCANTalon().get();
 }
 
 AHRS* DriveSubsystem::getGyro() {

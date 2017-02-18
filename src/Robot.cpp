@@ -36,9 +36,9 @@ void CORE2017::teleopInit() {
 void CORE2017::teleop(){
 
 //	testMotor.Set(0);
-//	CORELog::logInf//o("Encoder Pos: " + to_string(testMotor.Encoder->GetEncPos()));
-//	CORELog::logInfo("Encoder Vel: " + to_string(testMotor.Encoder->GetEncVel()));
-//	CORELog::logInfo("Encoder Accel: " + to_string(testMotor.Encoder->GetEncAccel()));
+//	CORELog::logInf//o("m_encoder Pos: " + to_string(testMotor.m_encoder->GetEncPos()));
+//	CORELog::logInfo("m_encoder Vel: " + to_string(testMotor.m_encoder->GetEncVel()));
+//	CORELog::logInfo("m_encoder Accel: " + to_string(testMotor.m_encoder->GetEncAccel()));
 
 }
 

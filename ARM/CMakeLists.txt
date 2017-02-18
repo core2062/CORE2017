@@ -10,7 +10,7 @@ endif()
 
 set(PROJECT_NAME "ARM_${PROJECT_NAME}")
 
-set(CORERobotLib ${PROJECT_SOURCE_DIR}/../CORERobotLib)
+set(CORERobotLib ${PROJECT_SOURCE_DIR}/CORERobotLib)
 
 if(WIN32)
     set(CMAKE_C_COMPILER C:/frc/bin/arm-frc-linux-gnueabi-gcc)
@@ -20,10 +20,10 @@ else()
     set(CMAKE_CXX_COMPILER /usr/bin/arm-frc-linux-gnueabi-g++)
 endif()
 
-include_directories(${CORERobotLib}/3rdparty/CANTalon/include)
-link_directories(${CORERobotLib}/3rdparty/CANTalon/lib)
-include_directories(${CORERobotLib}/3rdparty/NavX/include)
-link_directories(${CORERobotLib}/3rdparty/NavX/lib)
+include_directories(${CORERobotLib}/3rdparty/CTRE/include)
+link_directories(${CORERobotLib}/3rdparty/CTRE/Linux/arm)
+include_directories(${CORERobotLib}/3rdparty/navx-mxp/include)
+link_directories(${CORERobotLib}/3rdparty/navx-mxp/Linux/arm)
 
 include_directories(${WPILIB_HOME}/include)
 link_directories(${WPILIB_HOME}/lib)
@@ -39,13 +39,13 @@ set(SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/Robot.cpp
         ${PROJECT_SOURCE_DIR}/src/HopperSubsystem.cpp
         ${PROJECT_SOURCE_DIR}/src/GearSubsystem.cpp
         ${PROJECT_SOURCE_DIR}/src/ClimberSubsystem.cpp
-        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/DriveDistanceAction.cpp
-        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/DumpBallsAction.cpp
-        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/IntakeBallsAction.cpp
-        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/LoadGearOntoPegAction.cpp
-        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/TurnAngleAction.cpp
-        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/VisionGetBallsAction.cpp
-        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/VisionAlignGearAction.cpp
+#        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/DriveDistanceAction.cpp
+#        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/DumpBallsAction.cpp
+#        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/IntakeBallsAction.cpp
+#        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/LoadGearOntoPegAction.cpp
+#        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/TurnAngleAction.cpp
+#        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/VisionGetBallsAction.cpp
+#        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/VisionAlignGearAction.cpp
 
         ${CORERobotLib}/src/COREAuton.cpp
         ${CORERobotLib}/src/COREConstant.cpp

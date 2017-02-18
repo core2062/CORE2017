@@ -40,8 +40,7 @@ public:
     COREConstant<double>driveTurnProportional;
 private:
     COREConstant<double> m_etherAValue, m_etherBValue, m_etherQuickTurnValue, m_ticksPerInch;
-    COREMotor m_leftMaster, m_rightMaster;
-    CANTalon m_leftSlave, m_rightSlave;
+    COREMotor m_leftMaster, m_rightMaster, m_leftSlave, m_rightSlave;
     DoubleSolenoid m_leftDriveShifter, m_rightDriveShifter;
     bool m_highGear;
     AHRS * m_gyro;

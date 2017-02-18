@@ -4,10 +4,14 @@
 
 #include "CORERobotLib.h"
 
-class VisionAlignGearAuton : public COREAuton {
+using namespace CORE;
+
+class VisionAlignGearAuton : public COREAutonAction {
 public:
 	VisionAlignGearAuton();
-    void addNodes() override;
+	void actionInit() override;
+	COREAutonAction::actionStatus action() override;
+	void actionEnd() override;
 private:
     /*Node m_driveForward;*/
 };

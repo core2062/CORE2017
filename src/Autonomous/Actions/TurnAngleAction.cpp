@@ -7,12 +7,12 @@ TurnAngleAction::TurnAngleAction(double angle, double tolerance): m_angle(angle)
 }
 
 void TurnAngleAction::actionInit() {
-    Robot::driveSubsystem->startTurning(m_angle, m_tolerance);
+	Robot->driveSubsystem.startTurning(m_angle, m_tolerance);
 }
 
 COREAutonAction::actionStatus TurnAngleAction::action() {
     //If we are still turning, CONTINUEs
-    if (Robot::driveSubsystem-> isTurning()){
+    if (Robot->driveSubsystem.isTurning()){
         return COREAutonAction::CONTINUE;
     }
     //If we are no longer turning, END

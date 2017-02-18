@@ -12,7 +12,7 @@ public:
     DriveSubsystem();
     void robotInit() override;
     void teleopInit() override;
-    //void teleop() override;
+    void teleop() override;
     void initTalons();
     void setHighGear(bool highGear = true);
     void setLowGear(bool lowGear = true);

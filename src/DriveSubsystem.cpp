@@ -22,7 +22,8 @@ DriveSubsystem::DriveSubsystem() : COREVariableControlledSubsystem("Drive Subsys
 								   m_currentYawTolerance(0),
 								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1) {
 	try {
-		m_pGyro = new AHRS(SerialPort::kMXP);
+		m_gyro = new AHRS(SerialPort::kMXP);
+		CORELog::logInfo("NavX Initialized!");
 	} catch(std::exception & ex) {
 		CORELog::logWarning("Couldn't find NavX!");
 	}
@@ -37,10 +38,11 @@ void DriveSubsystem::teleopInit() {
 
 }
 
-void DriveSubsystem::teleop() {
+/*
+void DriveSubsystem::teleop() : COREVariableControlSubsystem::teleop(){
 
 }
-
+*/
 /*
 void DriveSubsystem::teleop() {
     double y = Robot::driverJoystick->getAxis(COREJoystick::LEFT_STICK_Y);
@@ -114,12 +116,12 @@ void DriveSubsystem::setMotorSpeed(double leftPercent, double rightPercent) {
 }
 
 void DriveSubsystem::resetYaw() {
-	m_pGyro->ZeroYaw();
+	m_gyro->ZeroYaw();
 
 }
 
 double DriveSubsystem::getYaw() {
-	return (double) m_pGyro->GetYaw();
+	return (double) m_gyro->GetYaw();
 }
 
 bool DriveSubsystem::isTurning() {
@@ -177,20 +179,23 @@ std::pair<double, double> DriveSubsystem::getEncoderSpeed() {
 }
 
 Rotation2d DriveSubsystem::getGyroAngle() {
-	double degrees = m_pGyro->GetYaw();
+	double degrees = m_gyro->GetYaw();
 	return Rotation2d::fromDegrees(degrees);
 }
 
 CANTalon* DriveSubsystem::getLeftMaster() {
+	std::cout << "Drive Get Left master: " << m_leftMaster.CANTalonController.get() << std::endl;
 	return m_leftMaster.CANTalonController.get();
 }
 
 CANTalon* DriveSubsystem::getRightMaster() {
+	std::cout << "Drive Get Right Master" << std::endl;
 	return m_rightMaster.CANTalonController.get();
 }
 
 AHRS* DriveSubsystem::getGyro() {
-	return m_pGyro;
+	std::cout << "Drive Get Gyro" << std::endl;
+	return m_gyro;
 }
 
 double DriveSubsystem::getForwardPower() {

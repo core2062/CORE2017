@@ -30,8 +30,8 @@ public:
 private:
     COREMotor m_liftMotor, m_intakeMotor;
     Servo m_leftDumpFlapServo, m_rightDumpFlapServo;
-    COREPID m_liftPID;
-    COREConstant<double> m_liftBottomPos, m_liftTopPos, m_liftTolerance, m_raiseVel, m_lowerVel, m_flapBottomPos, m_flapTopPos, m_sweepSpeed;
+    //COREPID m_liftPID;
+    COREConstant<double> m_liftBottomPos, m_liftTopPos, m_liftTolerance, m_raiseVel, m_lowerVel, m_flapBottomPos, m_flapTopPos, m_intakeSpeed;
     bool m_flapIsOpen;
 };
 

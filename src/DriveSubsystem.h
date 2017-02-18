@@ -7,12 +7,12 @@ enum DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
 
 using namespace CORE;
 
-class DriveSubsystem : COREVariableControlledSubsystem {
+class DriveSubsystem : public COREVariableControlledSubsystem {
 public:
     DriveSubsystem();
     void robotInit() override;
     void teleopInit() override;
-    void teleop() override;
+    //void teleop() override;
     void initTalons();
     void setHighGear(bool highGear = true);
     void setLowGear(bool lowGear = true);
@@ -44,7 +44,7 @@ private:
     CANTalon m_leftSlave, m_rightSlave;
     DoubleSolenoid m_leftDriveShifter, m_rightDriveShifter;
     bool m_highGear;
-    AHRS * m_pGyro;
+    AHRS * m_gyro;
     bool m_currentlyTurning;
     double m_currentYawTarget;
     double m_currentYawTolerance;

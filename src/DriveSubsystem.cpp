@@ -38,11 +38,11 @@ void DriveSubsystem::teleopInit() {
 
 }
 
-/*
-void DriveSubsystem::teleop() : COREVariableControlSubsystem::teleop(){
 
-}
-*/
+//void DriveSubsystem::teleop(){
+//	m_currentController->enabledLoop();
+//}
+
 /*
 void DriveSubsystem::teleop() {
     double y = Robot::driverJoystick->getAxis(COREJoystick::LEFT_STICK_Y);

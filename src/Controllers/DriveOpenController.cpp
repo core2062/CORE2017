@@ -23,6 +23,5 @@ void DriveOpenController::enabledLoop() {
 	double rot = Robot->driverJoystick.getAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_X);
 
 	VelocityPair speeds = COREEtherDrive::calculate(mag, rot, .1);
-	std::cout << "Calling" << std::endl;
 	Robot->driveSubsystem.setMotorSpeed(speeds.left, speeds.right);
 }

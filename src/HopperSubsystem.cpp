@@ -49,6 +49,7 @@ void HopperSubsystem::teleop(){
 	if(abs(liftVal) > .05){
 		setLift(liftVal);
 	} else {
+		setLift(0);
 		if (Robot->operatorJoystick.getButtonState(COREJoystick::A_BUTTON) == COREJoystick::RISING_EDGE){
 			setLiftBottom();
 		} else if (Robot->operatorJoystick.getButtonState(COREJoystick::Y_BUTTON) == COREJoystick::RISING_EDGE){
@@ -56,10 +57,10 @@ void HopperSubsystem::teleop(){
 		}
 	}
 
-	if(Robot->operatorJoystick.getButton(COREJoystick::DPAD_N)){
+	if(Robot->operatorJoystick.getButton(COREJoystick::JoystickButton::DPAD_N)){
 		setIntake(-.5);
 	}
-	if(Robot->operatorJoystick.getButton(COREJoystick::DPAD_S)){
+	if(Robot->operatorJoystick.getButton(COREJoystick::JoystickButton::DPAD_S)){
 		setIntake(.5);
 	}
 }
@@ -80,7 +81,7 @@ void HopperSubsystem::setLiftBottom(){
 
 void HopperSubsystem::setLift(double val){
 	/*m_liftPID.disableTasks(true);*/
-	//m_liftMotor.Set(val);
+	m_liftMotor.Set(val);
 
 }
 
@@ -101,6 +102,7 @@ bool HopperSubsystem::hopperIsUp(){
 }
 bool HopperSubsystem::hopperIsDown(){
 	/*return (m_liftPID.getPos() < m_liftBottomPos.Get() + m_liftTolerance.Get() * 1.1);*/
+	return true;
 }
 
 void HopperSubsystem::turnOnIntake() {
@@ -112,7 +114,7 @@ void HopperSubsystem::turnOffIntake() {
 }
 
 void HopperSubsystem::setIntake(double val) {
-	//m_intakeMotor.Set(val);
+	m_intakeMotor.Set(val);
 }
 
 bool HopperSubsystem::intakeIsOn() {
@@ -137,9 +139,13 @@ void IntakeController::postLoopTask() {
 	}
 	double pow = 0; //Robot->driveSubsystem.getForwardPower();
 	if(pow > 0){
-//		if(Robot->hopperSubsystem.hopperIsDown()){
-//			Robot->hopperSubsystem.setIntake(pow + .1);
-//		}
+		if(Robot->hopperSubsystem.hopperIsDown()){
+			Robot->hopperSubsystem.setIntake(pow + .1);
+		} else {
+			Robot->hopperSubsystem.setIntake(0);
+		}
+	} else {
+		Robot->hopperSubsystem.setIntake(0);
 	}
 }
 

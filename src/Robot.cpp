@@ -11,10 +11,10 @@ CORE2017::CORE2017() :
 		gearSubsystem(),
 		driveTeleController(),
 		driveGyroController(),
-		//driveWaypointController(),
+		intakeController(),
 		driverJoystick(0),
-		operatorJoystick(1),
-		intakeController(){
+		operatorJoystick(1)
+{
 	Robot = this;
 }
 
@@ -28,11 +28,13 @@ void CORE2017::teleopInit() {
 		driveWaypointController = new DriveWaypointController();
 	}
 
+	driveSubsystem.setController(&driveTeleController);
+	driveTeleController.enable();
 
 }
 
 void CORE2017::teleop(){
-	driveSubsystem.setController(&driveTeleController);
+
 //	testMotor.Set(0);
 //	CORELog::logInf//o("Encoder Pos: " + to_string(testMotor.Encoder->GetEncPos()));
 //	CORELog::logInfo("Encoder Vel: " + to_string(testMotor.Encoder->GetEncVel()));

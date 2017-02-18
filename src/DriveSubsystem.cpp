@@ -21,17 +21,19 @@ DriveSubsystem::DriveSubsystem() : COREVariableControlledSubsystem("Drive Subsys
 								   m_currentYawTarget(0),
 								   m_currentYawTolerance(0),
 								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1) {
-	try {
-		m_gyro = new AHRS(SerialPort::kMXP);
-		CORELog::logInfo("NavX Initialized!");
-	} catch(std::exception & ex) {
-		CORELog::logWarning("Couldn't find NavX!");
-	}
 }
 
 void DriveSubsystem::robotInit() {
     Robot->driverJoystick.registerButton(COREJoystick::LEFT_BUTTON);
     initTalons();
+
+	try {
+		m_gyro = make_shared<AHRS>(SerialPort::Port::kUSB);
+		CORELog::logInfo("NavX Initialized!");
+	} catch(std::exception & ex) {
+		CORELog::logWarning("Couldn't find NavX!");
+	}
+
 }
 
 void DriveSubsystem::teleopInit() {
@@ -195,7 +197,7 @@ CANTalon* DriveSubsystem::getRightMaster() {
 
 AHRS* DriveSubsystem::getGyro() {
 	std::cout << "Drive Get Gyro" << std::endl;
-	return m_gyro;
+	return m_gyro.get();
 }
 
 double DriveSubsystem::getForwardPower() {

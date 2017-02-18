@@ -11,6 +11,10 @@ void DriveOpenController::robotInitTask() {
 }
 
 void DriveOpenController::enabledLoop() {
+
+	std::cout << "Gyro Angle: " << Robot->driveSubsystem.getGyroAngle().getDegrees() << std::endl;
+	std::cout << "Gyro Update Rate: " << Robot->driveSubsystem.getGyro()->GetActualUpdateRate() << std::endl;
+
 	if(Robot->driverJoystick.getRisingEdge(COREJoystick::LEFT_BUTTON)){
 		if(Robot->driveSubsystem.getHighGear()){
 			Robot->driveSubsystem.setLowGear();

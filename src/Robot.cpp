@@ -19,6 +19,7 @@ CORE2017::CORE2017() :
 }
 
 void CORE2017::robotInit() {
+	setLoopTime(1/60.0);
 
 }
 

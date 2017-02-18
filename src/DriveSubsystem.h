@@ -44,7 +44,7 @@ private:
     CANTalon m_leftSlave, m_rightSlave;
     DoubleSolenoid m_leftDriveShifter, m_rightDriveShifter;
     bool m_highGear;
-    AHRS * m_gyro;
+    shared_ptr<AHRS> m_gyro = 0;
     bool m_currentlyTurning;
     double m_currentYawTarget;
     double m_currentYawTolerance;

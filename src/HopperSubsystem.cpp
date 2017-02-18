@@ -8,7 +8,7 @@ HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
 									 m_intakeMotor(INTAKE_MOTOR_PORT, VICTOR),
 									 m_leftDumpFlapServo(LEFT_DUMP_FLAP_SERVO_CHANNEL),
 									 m_rightDumpFlapServo(RIGHT_DUMP_FLAP_SERVO_CHANNEL),
-									 //m_liftPID(m_liftMotor.Encoder.get(), &m_liftMotor, POS_VEL, 0, 0, 0),
+									 //m_liftPID(m_liftMotor.m_encoder.get(), &m_liftMotor, POS_VEL, 0, 0, 0),
 									 m_liftBottomPos("Lift Bottom Position", -1.0),
 									 m_liftTopPos("Lift Top Position", -1.0),
 									 m_liftTolerance("Lift Position Tolerance", -1.0),
@@ -18,7 +18,7 @@ HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
 									 m_flapTopPos("Flap Top Position", 180),
 									 m_intakeSpeed("Intake Speed", .5),
 									 m_flapIsOpen(false) {
-	//m_liftMotor.CANTalonController->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
+	//m_liftMotor.m_CANTalonController->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
 }
 
 void HopperSubsystem::robotInit(){
@@ -122,7 +122,7 @@ bool HopperSubsystem::intakeIsOn() {
 }
 
 double HopperSubsystem::getLiftSpeed() {
-	//return m_liftMotor.CANTalonController->GetSpeed();
+	//return m_liftMotor.m_CANTalonController->GetSpeed();
 }
 
 double HopperSubsystem::getLiftEncoder() {

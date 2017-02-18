@@ -7,7 +7,7 @@ DriveDistanceAction::DriveDistanceAction(double speedInFraction, double distance
 }
 
     void DriveDistanceAction::actionInit() {
-        //driveMotorFR.CANTalonController->SetEncPosition(0);
+        //driveMotorFR.m_CANTalonController->SetEncPosition(0);
         Robot::driveSubsystem->resetEncoders(DriveSide::BOTH);
     }
     COREAutonAction::actionStatus DriveDistanceAction::action() {
@@ -35,7 +35,7 @@ DriveDistanceAction::DriveDistanceAction(double speedInFraction, double distance
     }
 
 
-//        if(abs(driveMotorFR.CANTalonController->GetEncPosition()) < 10000) {
+//        if(abs(driveMotorFR.m_CANTalonController->GetEncPosition()) < 10000) {
 //        	Robot::CORERobot::CORESubsystem
 //            return actionStatus::CONTINUE;
 //        } else {

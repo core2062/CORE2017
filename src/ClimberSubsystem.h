@@ -10,6 +10,9 @@ public:
     void robotInit() override;
     void teleopInit() override;
     void teleop() override;
+    shared_ptr<COREEncoder> getLiftEncoder();
+    void setClimber(double val);
+
 private:
     COREMotor m_leftClimbMotor, m_rightClimbMotor;
     COREConstant<double> m_climbMotorCurrentLimit;
@@ -20,5 +23,5 @@ private:
     bool isClimbing();
     void startClimbing();
     void stopClimbing();
-    void setClimber(double val);
+
 };

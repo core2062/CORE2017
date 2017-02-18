@@ -6,9 +6,9 @@ using namespace CORE;
 DriveSubsystem::DriveSubsystem() : COREVariableControlledSubsystem("Drive Subsystem"),
 								   driveScrub("Drive Scrub", 0.15),
 								   driveTurnProportional("Drive P Value", .3),
-								   m_etherAValue("Ether A Value", 1),
-                                   m_etherBValue("Ether B Value", 1),
-								   m_etherQuickTurnValue("Ether Quick Turn Value", 2),
+								   m_etherAValue("Ether A Value", .25),
+                                   m_etherBValue("Ether B Value", .75),
+								   m_etherQuickTurnValue("Ether Quick Turn Value", .5),
                                    m_ticksPerInch("Ticks Per Inch", 0),
 								   m_leftMaster(FL_DRIVE_MOTOR_PORT),
 								   m_rightMaster(FR_DRIVE_MOTOR_PORT),
@@ -28,7 +28,7 @@ void DriveSubsystem::robotInit() {
     initTalons();
 
 	try {
-		m_gyro = make_shared<AHRS>(SerialPort::Port::kUSB);
+		m_gyro = make_shared<AHRS>(SerialPort::Port::kUSB, AHRS::SerialDataType::kProcessedData, 80);
 		CORELog::logInfo("NavX Initialized!");
 	} catch(std::exception & ex) {
 		CORELog::logWarning("Couldn't find NavX!");
@@ -37,6 +37,8 @@ void DriveSubsystem::robotInit() {
 }
 
 void DriveSubsystem::teleopInit() {
+	COREEtherDrive::setAB(m_etherAValue.Get(), m_etherBValue.Get());
+	COREEtherDrive::setQuickturn(m_etherQuickTurnValue.Get());
 
 }
 
@@ -83,7 +85,8 @@ void DriveSubsystem::resetEncoders(DriveSide whichSide){
 	//Encoders only on front drive motors
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::RIGHT){
 		m_rightMaster.getCANTalon()->SetEncPosition(0);
-	}if (whichSide == DriveSide::BOTH || whichSide == DriveSide::LEFT){
+	}
+	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::LEFT){
 		m_leftMaster.getCANTalon()->SetEncPosition(0);
 	}
 }
@@ -144,9 +147,9 @@ void DriveSubsystem::startTurning(double angle, double tolerance) {
 
 void DriveSubsystem::initTalons() {
 	shared_ptr<CANTalon> leftMaster = m_leftMaster.getCANTalon();
-	shared_ptr<CANTalon> rightMaster = m_leftMaster.getCANTalon();
-	shared_ptr<CANTalon> leftSlave = m_leftMaster.getCANTalon();
-	shared_ptr<CANTalon> rightSlave = m_leftMaster.getCANTalon();
+	shared_ptr<CANTalon> rightMaster = m_rightMaster.getCANTalon();
+	shared_ptr<CANTalon> leftSlave = m_leftSlave.getCANTalon();
+	shared_ptr<CANTalon> rightSlave = m_rightSlave.getCANTalon();
 
 	leftMaster->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
 	rightMaster->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
@@ -209,7 +212,7 @@ double DriveSubsystem::getForwardPower() {
 	double power  = 0;
 	if(left > 0 || right > 0) {
 		power = left + right;
-		power*=.45;
+		power*=.25;
 		power = (power < 0)?0:power;
 	}
 	return power;

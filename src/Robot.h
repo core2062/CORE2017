@@ -65,6 +65,8 @@ public:
     void robotInit() override;
     void teleopInit() override;
     void teleop() override;
+    void test() override;
+    ~CORE2017();
 
     //COREMotor testMotor;
 
@@ -81,4 +83,5 @@ public:
 
 };
 
-extern CORE2017* Robot;
+//extern shared_ptr<CORE2017> Robot;
+extern CORE2017 * Robot;

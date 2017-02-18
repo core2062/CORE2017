@@ -14,10 +14,12 @@ GearSubsystem::GearSubsystem() : CORESubsystem("Gear"),
 void GearSubsystem::robotInit() {
 	Robot->operatorJoystick.registerButton(COREJoystick::LEFT_BUTTON);
 	Robot->operatorJoystick.registerButton(COREJoystick::RIGHT_BUTTON);
+
 }
 
 void GearSubsystem::teleopInit() {
-
+	m_leftFlapSolenoid.Set(DoubleSolenoid::kForward);
+	m_rightFlapSolenoid.Set(DoubleSolenoid::kForward);
 }
 
 void GearSubsystem::teleop(){
@@ -53,15 +55,15 @@ bool GearSubsystem::checkPunchShouldClose() {
 }
 
 void GearSubsystem::openFlap(){
-	m_leftFlapSolenoid.Set(DoubleSolenoid::kForward);
-	m_rightFlapSolenoid.Set(DoubleSolenoid::kForward);
-}
-
-void GearSubsystem::closeFlap(){
 	m_leftFlapSolenoid.Set(DoubleSolenoid::kReverse);
 	m_rightFlapSolenoid.Set(DoubleSolenoid::kReverse);
 }
 
+void GearSubsystem::closeFlap(){
+	m_leftFlapSolenoid.Set(DoubleSolenoid::kForward);
+	m_rightFlapSolenoid.Set(DoubleSolenoid::kForward);
+}
+
 bool GearSubsystem::flapIsOpen(){
-	return (m_leftFlapSolenoid.Get() == DoubleSolenoid::kForward);
+	return (m_leftFlapSolenoid.Get() != DoubleSolenoid::kForward);
 }

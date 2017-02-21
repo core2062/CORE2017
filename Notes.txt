@@ -1,3 +1,8 @@
-- Lift m_encoder
+- Lift Encoder
 	- Down is negative on encoder
 	
+- Lift Motor
+	- Reversed
+- Intake Motor
+	- Reversed
+

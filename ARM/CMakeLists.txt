@@ -39,6 +39,10 @@ set(SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/Robot.cpp
         ${PROJECT_SOURCE_DIR}/src/HopperSubsystem.cpp
         ${PROJECT_SOURCE_DIR}/src/GearSubsystem.cpp
         ${PROJECT_SOURCE_DIR}/src/ClimberSubsystem.cpp
+        ${PROJECT_SOURCE_DIR}/src/Controllers/DriveGyroController.cpp
+        ${PROJECT_SOURCE_DIR}/src/Controllers/DriveOpenController.cpp
+        ${PROJECT_SOURCE_DIR}/src/Controllers/DriveWaypointController.cpp
+
 #        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/DriveDistanceAction.cpp
 #        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/DumpBallsAction.cpp
 #        ${PROJECT_SOURCE_DIR}/src/Autonomous/Actions/IntakeBallsAction.cpp
@@ -64,7 +68,17 @@ set(SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/Robot.cpp
         ${CORERobotLib}/src/CORERobot.cpp
         ${CORERobotLib}/src/COREScheduler.cpp
         ${CORERobotLib}/src/COREController/COREMotionProfile.cpp
-        ${CORERobotLib}/src/COREController.cpp)
+        ${CORERobotLib}/src/COREController.cpp
+        ${CORERobotLib}/src/CORETask.cpp
+        ${CORERobotLib}/src/WaypointFollower/AdaptivePursuit.cpp
+        ${CORERobotLib}/src/WaypointFollower/InterpolatingMap.cpp
+        ${CORERobotLib}/src/WaypointFollower/Path.cpp
+        ${CORERobotLib}/src/WaypointFollower/PathSegment.cpp
+        ${CORERobotLib}/src/WaypointFollower/Position2d.cpp
+        ${CORERobotLib}/src/WaypointFollower/Rotation2d.cpp
+        ${CORERobotLib}/src/WaypointFollower/TankKinematics.cpp
+        ${CORERobotLib}/src/WaypointFollower/TankTracker.cpp
+        ${CORERobotLib}/src/WaypointFollower/Translation2d.cpp)
 
 include_directories(${PROJECT_SOURCE_DIR}/src)
 

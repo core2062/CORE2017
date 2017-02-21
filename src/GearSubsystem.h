@@ -20,5 +20,5 @@ public:
 private:
     DoubleSolenoid m_punchSolenoid, m_leftFlapSolenoid, m_rightFlapSolenoid;
     COREConstant<double> m_punchTime;
-    Timer m_punchTimer;
+    CORETimer m_punchTimer;
 };

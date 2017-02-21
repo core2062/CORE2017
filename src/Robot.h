@@ -71,8 +71,8 @@ public:
     //COREMotor testMotor;
 
     DriveSubsystem driveSubsystem;
-    HopperSubsystem hopperSubsystem;
     ClimberSubsystem climberSubsystem;
+    HopperSubsystem hopperSubsystem;
     GearSubsystem gearSubsystem;
     DriveOpenController driveTeleController;
     DriveGyroController driveGyroController;

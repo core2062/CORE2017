@@ -55,7 +55,12 @@ void ClimberSubsystem::teleop() {
 }
 
 shared_ptr<COREEncoder> ClimberSubsystem::getLiftEncoder() {
+	cout << "Getting lift encoder" << endl;
 	return m_leftClimbMotor.getEncoder();
+}
+
+shared_ptr<CANTalon> ClimberSubsystem::getLiftEncoderMotor() {
+	return m_leftClimbMotor.getCANTalon();
 }
 
 bool ClimberSubsystem::isClimbing() {

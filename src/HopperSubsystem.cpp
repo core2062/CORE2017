@@ -33,6 +33,7 @@ void HopperSubsystem::robotInit(){
 	Robot->operatorJoystick.registerButton(COREJoystick::DPAD_N);
 	Robot->operatorJoystick.registerButton(COREJoystick::DPAD_S);
 	Robot->operatorJoystick.registerAxis(COREJoystick::RIGHT_STICK_Y);
+	Robot->operatorJoystick.registerAxis(COREJoystick::LEFT_STICK_Y);
 }
 
 void HopperSubsystem::teleopInit(){
@@ -67,12 +68,14 @@ void HopperSubsystem::teleop(){
 			setLiftTop();
 		}
 	}
-
+	double intakeVal = Robot->operatorJoystick.getAxis(COREJoystick::LEFT_STICK_Y);
 	if(Robot->operatorJoystick.getButton(COREJoystick::JoystickButton::DPAD_N)){
-		setIntake(.25);
+		setIntake(1.0);
+	} else if(Robot->operatorJoystick.getButton(COREJoystick::JoystickButton::DPAD_S)){
+		setIntake(-1.0);
 	}
-	if(Robot->operatorJoystick.getButton(COREJoystick::JoystickButton::DPAD_S)){
-		setIntake(-.25);
+	if (fabs(intakeVal) > .1 ){
+		setIntake(intakeVal);
 	}
 }
 
@@ -97,14 +100,14 @@ void HopperSubsystem::setLift(double val){
 }
 
 void HopperSubsystem::openFlap(){
-	m_rightDumpFlapServo.Set(.25);
-	m_leftDumpFlapServo.Set(.75);
+	m_rightDumpFlapServo.Set(0);
+	m_leftDumpFlapServo.Set(1);
 
 }
 
 void HopperSubsystem::closeFlap(){
-	m_rightDumpFlapServo.Set(.75);
-	m_leftDumpFlapServo.Set(.25);
+	m_rightDumpFlapServo.Set(.5);
+	m_leftDumpFlapServo.Set(.5);
 }
 
 bool HopperSubsystem::hopperIsUp(){
@@ -145,7 +148,7 @@ IntakeController::IntakeController() : CORETask(){
 }
 
 void IntakeController::postLoopTask() {
-	if(Robot->operatorJoystick.getButton(COREJoystick::DPAD_N) || Robot->operatorJoystick.getButton(COREJoystick::DPAD_S)){
+	if((Robot->operatorJoystick.getButton(COREJoystick::DPAD_N) || Robot->operatorJoystick.getButton(COREJoystick::DPAD_S)) || (fabs(Robot->operatorJoystick.getAxis(COREJoystick::LEFT_STICK_Y) > .1))){
 		return;
 	}
 	double pow = Robot->driveSubsystem.getForwardPower();

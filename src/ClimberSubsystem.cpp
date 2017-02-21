@@ -4,8 +4,8 @@
 using namespace CORE;
 
 ClimberSubsystem::ClimberSubsystem() : CORESubsystem("Climber"),
-										m_leftClimbMotor(LEFT_CLIMB_MOTOR_PORT),
-										m_rightClimbMotor(RIGHT_CLIMB_MOTOR_PORT),
+										m_leftClimbMotor(LEFT_CLIMB_MOTOR_PORT, CANTALON, PERCENTAGE),
+										m_rightClimbMotor(RIGHT_CLIMB_MOTOR_PORT, CANTALON, PERCENTAGE),
 										m_climbMotorCurrentLimit("Climber Current Limit",-1),
 										m_climbLimitSwitch(CLIMB_LIMIT_SWITCH_PORT),
 										m_climbing(false){
@@ -17,6 +17,7 @@ ClimberSubsystem::ClimberSubsystem() : CORESubsystem("Climber"),
 
 void ClimberSubsystem::robotInit() {
 	Robot->operatorJoystick.registerButton(COREJoystick::START_BUTTON);
+	Robot->operatorJoystick.registerAxis(COREJoystick::RIGHT_TRIGGER_AXIS);
 	m_leftClimbMotor.setReversed(true);
 	m_rightClimbMotor.setReversed(false);
 }
@@ -27,7 +28,7 @@ void ClimberSubsystem::teleopInit() {
 }
 
 void ClimberSubsystem::teleop() {
-	std::cout << "Lift Position" << m_leftClimbMotor.getCANTalon()->GetPosition() << std::endl;;
+//	std::cout << "Lift Position" << m_leftClimbMotor.getCANTalon()->GetPosition() << std::endl;;
 	double leftCurrent = m_leftClimbMotor.getCurrent();
 	double rightCurrent = m_rightClimbMotor.getCurrent();
 	double currentLimit = m_climbMotorCurrentLimit.Get();
@@ -48,8 +49,9 @@ void ClimberSubsystem::teleop() {
 	if (isClimbing()){
 		setClimber(1.0);
 	} else {
-		setClimber(0.0);
+		setClimber(Robot->operatorJoystick.getAxis(COREJoystick::RIGHT_TRIGGER_AXIS));
 	}
+
 }
 
 shared_ptr<COREEncoder> ClimberSubsystem::getLiftEncoder() {

@@ -11,6 +11,7 @@ public:
     void teleopInit() override;
     void teleop() override;
     shared_ptr<COREEncoder> getLiftEncoder();
+    shared_ptr<CANTalon> getLiftEncoderMotor();
     void setClimber(double val);
 
 private:

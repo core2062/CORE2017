@@ -7,15 +7,14 @@ CORE2017 * Robot = nullptr;
 
 CORE2017::CORE2017() :
 		driveSubsystem(),
-		hopperSubsystem(),
 		climberSubsystem(),
+		hopperSubsystem(),
 		gearSubsystem(),
 		driveTeleController(),
 		driveGyroController(),
 		intakeController(),
 		driverJoystick(0),
-		operatorJoystick(1)
-{
+		operatorJoystick(1) {
 //	Robot.shared_ptr(this);
 	Robot = this;
 }
@@ -27,12 +26,12 @@ void CORE2017::robotInit() {
 
 void CORE2017::teleopInit() {
 
-	if(driveWaypointController == nullptr){
-		driveWaypointController = new DriveWaypointController();
-	}
-
-	driveSubsystem.setController(&driveTeleController);
-	driveTeleController.enable();
+//	if(driveWaypointController == nullptr){
+//		driveWaypointController = new DriveWaypointController();
+//	}
+//
+//	driveSubsystem.setController(&driveTeleController);
+//	driveTeleController.enable();
 
 }
 

@@ -6,19 +6,18 @@ using namespace CORE;
 HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
 									 m_liftMotor(LIFT_MOTOR_PORT, VICTOR),
 									 m_intakeMotor(INTAKE_MOTOR_PORT, VICTOR),
-//									 m_liftController(Robot->climberSubsystem.getLiftEncoder().get(), &m_liftMotor, 0, 0),
 									 m_leftDumpFlapServo(LEFT_DUMP_FLAP_SERVO_CHANNEL),
 									 m_rightDumpFlapServo(RIGHT_DUMP_FLAP_SERVO_CHANNEL),
 									 //m_liftPID(m_liftMotor.m_encoder.get(), &m_liftMotor, POS_VEL, 0, 0, 0),
-									 m_liftBottomPos("Lift Bottom Position", -1.0),
-									 m_liftTopPos("Lift Top Position", -1.0),
+									 m_liftBottomPos("Lift Bottom Position", 0),
+									 m_liftTopPos("Lift Top Position", 0),
 									 m_liftTolerance("Lift Position Tolerance", -1.0),
-									 m_raiseVel("Lift Raise Velocity", -1.0),
-									 m_raiseAccel("Lift Raise Acceleration", -1.0),
+									 m_raiseVel("Lift Raise Velocity", 0.1),
+									 m_raiseAccel("Lift Raise Acceleration", 0.1),
 									 m_lowerVel("Lift Lower Velocity", -1.0),
 									 m_lowerAccel("Lift Lower Acceleration", -1.0),
-									 m_flapBottomPos("Flap Bottom Position", 0),
-									 m_flapTopPos("Flap Top Position", 180),
+									 m_flapTopPos("Flap Top Position", 0.1),
+									 m_flapBottomPos("Flap Bottom Position", 0.5),
 									 m_intakeSpeed("Intake Speed", .5),
 									 m_flapIsOpen(false) {
 	//m_liftMotor.m_CANTalonController->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
@@ -33,6 +32,7 @@ void HopperSubsystem::robotInit(){
 	Robot->operatorJoystick.registerButton(COREJoystick::DPAD_N);
 	Robot->operatorJoystick.registerButton(COREJoystick::DPAD_S);
 	Robot->operatorJoystick.registerAxis(COREJoystick::RIGHT_STICK_Y);
+	cout << "Hopper Robot Init" << endl;
 }
 
 void HopperSubsystem::teleopInit(){
@@ -40,9 +40,13 @@ void HopperSubsystem::teleopInit(){
 //	m_liftController.setMaxAccel(m_raiseAccel.Get());
 	closeFlap();
 	setLiftBottom();
+	cout << "Initializing Lift Controller... ";
+	m_liftController = new COREMotionProfile(m_raiseVel.Get(), m_raiseAccel.Get());
+	cout << "Done!" << endl;
 }
 
-void HopperSubsystem::teleop(){
+void HopperSubsystem::teleop() {
+	m_liftController->setActual(Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition());
 	if (Robot->operatorJoystick.getButtonState(COREJoystick::B_BUTTON) == COREJoystick::RISING_EDGE){
 		m_flapIsOpen = !m_flapIsOpen;
 	}
@@ -74,20 +78,17 @@ void HopperSubsystem::teleop(){
 	if(Robot->operatorJoystick.getButton(COREJoystick::JoystickButton::DPAD_S)){
 		setIntake(-.25);
 	}
+	m_liftController->update(1);
+	m_liftMotor.Set(m_liftController->Get());
+
 }
 
 void HopperSubsystem::setLiftTop(){
-	/*m_liftPID.disableTasks(false);
-	m_liftPID.setPos(m_liftTopPos.Get());
-	m_liftPID.setVel(m_raiseVel.Get());*/
-
+	m_liftController->Set(m_liftTopPos.Get());
 }
 
 void HopperSubsystem::setLiftBottom(){
-	/*m_liftPID.disableTasks(false);
-	m_liftPID.setPos(m_liftBottomPos.Get());
-	m_liftPID.setVel(m_lowerVel.Get());*/
-
+	m_liftController->Set(m_liftBottomPos.Get());
 }
 
 void HopperSubsystem::setLift(double val){
@@ -97,14 +98,13 @@ void HopperSubsystem::setLift(double val){
 }
 
 void HopperSubsystem::openFlap(){
-	m_rightDumpFlapServo.Set(.25);
-	m_leftDumpFlapServo.Set(.75);
-
+	m_rightDumpFlapServo.Set(m_flapBottomPos.Get()); // 0.1
+	m_leftDumpFlapServo.Set(1 - m_flapBottomPos.Get()); //0.9
 }
 
 void HopperSubsystem::closeFlap(){
-	m_rightDumpFlapServo.Set(.75);
-	m_leftDumpFlapServo.Set(.25);
+	m_rightDumpFlapServo.Set(m_flapTopPos.Get()); //0.6
+	m_leftDumpFlapServo.Set(1 - m_flapTopPos.Get()); //0.4
 }
 
 bool HopperSubsystem::hopperIsUp(){
@@ -140,8 +140,8 @@ double HopperSubsystem::getLiftEncoder() {
 	//return m_liftMotor.Get();
 }
 
-IntakeController::IntakeController() : CORETask(){
-	std::cout << "Intake Controller Added" << std::endl;
+IntakeController::IntakeController() : CORETask() {
+	CORELog::logInfo("Intake Controller Added");
 }
 
 void IntakeController::postLoopTask() {

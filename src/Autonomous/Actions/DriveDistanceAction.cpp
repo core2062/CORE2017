@@ -1,14 +1,16 @@
 #include "DriveDistanceAction.h"
 #include "Robot.h"
 
-DriveDistanceAction::DriveDistanceAction(double speedInFraction, double distanceInInches) {
+DriveDistanceAction::DriveDistanceAction(double speedInFraction, double distanceInInches, bool setHighGear) {
 	m_speedInFraction = speedInFraction;
 	m_distanceInInches = distanceInInches;
-}
+	m_setHighGear = setHighGear;
 
+}
     void DriveDistanceAction::actionInit() {
         //driveMotorFR.CANTalonController->SetEncPosition(0);
         Robot->driveSubsystem.resetEncoders(DriveSide::BOTH);
+    	Robot->driveSubsystem.setHighGear(m_setHighGear);
     }
     COREAutonAction::actionStatus DriveDistanceAction::action() {
     	//How far have we gone since the reset?
@@ -26,6 +28,8 @@ DriveDistanceAction::DriveDistanceAction(double speedInFraction, double distance
     		return COREAutonAction::END;
 
     	}
+
+
     	// PLACEHOLDER
     	return COREAutonAction::END;
     }

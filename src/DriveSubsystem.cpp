@@ -155,9 +155,9 @@ bool DriveSubsystem::pathDone() {
 	return true;
 }
 
-bool DriveSubsystem::checkPathFlag(std::string flag) {
+bool DriveSubsystem::checkPathEvent(std::string event) {
 	if(m_driveWaypointController){
-		return m_driveWaypointController->checkFlag(flag);
+		return m_driveWaypointController->checkEvent(event);
 	}
 	return false;
 }

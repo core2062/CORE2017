@@ -49,8 +49,8 @@ bool DriveWaypointController::isDone() {
 	return m_pursuit.isDone();
 }
 
-bool DriveWaypointController::checkFlag(std::string flag) {
-	return m_pursuit.checkFlag(flag);
+bool DriveWaypointController::checkEvent(std::string event) {
+	return m_pursuit.checkEvent(event);
 }
 
 void DriveWaypointController::updatePathFollower() {

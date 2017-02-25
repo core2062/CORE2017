@@ -4,25 +4,31 @@
 using namespace CORE;
 
 ClimberSubsystem::ClimberSubsystem() : CORESubsystem("Climber"),
-										m_leftClimbMotor(LEFT_CLIMB_MOTOR_PORT),
-										m_rightClimbMotor(RIGHT_CLIMB_MOTOR_PORT),
+										m_leftClimbMotor(LEFT_CLIMB_MOTOR_PORT, CANTALON, PERCENTAGE),
+										m_rightClimbMotor(RIGHT_CLIMB_MOTOR_PORT, CANTALON, PERCENTAGE),
 										m_climbMotorCurrentLimit("Climber Current Limit",-1),
 										m_climbLimitSwitch(CLIMB_LIMIT_SWITCH_PORT),
 										m_climbing(false){
-
+	shared_ptr<CANTalon> liftEncoder = m_leftClimbMotor.getCANTalon();
+	liftEncoder->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
+	liftEncoder->SetSensorDirection(false);
+	liftEncoder->ConfigEncoderCodesPerRev(1024);
 }
 
 void ClimberSubsystem::robotInit() {
 	Robot->operatorJoystick.registerButton(COREJoystick::START_BUTTON);
+	Robot->operatorJoystick.registerAxis(COREJoystick::RIGHT_TRIGGER_AXIS);
 	m_leftClimbMotor.setReversed(true);
 	m_rightClimbMotor.setReversed(false);
 }
 
 void ClimberSubsystem::teleopInit() {
 	m_climbing = false;
+	m_leftClimbMotor.getCANTalon()->SetEncPosition(0);
 }
 
 void ClimberSubsystem::teleop() {
+//	std::cout << "Lift Position" << m_leftClimbMotor.getCANTalon()->GetPosition() << std::endl;;
 	double leftCurrent = m_leftClimbMotor.getCurrent();
 	double rightCurrent = m_rightClimbMotor.getCurrent();
 	double currentLimit = m_climbMotorCurrentLimit.Get();
@@ -33,18 +39,28 @@ void ClimberSubsystem::teleop() {
 			startClimbing();
 		}
 	}
-	if (leftCurrent > currentLimit || rightCurrent > currentLimit){
-			stopClimbing();
-	}
-	if (m_climbLimitSwitch.Get()) {
-			stopClimbing();
-	}
+	//if (leftCurrent > currentLimit || rightCurrent > currentLimit){
+//			stopClimbing();
+//	}
+//	if (m_climbLimitSwitch.Get()) {
+//			stopClimbing();
+//	}
 
 	if (isClimbing()){
 		setClimber(1.0);
 	} else {
-		setClimber(0.0);
+		setClimber(Robot->operatorJoystick.getAxis(COREJoystick::RIGHT_TRIGGER_AXIS));
 	}
+
+}
+
+shared_ptr<COREEncoder> ClimberSubsystem::getLiftEncoder() {
+	cout << "Getting lift encoder" << endl;
+	return m_leftClimbMotor.getEncoder();
+}
+
+shared_ptr<CANTalon> ClimberSubsystem::getLiftEncoderMotor() {
+	return m_leftClimbMotor.getCANTalon();
 }
 
 bool ClimberSubsystem::isClimbing() {

@@ -1,8 +1,6 @@
 #include "TurnAngleAction.h"
-#include <Robot.h>
 
 TurnAngleAction::TurnAngleAction(double angle, double tolerance, bool setHighGear): m_angle(angle), m_tolerance(tolerance), m_setHighGear() {
-
 
 }
 
@@ -21,5 +19,4 @@ COREAutonAction::actionStatus TurnAngleAction::action() {
 }
 
 void TurnAngleAction::actionEnd() {
-
 }

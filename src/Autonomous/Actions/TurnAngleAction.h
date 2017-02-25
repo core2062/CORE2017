@@ -3,18 +3,13 @@
 #include <memory>
 
 #include "CORERobotLib.h"
+#include "WPILib.h"
 
-using namespace CORE;
-
-class TurnAngleAction : public COREAutonAction {
+class TurnAngleAction : public CORE::COREAutonAction {
 public:
-	TurnAngleAction(double angle, double tolerance, bool setHighGear);
-	void actionInit() override;
-	COREAutonAction::actionStatus action() override;
-	void actionEnd() override;
-
+	TurnAngleAction(double target, double tolerance, bool relative = false);
+    void actionInit() override;
+    actionStatus action() override;
+    void actionEnd() override;
 private:
-	double m_angle;
-	double m_tolerance;
-	bool m_setHighGear;
 };

@@ -2,7 +2,13 @@
 #include "Robot.h"
 
 DriveGyroController::DriveGyroController(double target, double tolerance, bool relative) {
-	init(target, tolerance, relative);
+	if(relative){
+		m_target = Robot->driveSubsystem.getGyroAngle().rotateBy(Rotation2d::fromDegrees(target));
+	} else {
+		m_target = Rotation2d::fromDegrees(target);
+	}
+	m_tolerance = tolerance;
+	m_error = 999999;
 }
 
 void DriveGyroController::init(double target, double tolerance, bool relative) {
@@ -12,22 +18,17 @@ void DriveGyroController::init(double target, double tolerance, bool relative) {
 		m_target = Rotation2d::fromDegrees(target);
 	}
 	m_tolerance = tolerance;
+	m_error = getError();
 }
 
 void DriveGyroController::postLoopTask() {
-	if(isEnabled()){
+	if(isEnabled() && (Robot->getMode() == CORE::gameMode::AUTO)){
 		enabledLoop();
 	}
 }
 
 void DriveGyroController::enabledLoop() {
-	double errorA =  m_target.getDegrees() - Robot->driveSubsystem.getGyroAngle().getDegrees();
-	double errorB =  m_target.opposite().getDegrees() - Robot->driveSubsystem.getGyroAngle().opposite().getDegrees();
-	if(errorA <= errorB){
-		m_error = errorA;
-	} else {
-		m_error = errorB;
-	}
+	m_error = getError();
 
 	double output = m_error * Robot->driveSubsystem.driveTurnProportional.Get();
 	Robot->driveSubsystem.setMotorSpeed(output, -output);
@@ -35,4 +36,16 @@ void DriveGyroController::enabledLoop() {
 
 bool DriveGyroController::isDone() {
 	return (abs(m_error) < m_tolerance);
+}
+
+double DriveGyroController::getError() {
+	double errorA =  m_target.getDegrees() - Robot->driveSubsystem.getGyroAngle().getDegrees();
+	double errorB =  m_target.opposite().getDegrees() - Robot->driveSubsystem.getGyroAngle().opposite().getDegrees();
+	double bestError;
+	if(errorA <= errorB){
+		bestError = errorA;
+	} else {
+		bestError = errorB;
+	}
+	return bestError;
 }

@@ -9,9 +9,7 @@
 #include "HopperSubsystem.h"
 #include "GearSubsystem.h"
 #include "ClimberSubsystem.h"
-#include "Controllers/DriveWaypointController.h"
-#include "Controllers/DriveOpenController.h"
-#include "Controllers/DriveGyroController.h"
+
 
 /****************************************************CAN TALONS********************************************************/
 #define FR_DRIVE_MOTOR_PORT 10
@@ -65,23 +63,23 @@ public:
     void robotInit() override;
     void teleopInit() override;
     void teleop() override;
+    void test() override;
+    ~CORE2017();
 
     //COREMotor testMotor;
 
     DriveSubsystem driveSubsystem;
-    HopperSubsystem hopperSubsystem;
     ClimberSubsystem climberSubsystem;
+    HopperSubsystem hopperSubsystem;
     GearSubsystem gearSubsystem;
-    DriveOpenController driveTeleController;
-    DriveGyroController driveGyroController;
-    DriveWaypointController * driveWaypointController = 0;
     IntakeController intakeController;
     COREJoystick driverJoystick;
     COREJoystick operatorJoystick;
 
 };
 
-extern CORE2017* Robot;
+//extern shared_ptr<CORE2017> Robot;
+extern CORE2017 * Robot;
 
 enum ActuationType{
 	OPEN,CLOSE,TOGGLE

@@ -6,9 +6,9 @@ using namespace CORE;
 DriveSubsystem::DriveSubsystem() : COREVariableControlledSubsystem("Drive Subsystem"),
 								   driveScrub("Drive Scrub", 0.15),
 								   driveTurnProportional("Drive P Value", .3),
-								   m_etherAValue("Ether A Value", 1),
-                                   m_etherBValue("Ether B Value", 1),
-								   m_etherQuickTurnValue("Ether Quick Turn Value", 2),
+								   m_etherAValue("Ether A Value", .4),
+                                   m_etherBValue("Ether B Value", .6),
+								   m_etherQuickTurnValue("Ether Quick Turn Value", .5),
                                    m_ticksPerInch("Ticks Per Inch", 0),
 								   m_leftMaster(FL_DRIVE_MOTOR_PORT),
 								   m_rightMaster(FR_DRIVE_MOTOR_PORT),
@@ -20,21 +20,34 @@ DriveSubsystem::DriveSubsystem() : COREVariableControlledSubsystem("Drive Subsys
 								   m_currentlyTurning(false),
 								   m_currentYawTarget(0),
 								   m_currentYawTolerance(0),
-								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1) {
-	try {
-		m_gyro = new AHRS(SerialPort::kMXP);
-		CORELog::logInfo("NavX Initialized!");
-	} catch(std::exception & ex) {
-		CORELog::logWarning("Couldn't find NavX!");
-	}
+								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1),
+								   m_driveTeleController(),
+								   m_driveGyroController(){
 }
 
 void DriveSubsystem::robotInit() {
     Robot->driverJoystick.registerButton(COREJoystick::LEFT_BUTTON);
     initTalons();
+
+	try {
+		m_gyro = make_shared<AHRS>(SerialPort::Port::kUSB, AHRS::SerialDataType::kProcessedData, 80);
+		CORELog::logInfo("NavX Initialized!");
+	} catch(std::exception & ex) {
+		CORELog::logWarning("Couldn't find NavX!");
+	}
+
+		if(m_driveWaypointController == nullptr){
+			m_driveWaypointController = new DriveWaypointController();
+			m_driveWaypointController->init();
+		}
 }
 
 void DriveSubsystem::teleopInit() {
+	COREEtherDrive::setAB(m_etherAValue.Get(), m_etherBValue.Get());
+	COREEtherDrive::setQuickturn(m_etherQuickTurnValue.Get());
+
+	setController(&m_driveTeleController);
+	m_driveTeleController.enable();
 
 }
 
@@ -80,7 +93,8 @@ void DriveSubsystem::resetEncoders(DriveSide whichSide){
 	//Encoders only on front drive motors
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::RIGHT){
 		m_rightMaster.getCANTalon()->SetEncPosition(0);
-	}if (whichSide == DriveSide::BOTH || whichSide == DriveSide::LEFT){
+	}
+	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::LEFT){
 		m_leftMaster.getCANTalon()->SetEncPosition(0);
 	}
 }
@@ -124,47 +138,69 @@ double DriveSubsystem::getYaw() {
 }
 
 bool DriveSubsystem::isTurning() {
-	//Determine error from current yaw and target yaw
-	//If error is greater than tolerance
-	//SetPID Controller value according to the error signal, and return true
-	//Otherwise drive motor controller set drive motors to zero, and return false
-	return m_currentlyTurning;
+	return m_driveGyroController.isDone();
 }
 
-void DriveSubsystem::startTurning(double angle, double tolerance) {
-	//TODO:: Fill this in
-	//If angle is more than the tolerance
-	//Figure out the right direction
-	//Set motors in opposite directions, to turn the right way
-
+void DriveSubsystem::startTurning(double angle, double tolerance, bool relative) {
+	m_driveGyroController.init(angle, tolerance, relative);
+	setController(&m_driveGyroController);
+	m_driveGyroController.enable();
 }
+
+bool DriveSubsystem::pathDone() {
+	if(m_driveWaypointController){
+		return m_driveWaypointController->isDone();
+	}
+	return true;
+}
+
+bool DriveSubsystem::checkPathFlag(std::string flag) {
+	if(m_driveWaypointController){
+		return m_driveWaypointController->checkFlag(flag);
+	}
+	return false;
+}
+
+void DriveSubsystem::followPath(Path path, bool reversed, double maxAccel,
+		double tolerance) {
+	if(!m_driveWaypointController){
+		m_driveWaypointController = new DriveWaypointController();
+		m_driveWaypointController->init();
+	}
+	m_driveWaypointController->startPath(path, reversed, maxAccel, tolerance);
+	m_driveWaypointController->enable();
+}
+
 
 void DriveSubsystem::initTalons() {
-	m_leftMaster.getCANTalon()->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
-	m_rightMaster.getCANTalon()->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
-	m_leftMaster.getCANTalon()->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-	m_rightMaster.getCANTalon()->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	shared_ptr<CANTalon> leftMaster = m_leftMaster.getCANTalon();
+	shared_ptr<CANTalon> rightMaster = m_rightMaster.getCANTalon();
+	shared_ptr<CANTalon> leftSlave = m_leftSlave.getCANTalon();
+	shared_ptr<CANTalon> rightSlave = m_rightSlave.getCANTalon();
+
+	leftMaster->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
+	rightMaster->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
+
+	leftMaster->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	rightMaster->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 
 	m_leftMaster.Set(0);
-	m_leftSlave.SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-	m_leftSlave.Set(FL_DRIVE_MOTOR_PORT);
+	m_leftSlave.setFollower(FL_DRIVE_MOTOR_PORT);
 
 	m_rightMaster.Set(0);
-	m_rightSlave.SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-	m_rightSlave.Set(FR_DRIVE_MOTOR_PORT);
+	m_rightSlave.setFollower(FR_DRIVE_MOTOR_PORT);
 
-	m_leftMaster.getCANTalon()->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
-	m_leftMaster.getCANTalon()->SetSensorDirection(false);
-	m_leftMaster.getCANTalon()->ConfigEncoderCodesPerRev(1024);
-	m_leftMaster.getCANTalon()->SetInverted(false);
-	m_leftSlave.SetInverted(false);
+	leftMaster->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
+	leftMaster->SetSensorDirection(false);
+	leftMaster->ConfigEncoderCodesPerRev(1024);
+	leftMaster->SetInverted(false);
+	leftSlave->SetInverted(false);
 
-	m_rightMaster.getCANTalon()->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
-	m_rightMaster.getCANTalon()->SetSensorDirection(true);
-	m_rightMaster.getCANTalon()->ConfigEncoderCodesPerRev(1024);
-	m_rightMaster.getCANTalon()->SetInverted(true);
-	m_rightSlave.SetInverted(false);
-
+	rightMaster->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
+	rightMaster->SetSensorDirection(true);
+	rightMaster->ConfigEncoderCodesPerRev(1024);
+	rightMaster->SetInverted(true);
+	rightSlave->SetInverted(false);
 }
 
 std::pair<double, double> DriveSubsystem::getEncoderInches() {
@@ -194,7 +230,7 @@ CANTalon* DriveSubsystem::getRightMaster() {
 
 AHRS* DriveSubsystem::getGyro() {
 	std::cout << "Drive Get Gyro" << std::endl;
-	return m_gyro;
+	return m_gyro.get();
 }
 
 double DriveSubsystem::getForwardPower() {
@@ -203,8 +239,9 @@ double DriveSubsystem::getForwardPower() {
 	double power  = 0;
 	if(left > 0 || right > 0) {
 		power = left + right;
-		power*=.45;
+		power*=.25;
 		power = (power < 0)?0:power;
 	}
 	return power;
 }
+

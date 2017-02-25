@@ -82,3 +82,7 @@ public:
 };
 
 extern CORE2017* Robot;
+
+enum ActuationType{
+	OPEN,CLOSE,TOGGLE
+};

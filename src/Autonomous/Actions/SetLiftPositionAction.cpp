@@ -7,16 +7,18 @@ SetLiftPositionAction::SetLiftPositionAction(bool setLiftTop, bool setLiftBottom
 											m_setLiftBottom(setLiftBottom) {
 }
 
-void SetLiftPositionAction::actionInt() {
+void SetLiftPositionAction::actionInit() {
 	Robot->hopperSubsystem.setLiftBottom();
 }
 
 COREAutonAction::actionStatus SetLiftPositionAction::action() {
-	if (Robot->hopperSubsystem.hopperIsDown == true){
+	//TODO Change so that it can be given a position value
+	if (Robot->hopperSubsystem.hopperIsDown() == true){
 		Robot->hopperSubsystem.setLiftTop();
-	}else{
+	}else {
 		Robot->hopperSubsystem.setLiftBottom();
 	}
+	return COREAutonAction::END;
 }
 
 void SetLiftPositionAction::actionEnd() {

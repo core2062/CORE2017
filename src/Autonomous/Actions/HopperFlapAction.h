@@ -2,16 +2,14 @@
 #include "CORERobotLib.h"
 using namespace CORE;
 
-class SetLiftPositionAction : public COREAutonAction {
+class HopperFlapAction : public COREAutonAction {
+
 public:
-	SetLiftPositionAction(bool setLiftTop, bool setLiftBottom);
+	HopperFlapAction();
 	void actionInit() override;
     COREAutonAction::actionStatus action() override;
     void actionEnd() override;
 
-private:
-    double m_setLiftTop;
-    double m_setLiftBottom;
 };
 
 

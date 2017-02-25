@@ -7,7 +7,7 @@ DumpBallsAction::DumpBallsAction(bool reset): m_reset(reset) {
 }
 void DumpBallsAction::actionInit(){
     //If we're trying to dump, make sure the hopper is down and flap is closed
-    if (m_reset == false && Robot->hopperSubsystem.flapIsClosed() && Robot->hopperSubsystem.hopperIsDown()){
+    if (m_reset == false && !Robot->hopperSubsystem.flapIsOpen() && Robot->hopperSubsystem.hopperIsDown()){
         return;
     }
 
@@ -26,7 +26,7 @@ COREAutonAction::actionStatus DumpBallsAction::action(){
     }
 
     //If we're resetting, if hopper is down and flap is closed, return end
-    if (m_reset == true && Robot->hopperSubsystem.flapIsClosed() && Robot->hopperSubsystem.hopperIsDown()){
+    if (m_reset == true && !Robot->hopperSubsystem.flapIsOpen() && Robot->hopperSubsystem.hopperIsDown()){
         return COREAutonAction::END;
     }
     //Otherwise continue

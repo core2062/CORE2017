@@ -146,3 +146,7 @@ void IntakeController::postLoopTask() {
 void IntakeController::disabledTask() {
 	//Robot->hopperSubsystem.setIntake(0.0);
 }
+
+bool HopperSubsystem::flapIsOpen() {
+	return m_flapIsOpen;
+}

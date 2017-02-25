@@ -3,6 +3,7 @@
 #include "CORERobotLib.h"
 #include "WPILib.h"
 
+
 using namespace CORE;
 
 class GearSubsystem : public CORESubsystem {

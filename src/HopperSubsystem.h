@@ -11,7 +11,6 @@ public:
     void robotInit() override;
     void teleopInit() override;
     void teleop() override;
-
     void setLiftTop();
     void setLiftBottom();
     void setLift(double val);
@@ -25,6 +24,7 @@ public:
     bool intakeIsOn();
     double getLiftSpeed();
     double getLiftEncoder();
+    bool flapIsOpen();
 
 
 private:

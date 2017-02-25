@@ -20,7 +20,9 @@ DriveSubsystem::DriveSubsystem() : COREVariableControlledSubsystem("Drive Subsys
 								   m_currentlyTurning(false),
 								   m_currentYawTarget(0),
 								   m_currentYawTolerance(0),
-								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1) {
+								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1),
+								   m_driveTeleController(),
+								   m_driveGyroController(){
 }
 
 void DriveSubsystem::robotInit() {
@@ -34,11 +36,18 @@ void DriveSubsystem::robotInit() {
 		CORELog::logWarning("Couldn't find NavX!");
 	}
 
+		if(m_driveWaypointController == nullptr){
+			m_driveWaypointController = new DriveWaypointController();
+			m_driveWaypointController->init();
+		}
 }
 
 void DriveSubsystem::teleopInit() {
 	COREEtherDrive::setAB(m_etherAValue.Get(), m_etherBValue.Get());
 	COREEtherDrive::setQuickturn(m_etherQuickTurnValue.Get());
+
+	setController(&m_driveTeleController);
+	m_driveTeleController.enable();
 
 }
 
@@ -130,20 +139,39 @@ double DriveSubsystem::getYaw() {
 }
 
 bool DriveSubsystem::isTurning() {
-	//Determine error from current yaw and target yaw
-	//If error is greater than tolerance
-	//SetPID Controller value according to the error signal, and return true
-	//Otherwise drive motor controller set drive motors to zero, and return false
-	return m_currentlyTurning;
+	return m_driveGyroController.isDone();
 }
 
-void DriveSubsystem::startTurning(double angle, double tolerance) {
-	//TODO:: Fill this in
-	//If angle is more than the tolerance
-	//Figure out the right direction
-	//Set motors in opposite directions, to turn the right way
-
+void DriveSubsystem::startTurning(double angle, double tolerance, bool relative) {
+	m_driveGyroController.init(angle, tolerance, relative);
+	setController(&m_driveGyroController);
+	m_driveGyroController.enable();
 }
+
+bool DriveSubsystem::pathDone() {
+	if(m_driveWaypointController){
+		return m_driveWaypointController->isDone();
+	}
+	return true;
+}
+
+bool DriveSubsystem::checkPathFlag(std::string flag) {
+	if(m_driveWaypointController){
+		return m_driveWaypointController->checkFlag(flag);
+	}
+	return false;
+}
+
+void DriveSubsystem::followPath(Path path, bool reversed, double maxAccel,
+		double tolerance) {
+	if(!m_driveWaypointController){
+		m_driveWaypointController = new DriveWaypointController();
+		m_driveWaypointController->init();
+	}
+	m_driveWaypointController->startPath(path, reversed, maxAccel, tolerance);
+	m_driveWaypointController->enable();
+}
+
 
 void DriveSubsystem::initTalons() {
 	shared_ptr<CANTalon> leftMaster = m_leftMaster.getCANTalon();
@@ -217,3 +245,4 @@ double DriveSubsystem::getForwardPower() {
 	}
 	return power;
 }
+

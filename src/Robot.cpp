@@ -10,8 +10,6 @@ CORE2017::CORE2017() :
 		climberSubsystem(),
 		hopperSubsystem(),
 		gearSubsystem(),
-		driveTeleController(),
-		driveGyroController(),
 		intakeController(),
 		driverJoystick(0),
 		operatorJoystick(1) {
@@ -26,12 +24,7 @@ void CORE2017::robotInit() {
 
 void CORE2017::teleopInit() {
 
-//	if(driveWaypointController == nullptr){
-//		driveWaypointController = new DriveWaypointController();
-//	}
-//
-//	driveSubsystem.setController(&driveTeleController);
-//	driveTeleController.enable();
+
 
 }
 

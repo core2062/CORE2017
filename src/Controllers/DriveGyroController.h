@@ -11,6 +11,7 @@ public:
 	void enabledLoop() override;
 	bool isDone();
 private:
+	double getError();
 	Rotation2d m_target;
 	double m_tolerance = 0.0;
 	double m_error = 0.0;

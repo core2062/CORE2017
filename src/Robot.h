@@ -9,9 +9,7 @@
 #include "HopperSubsystem.h"
 #include "GearSubsystem.h"
 #include "ClimberSubsystem.h"
-#include "Controllers/DriveWaypointController.h"
-#include "Controllers/DriveOpenController.h"
-#include "Controllers/DriveGyroController.h"
+
 
 /****************************************************CAN TALONS********************************************************/
 #define FR_DRIVE_MOTOR_PORT 10
@@ -74,9 +72,6 @@ public:
     ClimberSubsystem climberSubsystem;
     HopperSubsystem hopperSubsystem;
     GearSubsystem gearSubsystem;
-    DriveOpenController driveTeleController;
-    DriveGyroController driveGyroController;
-    DriveWaypointController * driveWaypointController = 0;
     IntakeController intakeController;
     COREJoystick driverJoystick;
     COREJoystick operatorJoystick;

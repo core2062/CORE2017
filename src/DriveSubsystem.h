@@ -2,6 +2,9 @@
 #include "AHRS.h"
 #include "CORERobotLib.h"
 #include "WPILib.h"
+#include "Controllers/DriveWaypointController.h"
+#include "Controllers/DriveOpenController.h"
+#include "Controllers/DriveGyroController.h"
 
 enum DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
 
@@ -25,7 +28,10 @@ public:
     void resetYaw();
     double getYaw();
     bool isTurning();
-    void startTurning(double angle, double tolerance);
+    void startTurning(double angle, double tolerance, bool relative = false);
+    bool pathDone();
+    bool checkPathFlag(std::string flag);
+    void followPath(Path path, bool reversed = false, double maxAccel = 25.0, double tolerance = .25);
     CANTalon * getLeftMaster();
     CANTalon * getRightMaster();
     AHRS * getGyro();
@@ -48,4 +54,8 @@ private:
     double m_currentYawTarget;
     double m_currentYawTolerance;
     COREConstant<double>m_turnPIDMultiplier;
+
+    DriveOpenController m_driveTeleController;
+    DriveGyroController m_driveGyroController;
+    DriveWaypointController * m_driveWaypointController = 0;
 };

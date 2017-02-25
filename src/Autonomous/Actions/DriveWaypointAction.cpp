@@ -10,17 +10,12 @@ DriveWaypointAction::DriveWaypointAction(Path path, bool reversed,
 }
 
 void DriveWaypointAction::actionInit() {
-	if(Robot->driveWaypointController != nullptr){
-		Robot->driveWaypointController->startPath(m_path, m_reversed, m_maxAccel, m_tolerance);
-		Robot->driveSubsystem.setController(Robot->driveWaypointController);
-	}
+	Robot->driveSubsystem.followPath(m_path, m_reversed, m_maxAccel, m_tolerance);
 }
 
 DriveWaypointAction::actionStatus DriveWaypointAction::action() {
-	if(Robot->driveWaypointController != nullptr){
-		if(!Robot->driveWaypointController->isDone()){
-			return actionStatus::CONTINUE;
-		}
+	if(!Robot->driveSubsystem.pathDone()){
+		return actionStatus::CONTINUE;
 	}
 	return actionStatus::END;
 }

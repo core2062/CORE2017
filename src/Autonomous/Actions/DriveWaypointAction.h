@@ -4,7 +4,7 @@
 #include "WPILib.h"
 #include "Controllers/DriveWaypointController.h"
 
-class DriveWaypointAction : CORE::COREAutonAction{
+class DriveWaypointAction : public CORE::COREAutonAction {
 public:
 	DriveWaypointAction(Path path, bool reversed = false, double tolerance = .25, double maxAccel = 25.0);
     void actionInit() override;

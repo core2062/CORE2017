@@ -1,14 +1,14 @@
 #include "LoadGearOntoPegAction.h"
 #include <Robot.h>
 
-LoadGearOntoPegAuton::LoadGearOntoPegAuton(){
+LoadGearOntoPegAction::LoadGearOntoPegAction(){
 	m_punchIsOut = false;
 }
 
-void LoadGearOntoPegAuton::actionInit(){
+void LoadGearOntoPegAction::actionInit(){
 }
 
-COREAutonAction::actionStatus LoadGearOntoPegAuton::action() {
+COREAutonAction::actionStatus LoadGearOntoPegAction::action() {
 	//If the solenoid is not deployed, then punch the solenoid
 	if (m_punchIsOut == false){
 		Robot->gearSubsystem.punchOut();
@@ -26,5 +26,5 @@ COREAutonAction::actionStatus LoadGearOntoPegAuton::action() {
 
 }
 
-void LoadGearOntoPegAuton::actionEnd() {
+void LoadGearOntoPegAction::actionEnd() {
 }

@@ -84,3 +84,7 @@ extern CORE2017 * Robot;
 enum ActuationType{
 	OPEN,CLOSE,TOGGLE
 };
+
+enum StartingPosition{
+	LEFT,CENTER,RIGHT
+};

@@ -141,7 +141,7 @@ bool DriveSubsystem::isTurning() {
 	return m_driveGyroController.isDone();
 }
 
-void DriveSubsystem::startTurning(double angle, double tolerance, bool relative) {
+void DriveSubsystem::startTurning(double angle, double tolerance, bool relative = false) {
 	m_driveGyroController.init(angle, tolerance, relative);
 	setController(&m_driveGyroController);
 	m_driveGyroController.enable();

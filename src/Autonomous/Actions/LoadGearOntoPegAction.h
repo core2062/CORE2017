@@ -4,9 +4,9 @@
 
 using namespace CORE;
 
-class LoadGearOntoPegAuton : public COREAutonAction {
+class LoadGearOntoPegAction : public COREAutonAction {
 public:
-    LoadGearOntoPegAuton();
+    LoadGearOntoPegAction();
     void actionInit() override;
 	COREAutonAction::actionStatus action() override;
 	void actionEnd() override;

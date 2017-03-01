@@ -119,14 +119,20 @@ void HopperSubsystem::setIntake(double val) {
 
 bool HopperSubsystem::intakeIsOn() {
 	//return (m_intakeMotor.Get() > 0);
+	return false;
+	//TODO Fill this in
 }
 
 double HopperSubsystem::getLiftSpeed() {
 	//return m_liftMotor.CANTalonController->GetSpeed();
+	return false;
+	//TODO Fill this in
 }
 
 double HopperSubsystem::getLiftEncoder() {
 	//return m_liftMotor.Get();
+	return false;
+	//TODO Fill this in
 }
 
 IntakeController::IntakeController() : CORETask(){

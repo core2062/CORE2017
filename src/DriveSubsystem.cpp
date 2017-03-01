@@ -141,7 +141,7 @@ bool DriveSubsystem::isTurning() {
 	return m_driveGyroController.isDone();
 }
 
-void DriveSubsystem::startTurning(double angle, double tolerance, bool relative = false) {
+void DriveSubsystem::startTurning(double angle, double tolerance, bool relative) {
 	m_driveGyroController.init(angle, tolerance, relative);
 	setController(&m_driveGyroController);
 	m_driveGyroController.enable();
@@ -154,9 +154,9 @@ bool DriveSubsystem::pathDone() {
 	return true;
 }
 
-bool DriveSubsystem::checkPathFlag(std::string flag) {
+bool DriveSubsystem::checkPathEvent(std::string event) {
 	if(m_driveWaypointController){
-		return m_driveWaypointController->checkFlag(flag);
+		return m_driveWaypointController->checkEvent(event);
 	}
 	return false;
 }

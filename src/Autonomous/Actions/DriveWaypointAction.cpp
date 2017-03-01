@@ -1,7 +1,8 @@
 #include "DriveWaypointAction.h"
 #include "Robot.h"
+#include "CORERobotLib.h"
 
-DriveWaypointAction::DriveWaypointAction(Path path, bool reversed,
+DriveWaypointAction::DriveWaypointAction(Path* path, bool reversed,
 		double tolerance, double maxAccel) {
 	m_path = path;
 	m_reversed = reversed;
@@ -10,7 +11,7 @@ DriveWaypointAction::DriveWaypointAction(Path path, bool reversed,
 }
 
 void DriveWaypointAction::actionInit() {
-	Robot->driveSubsystem.followPath(m_path, m_reversed, m_maxAccel, m_tolerance);
+	Robot->driveSubsystem.followPath(*m_path, m_reversed, m_maxAccel, m_tolerance);
 }
 
 DriveWaypointAction::actionStatus DriveWaypointAction::action() {

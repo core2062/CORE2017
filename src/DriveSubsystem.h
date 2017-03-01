@@ -6,7 +6,7 @@
 #include "Controllers/DriveOpenController.h"
 #include "Controllers/DriveGyroController.h"
 
-enum DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
+enum class DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
 
 using namespace CORE;
 
@@ -30,7 +30,7 @@ public:
     bool isTurning();
     void startTurning(double angle, double tolerance, bool relative = false);
     bool pathDone();
-    bool checkPathFlag(std::string flag);
+    bool checkPathEvent(std::string event);
     void followPath(Path path, bool reversed = false, double maxAccel = 25.0, double tolerance = .25);
     CANTalon * getLeftMaster();
     CANTalon * getRightMaster();

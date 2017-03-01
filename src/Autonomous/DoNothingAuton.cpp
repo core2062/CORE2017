@@ -1,9 +1,13 @@
 #include "DoNothingAuton.h"
 #include "Robot.h"
 
-DoNothingAuton::DoNothingAuton() {
+
+DoNothingAuton::DoNothingAuton() :
+	COREAuton("Do Nothing Auton", nullptr){
 
 }
+
+
 
 void DoNothingAuton::addNodes() {
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "CORERobotLib.h"
+#include "Constants.h"
 using namespace CORE;
 
 class GearFlapAction : public COREAutonAction {

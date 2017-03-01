@@ -21,7 +21,7 @@ public:
 	void startPath(Path path, bool reversed = false, double maxAccel = 25.0, double tolerance = .25);
 	void resetTracker(Position2d initialPos);
 	bool isDone();
-	bool checkFlag(std::string flag);
+	bool checkEvent(std::string event);
 	void updatePathFollower();
 
 };

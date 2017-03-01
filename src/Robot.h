@@ -81,10 +81,4 @@ public:
 //extern shared_ptr<CORE2017> Robot;
 extern CORE2017 * Robot;
 
-enum ActuationType{
-	OPEN,CLOSE,TOGGLE
-};
 
-enum StartingPosition{
-	LEFT,CENTER,RIGHT
-};

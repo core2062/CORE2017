@@ -1,4 +1,7 @@
 #pragma once
 
 #include "Actions/TurnAngleAction.h"
-#include "Actions/LoadGearOntoPeg.h"
+#include "Actions/LoadGearOntoPegAction.h"
+#include "Actions/DriveWaypointAction.h"
+
+

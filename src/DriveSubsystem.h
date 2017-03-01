@@ -6,7 +6,7 @@
 #include "Controllers/DriveOpenController.h"
 #include "Controllers/DriveGyroController.h"
 
-enum DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
+enum class DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
 
 using namespace CORE;
 
@@ -15,7 +15,7 @@ public:
     DriveSubsystem();
     void robotInit() override;
     void teleopInit() override;
-//    void teleop() override;
+    void teleop() override;
     void initTalons();
     void setHighGear(bool highGear = true);
     void setLowGear(bool lowGear = true);

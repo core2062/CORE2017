@@ -1,9 +1,14 @@
 #include "VisionAlignGearAction.h"
 
-VisionAlignGearAuton::VisionAlignGearAuton() : COREAuton("Vision Align Gear", nullptr) /*: m_driveForward()*/ {
+VisionAlignGearAuton::VisionAlignGearAuton() /*: m_driveForward()*/ {
 
 }
 
-void VisionAlignGearAuton::addNodes() {
+void VisionAlignGearAuton::actionInit() {
+}
 
+COREAutonAction::actionStatus VisionAlignGearAuton::action() {
+}
+
+void VisionAlignGearAuton::actionEnd() {
 }

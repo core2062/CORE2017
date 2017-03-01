@@ -2,10 +2,15 @@
 
 #include "CORERobotLib.h"
 
-class LoadGearOntoPegAuton : public COREAutonAction {
+using namespace CORE;
+
+class LoadGearOntoPegAction : public COREAutonAction {
 public:
-    LoadGearOntoPegAuton();
-	actionStatus action() override;
+    LoadGearOntoPegAction();
+    void actionInit() override;
+	COREAutonAction::actionStatus action() override;
+	void actionEnd() override;
 private:
+	bool m_punchIsOut;
 
 };

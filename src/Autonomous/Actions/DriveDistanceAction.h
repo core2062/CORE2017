@@ -1,13 +1,16 @@
 #pragma once
 #include "CORERobotLib.h"
 
+using namespace CORE;
 class DriveDistanceAction : public COREAutonAction {
 public:
-    DriveDistanceAction(double speedInFraction, double distanceInFeet);
+    DriveDistanceAction(double speedInFraction, double distanceInFeet, bool setHighGear);
     void actionInit() override;
-    actionStatus action() override;
+    COREAutonAction::actionStatus action() override;
     void actionEnd() override;
+
 private:
 	double m_speedInFraction;
-    double m_distanceInFeet;
+    double m_distanceInInches;
+    bool m_setHighGear;
 };

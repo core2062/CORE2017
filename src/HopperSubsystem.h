@@ -11,7 +11,6 @@ public:
     void robotInit() override;
     void teleopInit() override;
     void teleop() override;
-
     void setLiftTop();
     void setLiftBottom();
     void setLift(double val);
@@ -25,11 +24,12 @@ public:
     bool intakeIsOn();
     double getLiftSpeed();
     double getLiftEncoder();
+    bool flapIsOpen();
 
 
 private:
     COREMotor m_liftMotor, m_intakeMotor;
-    COREMotionProfile* m_liftController;
+    //COREMotionProfile* m_liftController;
     Servo m_leftDumpFlapServo, m_rightDumpFlapServo;
     //COREPID m_liftPID;
     COREConstant<double> m_liftBottomPos, m_liftTopPos, m_liftTolerance, m_raiseVel, m_raiseAccel, m_lowerVel,

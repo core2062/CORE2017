@@ -80,3 +80,5 @@ public:
 
 //extern shared_ptr<CORE2017> Robot;
 extern CORE2017 * Robot;
+
+

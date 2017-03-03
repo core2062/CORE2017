@@ -64,7 +64,7 @@ public:
     void teleopInit() override;
     void teleop() override;
     void test() override;
-    int getStartingPosition(){return m_startingPosition;}
+    int getStartingPosition(){return m_startingPosition.Get();}
     ~CORE2017();
 
     //COREMotor testMotor;

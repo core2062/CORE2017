@@ -21,7 +21,7 @@ COREAutonAction::actionStatus ShimmyAction::action() {
 	if (elapsed >= m_numberOfSeconds){
 		return COREAutonAction::actionStatus::END;
 	}
-	double fraction = (elapsed % m_numberOfSeconds);
+	double fraction = fmod(elapsed, m_numberOfSeconds);
 
 	//If fraction is less than half
 	//Shimmy left

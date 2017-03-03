@@ -2,7 +2,7 @@
 #include "CORERobotLib.h"
 using namespace CORE;
 
-class ShimmyAction {
+class ShimmyAction : public COREAutonAction {
 public:
 	ShimmyAction(double numberOfSeconds, double severityOfShimmy);
     void actionInit() override;

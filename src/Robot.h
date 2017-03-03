@@ -64,6 +64,7 @@ public:
     void teleopInit() override;
     void teleop() override;
     void test() override;
+    int getStartingPosition(){return m_startingPosition.Get();}
     ~CORE2017();
 
     //COREMotor testMotor;
@@ -76,6 +77,8 @@ public:
     COREJoystick driverJoystick;
     COREJoystick operatorJoystick;
 
+private:
+    COREConstant<int> m_startingPosition;
 };
 
 //extern shared_ptr<CORE2017> Robot;

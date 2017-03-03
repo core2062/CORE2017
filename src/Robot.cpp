@@ -12,9 +12,11 @@ CORE2017::CORE2017() :
 		gearSubsystem(),
 		intakeController(),
 		driverJoystick(0),
-		operatorJoystick(1) {
+		operatorJoystick(1),
+		m_startingPosition("Starting Position", 1){
 //	Robot.shared_ptr(this);
 	Robot = this;
+
 }
 
 void CORE2017::robotInit() {

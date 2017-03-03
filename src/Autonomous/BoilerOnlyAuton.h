@@ -5,13 +5,17 @@
 
 using namespace CORE;
 
-class GearOnlyAuton : public COREAuton{
+class BoilerOnlyAuton : public COREAuton{
 public:
-	GearOnlyAuton();
+	BoilerOnlyAuton();
 	void addNodes() override;
+
 private:
 	static Path * getPathFor(int startingPosition);
-	Node m_driveToPeg, m_loadGearOnPeg;
+	Node m_driveToBoiler, m_dumpBallsInBoiler;
+	Node m_resetHopper;
+	Node m_shimmyHopper;
+	COREConstant m_shimmyScale;
 };
 
 

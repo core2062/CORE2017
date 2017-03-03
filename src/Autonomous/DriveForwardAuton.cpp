@@ -4,10 +4,13 @@
 
 using namespace CORE;
 
-DriveForwardAuton::DriveForwardAuton(double speedInFraction, double distanceInFeet) :
+DriveForwardAuton::DriveForwardAuton() :
+	m_speedInFraction("Speed In Fraction", 1.0),
+	m_distanceInFeet("Distance In Feet", 10.0),
 	COREAuton("Drive Forward", &m_moveForwardToLine, true) ,
 	m_moveForwardToLine(new DriveWaypointAction(new Path({{{0,0},0}, {{1,1},1}}))),
-	m_spinInCircles(new DriveWaypointAction(new Path({{{0,0},0}, {{1,1},1}})), new GearFlapAction(ActuationType::OPEN)) {
+	m_spinInCircles(new DriveWaypointAction(new Path({{{0,0},0}, {{1,1},1}})),
+					new GearFlapAction(ActuationType::OPEN)) {
 
 }
 

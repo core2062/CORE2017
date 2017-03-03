@@ -22,7 +22,7 @@ void DriveGyroController::init(double target, double tolerance, bool relative) {
 }
 
 void DriveGyroController::postLoopTask() {
-	if(isEnabled() && (Robot->getMode() == CORE::gameMode::AUTO)){
+	if(isEnabled() && (Robot->getMode() == CORE::gameMode::AUTON)){
 		enabledLoop();
 	}
 }

@@ -56,18 +56,15 @@
 using namespace CORE;
 using namespace std;
 
-//TODO: Name the robot
-class CORE2017 : public CORERobot {
+class Aergia : public CORERobot {
 public:
-	CORE2017();
+	Aergia();
     void robotInit() override;
     void teleopInit() override;
     void teleop() override;
     void test() override;
     int getStartingPosition(){return m_startingPosition.Get();}
-    ~CORE2017();
-
-    //COREMotor testMotor;
+    ~Aergia();
 
     DriveSubsystem driveSubsystem;
     ClimberSubsystem climberSubsystem;
@@ -78,10 +75,7 @@ public:
     COREJoystick operatorJoystick;
 
 private:
-    COREConstant<int> m_startingPosition;
+    COREConstant<int> m_startingPosition; //TODO: Make this a sendable chooser
 };
 
-//extern shared_ptr<CORE2017> Robot;
-extern CORE2017 * Robot;
-
-
+extern Aergia * Robot;

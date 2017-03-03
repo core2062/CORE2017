@@ -2,10 +2,9 @@
 
 using namespace CORE;
 
-//shared_ptr<CORE2017> Robot = nullptr;
-CORE2017 * Robot = nullptr;
+Aergia * Robot = nullptr;
 
-CORE2017::CORE2017() :
+Aergia::Aergia() :
 		driveSubsystem(),
 		climberSubsystem(),
 		hopperSubsystem(),
@@ -13,24 +12,23 @@ CORE2017::CORE2017() :
 		intakeController(),
 		driverJoystick(0),
 		operatorJoystick(1),
-		m_startingPosition("Starting Position", 1){
+		m_startingPosition("Starting Position", 0) { //TODO: Make this a sendable chooser
 //	Robot.shared_ptr(this);
 	Robot = this;
-
 }
 
-void CORE2017::robotInit() {
+void Aergia::robotInit() {
 	setLoopTime(.0125);
 
 }
 
-void CORE2017::teleopInit() {
+void Aergia::teleopInit() {
 
 
 
 }
 
-void CORE2017::teleop(){
+void Aergia::teleop(){
 
 //	testMotor.Set(0);
 //	CORELog::logInf//o("m_encoder Pos: " + to_string(testMotor.m_encoder->GetEncPos()));
@@ -39,7 +37,7 @@ void CORE2017::teleop(){
 
 }
 
-void CORE2017::test(){
+void Aergia::test(){
 	//Lift Test Code
 		double liftVal = 0.0;
 		if(operatorJoystick.getButton(CORE::COREJoystick::JoystickButton::DPAD_N)){
@@ -103,14 +101,15 @@ void CORE2017::test(){
 	driveSubsystem.setMotorSpeed(left, right);
 }
 
-CORE2017::~CORE2017() {
+Aergia::~Aergia() {
 //	Robot.reset();
 	delete Robot;
 	Robot = nullptr;
+	CORELog::logInfo("Robot successfully deleted");
 }
 
 #ifdef __arm__
-START_ROBOT_CLASS(CORE2017)
+START_ROBOT_CLASS(Aergia)
 #else
-START_SIMULATED_ROBOT_CLASS(CORE2017)
+START_SIMULATED_ROBOT_CLASS(Aergia)
 #endif

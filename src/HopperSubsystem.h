@@ -31,9 +31,9 @@ private:
     COREMotor m_liftMotor, m_intakeMotor;
     //COREMotionProfile* m_liftController;
     Servo m_leftDumpFlapServo, m_rightDumpFlapServo;
-    //COREPID m_liftPID;
-    COREConstant<double> m_liftBottomPos, m_liftTopPos, m_liftTolerance, m_raiseVel, m_raiseAccel, m_lowerVel,
-						 m_lowerAccel, m_flapTopPos, m_flapBottomPos, m_intakeSpeed;
+    COREConstant<double> m_liftBottomPos, m_liftTopPos, m_liftRaiseVel, m_liftLowerVel, m_liftTolerance, m_flapTopPos, m_flapBottomPos, m_intakeSpeed,
+			m_liftPID_P, m_liftPID_I, m_liftPID_D;
+    COREPID m_liftPID;
     bool m_flapIsOpen;
 };
 

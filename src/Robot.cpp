@@ -12,18 +12,18 @@ Aergia::Aergia() :
 		intakeController(),
 		driverJoystick(0),
 		operatorJoystick(1),
+		doNothing(),
+		driveForwardAuton(0,0),
 		m_startingPosition("Starting Position", 0) { //TODO: Make this a sendable chooser
 //	Robot.shared_ptr(this);
 	Robot = this;
 }
 
 void Aergia::robotInit() {
-	setLoopTime(.0125);
-
+	setLoopTime(.025);
 }
 
 void Aergia::teleopInit() {
-
 
 
 }

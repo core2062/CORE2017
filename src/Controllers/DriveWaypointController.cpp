@@ -38,7 +38,7 @@ void DriveWaypointController::init() {
 
 void DriveWaypointController::startPath(Path path, bool reversed,
 		double maxAccel, double tolerance) {
-	m_pursuit = AdaptivePursuit(24.0, maxAccel, .01, path, reversed, tolerance);
+	m_pursuit = AdaptivePursuit(24.0, maxAccel, .025, path, reversed, tolerance);
 }
 
 void DriveWaypointController::resetTracker(Position2d initialPos) {

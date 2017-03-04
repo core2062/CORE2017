@@ -15,7 +15,7 @@ private:
 	Node m_driveToBoiler, m_dumpBallsInBoiler;
 	Node m_resetHopper;
 	Node m_shimmyHopper;
-	COREConstant m_shimmyScale;
+	COREConstant<double> m_shimmyScale;
 };
 
 

@@ -9,7 +9,8 @@ BoilerOnlyAuton::BoilerOnlyAuton() :
 		m_driveToBoiler(new DriveWaypointAction(getPathFor(Robot->getStartingPosition()))),
 		m_dumpBallsInBoiler(new DumpBallsAction(false)),
 		m_shimmyHopper(new ShimmyAction(0.0, 0.0)),
-		m_resetHopper(new DumpBallsAction(true)){
+		m_resetHopper(new DumpBallsAction(true)),
+		m_shimmyScale("Shimmy Scale", 0.0){
 	//TODO: Add functionality for Wall/middle paths
 }
 

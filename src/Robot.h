@@ -10,6 +10,8 @@
 #include "GearSubsystem.h"
 #include "ClimberSubsystem.h"
 
+#include "Autonomous/Autons.h"
+
 
 /****************************************************CAN TALONS********************************************************/
 #define FR_DRIVE_MOTOR_PORT 10
@@ -73,6 +75,9 @@ public:
     IntakeController intakeController;
     COREJoystick driverJoystick;
     COREJoystick operatorJoystick;
+
+    DoNothingAuton doNothing;
+    DriveForwardAuton driveForwardAuton;
 
 private:
     COREConstant<int> m_startingPosition; //TODO: Make this a sendable chooser

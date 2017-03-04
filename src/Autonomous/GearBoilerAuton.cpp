@@ -7,7 +7,7 @@ GearBoilerAuton::GearBoilerAuton() :
 		m_driveToPeg(new DriveWaypointAction(getPathForPeg(Robot->getStartingPosition()))),
 		m_loadGearOnPeg(new LoadGearOntoPegAction()),
 		m_backupFromPeg(new DriveWaypointAction(backupFromPeg())),
-		m_driveToBoiler(new DriveWaypointAction(getPathForBoiler(Robot->getStartingPosition()))),
+		m_driveToBoiler(new DriveWaypointAction(getPathForBoiler())),
 		m_dumpBallsInBoiler(new DumpBallsAction(false)),
 		m_shimmyHopper(new ShimmyAction(0.0, 0.0)),
 		m_resetHopper(new DumpBallsAction(true)){
@@ -16,7 +16,7 @@ GearBoilerAuton::GearBoilerAuton() :
 }
 
 void GearBoilerAuton::addNodes() {
-	m_driveToBoiler.addNext(&m_loadGearOnPeg);
+	m_driveToPeg.addNext(&m_loadGearOnPeg);
 	m_loadGearOnPeg.addNext(&m_backupFromPeg);
 	m_backupFromPeg.addNext(&m_driveToBoiler);
 	m_driveToBoiler.addNext(&m_dumpBallsInBoiler);
@@ -30,7 +30,9 @@ Path* GearBoilerAuton::getPathForPeg(int startingPosition) {
 }
 
 Path* GearBoilerAuton::backupFromPeg() {
+	return new Path({{{0,0},0}, {{1,1},1}});
 }
 
-Path* GearBoilerAuton::getPathForBoiler(int startingPosition) {
+Path* GearBoilerAuton::getPathForBoiler() {
+	return new Path({{{0,0},0}, {{1,1},1}});
 }

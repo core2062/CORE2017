@@ -13,7 +13,7 @@ public:
 private:
 	static Path * getPathForPeg(int startingPosition);
 	static Path * backupFromPeg();
-	static Path * getPathForBoiler(int startingPosition);
+	static Path * getPathForBoiler();
 	Node m_driveToPeg,
 		 m_loadGearOnPeg,
 		 m_backupFromPeg,

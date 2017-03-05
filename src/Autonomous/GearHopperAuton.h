@@ -7,11 +7,11 @@ using namespace CORE;
 
 class GearHopperAuton : public COREAuton{
 public:
-	GearHopperAuton();
+	GearHopperAuton(StartingPosition startingPosition);
 	void addNodes() override;
 
 private:
-	static Path * getPathForPeg(int startingPosition);
+	static Path * getPathForPeg(StartingPosition startingPosition);
 	static Path * backupFromPeg();
 	static Path * driveToHopper();
 	Node m_driveToPeg,

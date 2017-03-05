@@ -2,7 +2,7 @@
 #include "Robot.h"
 #include "Actions.h"
 
-GearHopperAuton::GearHopperAuton() :
+GearHopperAuton::GearHopperAuton(StartingPosition startingPosition) :
 	COREAuton("Gear and Hopper Auton", &m_driveToPeg, true),
 	m_driveToPeg(new DriveWaypointAction(getPathForPeg(Robot->getStartingPosition()))),
 	m_loadGearOnPeg(new LoadGearOntoPegAction()),
@@ -18,7 +18,7 @@ void GearHopperAuton::addNodes() {
 	m_driveToHopper.addNext(&m_loadHopper);
 }
 
-Path* GearHopperAuton::getPathForPeg(int startingPosition) {
+Path* GearHopperAuton::getPathForPeg(StartingPosition startingPosition) {
 	return new Path({{{0,0},0}, {{1,1},1}});
 }
 

@@ -12,7 +12,7 @@ public:
 	void addNodes() override;
 
 private:
-	static Path * getPathForPeg(int startingPosition);
+	static Path * getPathForPeg(StartingPosition startingPosition);
 	static Path * backupFromPeg();
 	static Path * driveToHopper();
 	static Path * backupFromHopper();

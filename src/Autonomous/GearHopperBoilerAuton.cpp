@@ -30,7 +30,7 @@ void GearHopperBoilerAuton::addNodes(){
 	m_shimmyHopper.addNext(&m_resetHopper);
 	}
 
-Path* GearHopperBoilerAuton::getPathForPeg(int startingPosition){
+Path* GearHopperBoilerAuton::getPathForPeg(StartingPosition startingPosition){
 	return new Path({{{0,0},0}, {{1,1},1}});
 	}
 

@@ -9,6 +9,7 @@
 #include "HopperSubsystem.h"
 #include "GearSubsystem.h"
 #include "ClimberSubsystem.h"
+#include "Constants.h"
 
 #include "Autonomous/Autons.h"
 
@@ -62,10 +63,11 @@ class Aergia : public CORERobot {
 public:
 	Aergia();
     void robotInit() override;
+    void autonInit() override;
     void teleopInit() override;
     void teleop() override;
     void test() override;
-    int getStartingPosition(){return m_startingPosition.Get();}
+    StartingPosition getStartingPosition(){return *m_positionChooser.GetSelected();}
     ~Aergia();
 
     DriveSubsystem driveSubsystem;
@@ -78,9 +80,12 @@ public:
 
     DoNothingAuton doNothing;
     DriveForwardAuton driveForwardAuton;
+    GearOnlyAuton gearAuton;
+
+    SendableChooser<StartingPosition*> m_positionChooser;
 
 private:
-    COREConstant<int> m_startingPosition; //TODO: Make this a sendable chooser
+
 };
 
 extern Aergia * Robot;

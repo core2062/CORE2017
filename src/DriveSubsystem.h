@@ -42,6 +42,8 @@ public:
 
 	Rotation2d getGyroAngle();
 
+	void setPos(Position2d pos);
+
     COREConstant<double>driveScrub;
     COREConstant<double>driveTurnProportional;
 private:

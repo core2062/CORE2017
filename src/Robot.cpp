@@ -14,13 +14,34 @@ Aergia::Aergia() :
 		operatorJoystick(1),
 		doNothing(),
 		driveForwardAuton(0,0),
-		m_startingPosition("Starting Position", 0) { //TODO: Make this a sendable chooser
+		gearAuton(StartingPosition::CENTER)
+	{
 //	Robot.shared_ptr(this);
 	Robot = this;
 }
 
 void Aergia::robotInit() {
 	setLoopTime(.025);
+	m_positionChooser.AddDefault("Center", new StartingPosition(StartingPosition::CENTER));
+	m_positionChooser.AddObject("Boiler", new StartingPosition(StartingPosition::BOILER));
+	m_positionChooser.AddObject("Feeder", new StartingPosition(StartingPosition::FEEDER));
+	SmartDashboard::PutData("Starting Position", &m_positionChooser);
+}
+
+
+void Aergia::autonInit() {
+	StartingPosition * pos = m_positionChooser.GetSelected();
+	switch(*pos){
+	case (StartingPosition::BOILER):
+		driveSubsystem.setPos(Position2d(Translation2d(162,0), Rotation2d()));
+		break;
+	case (StartingPosition::CENTER):
+		driveSubsystem.setPos(Position2d(Translation2d(162,0), Rotation2d()));
+		break;
+	case (StartingPosition::FEEDER):
+		driveSubsystem.setPos(Position2d(Translation2d(162,0), Rotation2d()));
+		break;
+	}
 }
 
 void Aergia::teleopInit() {
@@ -100,6 +121,7 @@ void Aergia::test(){
 
 	driveSubsystem.setMotorSpeed(left, right);
 }
+
 
 Aergia::~Aergia() {
 //	Robot.reset();

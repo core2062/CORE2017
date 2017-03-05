@@ -24,7 +24,7 @@ void GearBoilerAuton::addNodes() {
 	m_shimmyHopper.addNext(&m_resetHopper);
 }
 
-Path* GearBoilerAuton::getPathForPeg(int startingPosition) {
+Path* GearBoilerAuton::getPathForPeg(StartingPosition startingPosition) {
 	return new Path({{{0,0},0}, {{1,1},1}});
 		//TODO: Replace with code that reads the path from the csv file
 }
@@ -32,5 +32,5 @@ Path* GearBoilerAuton::getPathForPeg(int startingPosition) {
 Path* GearBoilerAuton::backupFromPeg() {
 }
 
-Path* GearBoilerAuton::getPathForBoiler(int startingPosition) {
+Path* GearBoilerAuton::getPathForBoiler(StartingPosition startingPosition) {
 }

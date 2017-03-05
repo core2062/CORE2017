@@ -245,3 +245,8 @@ double DriveSubsystem::getForwardPower() {
 	return power;
 }
 
+void DriveSubsystem::setPos(Position2d pos) {
+	if(m_driveWaypointController != nullptr){
+		m_driveWaypointController->resetTracker(pos);
+	}
+}

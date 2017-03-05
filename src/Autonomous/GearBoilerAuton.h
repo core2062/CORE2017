@@ -11,9 +11,9 @@ public:
 	void addNodes();
 
 private:
-	static Path * getPathForPeg(int startingPosition);
+	static Path * getPathForPeg(StartingPosition startingPosition);
 	static Path * backupFromPeg();
-	static Path * getPathForBoiler(int startingPosition);
+	static Path * getPathForBoiler(StartingPosition startingPosition);
 	Node m_driveToPeg,
 		 m_loadGearOnPeg,
 		 m_backupFromPeg,

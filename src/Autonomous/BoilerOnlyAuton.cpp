@@ -21,7 +21,7 @@ void BoilerOnlyAuton::addNodes() {
 	m_shimmyHopper.addNext(&m_resetHopper);
 }
 
-Path * BoilerOnlyAuton::getPathFor(int startingPosition) {
+Path * BoilerOnlyAuton::getPathFor(StartingPosition startingPosition) {
 	return new Path({{{0,0},0}, {{1,1},1}});
 	//TODO: Replace with code that reads the path from the csv file
 }

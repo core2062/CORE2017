@@ -11,7 +11,7 @@ public:
 	void addNodes() override;
 
 private:
-	static Path * getPathFor(int startingPosition);
+	static Path * getPathFor(StartingPosition startingPosition);
 	Node m_driveToBoiler, m_dumpBallsInBoiler;
 	Node m_resetHopper;
 	Node m_shimmyHopper;

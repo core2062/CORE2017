@@ -5,5 +5,5 @@ enum class ActuationType{
 };
 
 enum class StartingPosition{
-	LEFT,CENTER,RIGHT
+	BOILER, CENTER, FEEDER
 };

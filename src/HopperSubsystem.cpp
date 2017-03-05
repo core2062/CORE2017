@@ -9,7 +9,7 @@ HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
 									 m_leftDumpFlapServo(LEFT_DUMP_FLAP_SERVO_CHANNEL),
 									 m_rightDumpFlapServo(RIGHT_DUMP_FLAP_SERVO_CHANNEL),
 									 m_liftBottomPos("Lift Bottom Position", 100),
-									 m_liftTopPos("Lift Top Position", 10000),
+									 m_liftTopPos("Lift Top Position", 1000000),
 									 m_liftRaiseVel("Lift Raise Velocity", 0.25),
 									 m_liftLowerVel("Lift Lower Velocity", 0.75),
 									 m_liftTolerance("Lift Position Tolerance", -1.0),
@@ -22,6 +22,8 @@ HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
 									 m_liftPID_Pa("Lift PID Down P Value", 0),
 									 m_liftPID_Ia("Lift PID Down I Value", 0),
 									 m_liftPID_Da("Lift PID Down D Value", 0),
+//									 m_bottomLimit(LIFT_BOTTOM_LIMIT_SWITCH_PORT),
+//									 m_topLimit(LIFT_TOP_LIMIT_SWITCH_PORT),
 //									 m_liftPID(POS, m_liftPID_P.Get(), m_liftPID_I.Get(), m_liftPID_P.Get()),
 									 m_flapIsOpen(false) {
 	//m_liftMotor.getCANTalon()->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
@@ -34,6 +36,7 @@ void HopperSubsystem::robotInit(){
 	Robot->operatorJoystick.registerButton(COREJoystick::DPAD_N);
 	Robot->operatorJoystick.registerButton(COREJoystick::DPAD_S);
 	Robot->operatorJoystick.registerAxis(COREJoystick::LEFT_STICK_Y);
+	Robot->operatorJoystick.registerAxis(COREJoystick::RIGHT_STICK_Y);
 }
 
 void HopperSubsystem::teleopInit(){
@@ -64,23 +67,48 @@ void HopperSubsystem::teleop(){
 	}
 
 	double liftVal = -Robot->operatorJoystick.getAxis(COREJoystick::LEFT_STICK_Y);
+	double liftEnc = Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition();
 	if(fabs(liftVal) > .05){
-		setLift(liftVal);
+//		setLift(liftVal);
 		m_liftPID.start(Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition());
 	} else {
-		if (Robot->operatorJoystick.getButtonState(COREJoystick::A_BUTTON) == COREJoystick::RISING_EDGE){
-			setLiftBottom();
-			liftVal = m_liftPID.calculate(Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition());
-			setLift(liftVal);
-		} else if (Robot->operatorJoystick.getButtonState(COREJoystick::Y_BUTTON) == COREJoystick::RISING_EDGE){
-			setLiftTop();
-			liftVal = m_liftPID.calculate(Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition());
-			setLift(liftVal);
+		if (Robot->operatorJoystick.getButton(COREJoystick::A_BUTTON)){
+//			setLiftBottom();
+//			liftVal = m_liftPID.calculate(Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition());
+//			setLift(liftVal);
+			double error = abs(liftEnc - m_liftBottomPos.Get());
+			liftVal = -1.0;
+			if(error < 30000){
+				liftVal*=.5;
+			}
+			if(error < 15000){
+				liftVal*=.5;
+			}
+		} else if (Robot->operatorJoystick.getButton(COREJoystick::Y_BUTTON)){
+//			setLiftTop();
+//			liftVal = m_liftPID.calculate(Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition());
+//			setLift(liftVal);
+			double error = abs(liftEnc - m_liftTopPos.Get());
+			liftVal = 1.0;
+			if(error < 30000){
+				liftVal*=.5;
+			}
+			if(error < 15000){
+				liftVal*=.5;
+			}
 		} else {
-			setLift(0.0);
+			liftVal = 0;
+//			setLift(0.0);
 		}
-
 	}
+
+//	if(liftVal > 0 && m_topLimit.Get()){
+//		liftVal = 0.0;
+//	} else if (liftVal < 0 && m_bottomLimit.Get()){
+//		liftVal = 0.0;
+//	}
+	setLift(liftVal);
+
 
 	if(Robot->operatorJoystick.getButton(COREJoystick::DPAD_N)){
 		setIntake(-.5);
@@ -89,6 +117,11 @@ void HopperSubsystem::teleop(){
 	if(Robot->operatorJoystick.getButton(COREJoystick::DPAD_S)){
 		setIntake(.5);
 	}
+	double intakeVal = -Robot->operatorJoystick.getAxis(COREJoystick::RIGHT_STICK_Y);
+	if(fabs(intakeVal) > .05){
+		setIntake(intakeVal);
+	}
+
 //	double liftSpeed = m_liftPID.calculate();
 //    if(liftSpeed > 0 && (liftSpeed > m_liftRaiseVel.Get())) {
 //        liftSpeed = m_liftRaiseVel.Get();
@@ -170,7 +203,7 @@ IntakeController::IntakeController() : CORETask(){
 }
 
 void IntakeController::postLoopTask() {
-	if(Robot->operatorJoystick.getButton(COREJoystick::DPAD_N) || Robot->operatorJoystick.getButton(COREJoystick::DPAD_S)){
+	if((Robot->operatorJoystick.getButton(COREJoystick::DPAD_N) || Robot->operatorJoystick.getButton(COREJoystick::DPAD_S)) || fabs(Robot->operatorJoystick.getAxis(COREJoystick::RIGHT_STICK_Y)) > .05){
 		return;
 	}
 	double pow = Robot->driveSubsystem.getForwardPower();

@@ -6,6 +6,7 @@ LoadGearOntoPegAction::LoadGearOntoPegAction(){
 }
 
 void LoadGearOntoPegAction::actionInit(){
+	std::cout << "Punch Out" << std::endl;
 	Robot->gearSubsystem.punchOut();
 }
 

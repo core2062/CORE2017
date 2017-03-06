@@ -53,6 +53,7 @@ void DriveSubsystem::teleopInit() {
 
 
 void DriveSubsystem::teleop(){
+	initTalons();
 	COREVariableControlledSubsystem::teleop();
 }
 /*

@@ -39,7 +39,7 @@ void Aergia::autonInit() {
 		driveSubsystem.setPos(Position2d(Translation2d(0,162 * CORERobot::getAlliance()), Rotation2d(driveSubsystem.getGyroAngle())));
 		break;
 	case (StartingPosition::FEEDER):
-		driveSubsystem.setPos(Position2d(Translation2d(0,162 * CORERobot::getAlliance()), Rotation2d(driveSubsystem.getGyroAngle())));
+		driveSubsystem.setPos(Position2d(Translation2d(0,105 * CORERobot::getAlliance()), Rotation2d(driveSubsystem.getGyroAngle())));
 		break;
 	}
 //	driveSubsystem.resetYaw();

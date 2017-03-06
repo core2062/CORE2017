@@ -6,12 +6,12 @@ GearFlapAction::GearFlapAction(ActuationType actuationType) {
 	m_actuationType = actuationType;
 }
 void GearFlapAction::actionInit() {
-	Robot->gearSubsystem.closeFlap();
 }
 COREAutonAction::actionStatus GearFlapAction::action() {
 	//TODO: Have arguments for opening, closing and toggle
 	switch(m_actuationType){
 	case ActuationType::OPEN:
+		std::cout << "Open Flap" << std::endl;
 		Robot->gearSubsystem.openFlap();
 		break;
 	case ActuationType::CLOSE:

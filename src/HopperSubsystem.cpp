@@ -112,7 +112,6 @@ void HopperSubsystem::teleop(){
 
 	if(Robot->operatorJoystick.getButton(COREJoystick::DPAD_N)){
 		setIntake(-.5);
-		std::cout << "N" << std::endl;
 	}
 	if(Robot->operatorJoystick.getButton(COREJoystick::DPAD_S)){
 		setIntake(.5);
@@ -203,8 +202,6 @@ IntakeController::IntakeController() : CORETask(){
 }
 
 void IntakeController::postLoopTask() {
-
-	std::cout<< "Lift Speed: " << Robot->hopperSubsystem.getLiftSpeed()<< std::endl;
 
 	if((Robot->operatorJoystick.getButton(COREJoystick::DPAD_N) || Robot->operatorJoystick.getButton(COREJoystick::DPAD_S)) || fabs(Robot->operatorJoystick.getAxis(COREJoystick::RIGHT_STICK_Y)) > .05){
 		return;

@@ -187,9 +187,9 @@ bool HopperSubsystem::intakeIsOn() {
 }
 
 double HopperSubsystem::getLiftSpeed() {
+	return Robot->climberSubsystem.getLiftEncoderMotor()->GetSpeed();
 	//return m_liftMotor.CANTalonController->GetSpeed();
-	return false;
-	//TODO Fill this in
+
 }
 
 double HopperSubsystem::getLiftEncoder() {
@@ -203,9 +203,18 @@ IntakeController::IntakeController() : CORETask(){
 }
 
 void IntakeController::postLoopTask() {
+
+	std::cout<< "Lift Speed: " << Robot->hopperSubsystem.getLiftSpeed()<< std::endl;
+
 	if((Robot->operatorJoystick.getButton(COREJoystick::DPAD_N) || Robot->operatorJoystick.getButton(COREJoystick::DPAD_S)) || fabs(Robot->operatorJoystick.getAxis(COREJoystick::RIGHT_STICK_Y)) > .05){
 		return;
 	}
+
+	if(Robot->hopperSubsystem.getLiftSpeed()>0){
+		Robot->hopperSubsystem.setIntake(0.5);
+		return;
+	}
+
 	double pow = Robot->driveSubsystem.getForwardPower();
 	if(pow > 0){
 //		if(Robot->hopperSubsystem.hopperIsDown()){

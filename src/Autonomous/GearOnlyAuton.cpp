@@ -6,9 +6,9 @@ using namespace CORE;
 
 GearOnlyAuton::GearOnlyAuton(StartingPosition startingPosition) :
 		COREAuton("Gear Only", &m_driveToPeg, true),
-		m_driveToPeg(new DriveWaypointAction(getPathFor(startingPosition))),
+		m_driveToPeg(new DriveWaypointAction(PathLoader::loadPath("gearAuton.csv", -2.0), true)),
 		m_loadGearOnPeg(new LoadGearOntoPegAction()),
-		m_reverseDrive(new DriveWaypointAction(new Path({{{162, 90}, 25}, {{162,60}, 25}}))){
+		m_reverseDrive(new DriveWaypointAction(new Path({{{-48, 162+48}, 25}, {{-24,162+48}, 75}}))){
 
 }
 

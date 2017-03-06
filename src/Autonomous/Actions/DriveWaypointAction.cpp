@@ -18,6 +18,7 @@ DriveWaypointAction::actionStatus DriveWaypointAction::action() {
 	if(!Robot->driveSubsystem.pathDone()){
 		return actionStatus::CONTINUE;
 	}
+	std::cout << "Waypoint Action Done" << std::endl;
 	return actionStatus::END;
 }
 

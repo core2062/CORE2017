@@ -33,15 +33,16 @@ void Aergia::autonInit() {
 	StartingPosition * pos = m_positionChooser.GetSelected();
 	switch(*pos){
 	case (StartingPosition::BOILER):
-		driveSubsystem.setPos(Position2d(Translation2d(162,0), Rotation2d()));
+		driveSubsystem.setPos(Position2d(Translation2d(0,162 * CORERobot::getAlliance()), Rotation2d(driveSubsystem.getGyroAngle())));
 		break;
 	case (StartingPosition::CENTER):
-		driveSubsystem.setPos(Position2d(Translation2d(162,0), Rotation2d()));
+		driveSubsystem.setPos(Position2d(Translation2d(0,162 * CORERobot::getAlliance()), Rotation2d(driveSubsystem.getGyroAngle())));
 		break;
 	case (StartingPosition::FEEDER):
-		driveSubsystem.setPos(Position2d(Translation2d(162,0), Rotation2d()));
+		driveSubsystem.setPos(Position2d(Translation2d(0,162 * CORERobot::getAlliance()), Rotation2d(driveSubsystem.getGyroAngle())));
 		break;
 	}
+//	driveSubsystem.resetYaw();
 }
 
 void Aergia::teleopInit() {
@@ -60,6 +61,7 @@ void Aergia::teleop(){
 
 void Aergia::test(){
 	//Lift Test Code
+	driveSubsystem.resetYaw();
 		double liftVal = 0.0;
 		if(operatorJoystick.getButton(CORE::COREJoystick::JoystickButton::DPAD_N)){
 			liftVal += .25;

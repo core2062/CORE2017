@@ -153,8 +153,8 @@ void HopperSubsystem::openFlap(){
 }
 
 void HopperSubsystem::closeFlap(){
-	m_rightDumpFlapServo.Set(1);
-	m_leftDumpFlapServo.Set(0);
+	m_rightDumpFlapServo.Set(.6);
+	m_leftDumpFlapServo.Set(.4);
 }
 
 bool HopperSubsystem::hopperIsUp(){

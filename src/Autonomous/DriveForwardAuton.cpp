@@ -15,7 +15,8 @@ DriveForwardAuton::DriveForwardAuton(double speedInFraction, double distanceInFe
 }
 
 void DriveForwardAuton::addNodes() {
-	m_moveForwardToLine = new Node(new DriveWaypointAction(PathLoader::loadPath("driveForward.csv", -1.0), true));
+	m_moveForwardToLine = new Node(new DriveWaypointAction(PathLoader::loadPath("driveForward.csv", 1.0), true));
 	m_spinInCircles = new Node(new GearFlapAction(ActuationType::OPEN));
+	addFirstNode(m_moveForwardToLine);
 	m_moveForwardToLine->addNext(m_spinInCircles);
 }

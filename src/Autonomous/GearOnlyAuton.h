@@ -14,7 +14,9 @@ private:
 	static Path * getPathFor(StartingPosition startingPosition);
 	Path * getForwardPath(StartingPosition startingPosition);
 	Path * getReversePath(StartingPosition startingPosition);
-	Node m_driveToPeg, m_loadGearOnPeg, m_reverseDrive;
+	Node * m_driveToPeg = nullptr;
+	Node * m_loadGearOnPeg = nullptr;
+	Node * m_reverseDrive = nullptr;
 };
 
 

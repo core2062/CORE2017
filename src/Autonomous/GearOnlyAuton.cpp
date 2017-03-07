@@ -5,18 +5,16 @@
 using namespace CORE;
 
 GearOnlyAuton::GearOnlyAuton(StartingPosition startingPosition) :
-		COREAuton("Gear Only", &m_driveToPeg, true),
-		m_driveToPeg(nullptr),
-		m_loadGearOnPeg(new LoadGearOntoPegAction()),
-		m_reverseDrive(nullptr){
-
-}
+		COREAuton("Gear Only", m_driveToPeg, true)
+		{}
 
 void GearOnlyAuton::addNodes() {
-m_driveToPeg.addAction(new DriveWaypointAction(getForwardPath(Robot->getStartingPosition()), true));
-m_driveToPeg.addNext(&m_loadGearOnPeg);
-m_reverseDrive.addAction(new DriveWaypointAction(getReversePath(Robot->getStartingPosition())));
-m_loadGearOnPeg.addNext(&m_reverseDrive);
+	m_driveToPeg = new Node(new DriveWaypointAction(getForwardPath(Robot->getStartingPosition()), true));
+	m_loadGearOnPeg = new Node(new LoadGearOntoPegAction());
+	m_reverseDrive = new Node(new DriveWaypointAction(getReversePath(Robot->getStartingPosition())));
+	addFirstNode(m_driveToPeg);
+	m_driveToPeg->addNext(m_loadGearOnPeg);
+	m_loadGearOnPeg->addNext(m_reverseDrive);
 }
 
 Path * GearOnlyAuton::getPathFor(StartingPosition startingPosition) {
@@ -26,13 +24,13 @@ Path * GearOnlyAuton::getPathFor(StartingPosition startingPosition) {
 Path* GearOnlyAuton::getForwardPath(StartingPosition startingPosition) {
 	switch(startingPosition){
 	case StartingPosition::BOILER:
-		return PathLoader::loadPath("gearAuton_forward_boiler.csv", -1.0, (CORERobot::getAlliance() == RED));
+		return PathLoader::loadPath("gearAuton_forward_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
 		break;
 	case StartingPosition::FEEDER:
-		return PathLoader::loadPath("gearAuton_forward_feeder.csv", -1.0, (CORERobot::getAlliance() == RED));
+		return PathLoader::loadPath("gearAuton_forward_feeder.csv", 1.0, (CORERobot::getAlliance() == RED));
 		break;
 	default:
-		return PathLoader::loadPath("gearAuton_forward_center.csv", -1.0, (CORERobot::getAlliance() == RED));
+		return PathLoader::loadPath("gearAuton_forward_center.csv", 1.0, (CORERobot::getAlliance() == RED));
 		break;
 	}
 }

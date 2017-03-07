@@ -34,6 +34,7 @@ private:
     COREConstant<double> m_liftBottomPos, m_liftTopPos, m_liftRaiseVel, m_liftLowerVel, m_liftTolerance, m_flapTopPos, m_flapBottomPos, m_intakeSpeed,
 			m_liftPID_P, m_liftPID_I, m_liftPID_D, m_liftPID_Pa, m_liftPID_Ia, m_liftPID_Da;
 //    COREPID m_liftPID;
+    AnalogInput m_stringPot;
 
 //    DigitalInput m_bottomLimit;
 //    DigitalInput m_topLimit;
@@ -41,7 +42,7 @@ private:
     bool m_flapIsOpen;
 
     struct PID{
-    	int setPoint = 0.0;
+    	double setPoint = 0.0;
 
     	double PPos = 0.0;
     	double IPos = 0.0;
@@ -58,7 +59,7 @@ private:
     	double deltaTime = 0.0;
     	double lastTime = 0.0;
 
-    	void start(int setpoint = 0){
+    	void start(double setpoint = 0){
     		if(setpoint != setPoint){
     			integralTimer.Reset();
     			integralTimer.Start();

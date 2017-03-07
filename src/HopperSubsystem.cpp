@@ -8,8 +8,8 @@ HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
 									 m_intakeMotor(INTAKE_MOTOR_PORT, VICTOR),
 									 m_leftDumpFlapServo(LEFT_DUMP_FLAP_SERVO_CHANNEL),
 									 m_rightDumpFlapServo(RIGHT_DUMP_FLAP_SERVO_CHANNEL),
-									 m_liftBottomPos("Lift Bottom Position", 100),
-									 m_liftTopPos("Lift Top Position", 1000000),
+									 m_liftBottomPos("Lift Bottom Position", 1.0),
+									 m_liftTopPos("Lift Top Position", 3.0),
 									 m_liftRaiseVel("Lift Raise Velocity", 0.25),
 									 m_liftLowerVel("Lift Lower Velocity", 0.75),
 									 m_liftTolerance("Lift Position Tolerance", -1.0),
@@ -22,11 +22,10 @@ HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
 									 m_liftPID_Pa("Lift PID Down P Value", 0),
 									 m_liftPID_Ia("Lift PID Down I Value", 0),
 									 m_liftPID_Da("Lift PID Down D Value", 0),
+									 m_stringPot(0),
 //									 m_bottomLimit(LIFT_BOTTOM_LIMIT_SWITCH_PORT),
 //									 m_topLimit(LIFT_TOP_LIMIT_SWITCH_PORT),
-//									 m_liftPID(POS, m_liftPID_P.Get(), m_liftPID_I.Get(), m_liftPID_P.Get()),
 									 m_flapIsOpen(false) {
-	//m_liftMotor.getCANTalon()->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
 }
 
 void HopperSubsystem::robotInit(){
@@ -48,8 +47,6 @@ void HopperSubsystem::teleopInit(){
 	m_liftPID.PNeg = m_liftPID_Pa.Get();
 	m_liftPID.INeg = m_liftPID_Ia.Get();
 	m_liftPID.DNeg = m_liftPID_Da.Get();
-
-	m_liftPID.start(m_liftBottomPos.Get());
 }
 
 void HopperSubsystem::teleop(){
@@ -67,46 +64,19 @@ void HopperSubsystem::teleop(){
 	}
 
 	double liftVal = -Robot->operatorJoystick.getAxis(COREJoystick::LEFT_STICK_Y);
-	double liftEnc = Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition();
 	if(fabs(liftVal) > .05){
-//		setLift(liftVal);
-		m_liftPID.start(Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition());
+		m_liftPID.start(m_stringPot.GetValue());
 	} else {
 		if (Robot->operatorJoystick.getButton(COREJoystick::A_BUTTON)){
-//			setLiftBottom();
-//			liftVal = m_liftPID.calculate(Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition());
-//			setLift(liftVal);
-			double error = abs(liftEnc - m_liftBottomPos.Get());
-			liftVal = -1.0;
-			if(error < 30000){
-				liftVal*=.5;
-			}
-			if(error < 15000){
-				liftVal*=.5;
-			}
+			setLiftBottom();
+			liftVal = m_liftPID.calculate(m_stringPot.GetValue());
 		} else if (Robot->operatorJoystick.getButton(COREJoystick::Y_BUTTON)){
-//			setLiftTop();
-//			liftVal = m_liftPID.calculate(Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition());
-//			setLift(liftVal);
-			double error = abs(liftEnc - m_liftTopPos.Get());
-			liftVal = 1.0;
-			if(error < 30000){
-				liftVal*=.5;
-			}
-			if(error < 15000){
-				liftVal*=.5;
-			}
+			setLiftTop();
+			liftVal = m_liftPID.calculate(m_stringPot.GetValue());
 		} else {
 			liftVal = 0;
-//			setLift(0.0);
 		}
 	}
-
-//	if(liftVal > 0 && m_topLimit.Get()){
-//		liftVal = 0.0;
-//	} else if (liftVal < 0 && m_bottomLimit.Get()){
-//		liftVal = 0.0;
-//	}
 	setLift(liftVal);
 
 
@@ -121,13 +91,6 @@ void HopperSubsystem::teleop(){
 		setIntake(intakeVal);
 	}
 
-//	double liftSpeed = m_liftPID.calculate();
-//    if(liftSpeed > 0 && (liftSpeed > m_liftRaiseVel.Get())) {
-//        liftSpeed = m_liftRaiseVel.Get();
-//    } else if (liftSpeed < 0 && (-liftSpeed > m_liftLowerVel.Get())) {
-//        liftSpeed = -m_liftLowerVel.Get();
-//    }
-//    m_liftMotor.Set(liftSpeed);
 }
 
 void HopperSubsystem::setLiftTop(){

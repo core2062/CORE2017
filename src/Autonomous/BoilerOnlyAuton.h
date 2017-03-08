@@ -12,9 +12,10 @@ public:
 
 private:
 	static Path * getPathFor(StartingPosition startingPosition);
-	Node m_driveToBoiler, m_dumpBallsInBoiler;
-	Node m_resetHopper;
-	Node m_shimmyHopper;
+	Node * m_driveToBoiler;
+	Node * m_dumpBallsInBoiler;
+	Node * m_resetHopper;
+	Node * m_shimmyHopper;
 	COREConstant<double> m_shimmyScale;
 };
 

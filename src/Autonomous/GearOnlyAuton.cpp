@@ -5,13 +5,13 @@
 using namespace CORE;
 
 GearOnlyAuton::GearOnlyAuton(StartingPosition startingPosition) :
-		COREAuton("Gear Only", m_driveToPeg, true)
+		COREAuton("Gear Only", 0.0)
 		{}
 
 void GearOnlyAuton::addNodes() {
-	m_driveToPeg = new Node(new DriveWaypointAction(getForwardPath(Robot->getStartingPosition()), true));
-	m_loadGearOnPeg = new Node(new LoadGearOntoPegAction());
-	m_reverseDrive = new Node(new DriveWaypointAction(getReversePath(Robot->getStartingPosition())));
+	m_driveToPeg = new Node(5, new DriveWaypointAction(getForwardPath(Robot->getStartingPosition()), true));
+	m_loadGearOnPeg = new Node(15, new LoadGearOntoPegAction());
+	m_reverseDrive = new Node(15, new DriveWaypointAction(getReversePath(Robot->getStartingPosition())));
 	addFirstNode(m_driveToPeg);
 	m_driveToPeg->addNext(m_loadGearOnPeg);
 	m_loadGearOnPeg->addNext(m_reverseDrive);

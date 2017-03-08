@@ -14,11 +14,11 @@ private:
 	static Path * getPathForPeg(StartingPosition startingPosition);
 	static Path * backupFromPeg();
 	static Path * driveToHopper();
-	Node m_driveToPeg,
-	m_loadGearOnPeg,
-	m_backupFromPeg,
-	m_driveToHopper,
-	m_loadHopper;
+	Node * m_driveToPeg;
+	Node * m_loadGearOnPeg;
+	Node * m_backupFromPeg;
+	Node * m_driveToHopper;
+	Node * m_loadHopper;
 };
 
 

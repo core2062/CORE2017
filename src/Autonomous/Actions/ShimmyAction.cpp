@@ -2,7 +2,7 @@
 #include "Math.h"
 #include "Robot.h"
 
-ShimmyAction::ShimmyAction(double numberOfSeconds, double severityOfShimmy):m_shimmyTimer(){
+ShimmyAction::ShimmyAction(double numberOfSeconds, double severityOfShimmy):m_shimmyTimer(), m_shimmyPeriod(){
 	m_numberOfSeconds = numberOfSeconds;
 	m_severityOfShimmy = severityOfShimmy;
 }

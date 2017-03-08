@@ -3,7 +3,7 @@
 
 
 DoNothingAuton::DoNothingAuton() :
-	COREAuton("Do Nothing Auton", nullptr, true){
+	COREAuton("Do Nothing Auton", 0.0){
 
 }
 

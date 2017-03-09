@@ -44,8 +44,8 @@ public:
 
 	void setPos(Position2d pos);
 
-    COREConstant<double>driveScrub;
-    COREConstant<double>driveTurnProportional;
+    COREConstant<double> driveScrub;
+    COREConstant<double> driveTurnProportional;
 private:
     COREConstant<double> m_etherAValue, m_etherBValue, m_etherQuickTurnValue, m_ticksPerInch;
     COREMotor m_leftMaster, m_rightMaster, m_leftSlave, m_rightSlave;

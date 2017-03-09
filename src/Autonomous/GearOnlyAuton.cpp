@@ -5,20 +5,16 @@
 using namespace CORE;
 
 GearOnlyAuton::GearOnlyAuton(StartingPosition startingPosition) :
-		COREAuton("Gear Only", 0.0)
-		{}
+		COREAuton("Gear Only", 0.0){
 
+}
 void GearOnlyAuton::addNodes() {
-	m_driveToPeg = new Node(5, new DriveWaypointAction(getForwardPath(Robot->getStartingPosition()), true));
+	m_driveToPeg = new Node(15, new DriveWaypointAction(getForwardPath(Robot->getStartingPosition()), true));
 	m_loadGearOnPeg = new Node(15, new LoadGearOntoPegAction());
 	m_reverseDrive = new Node(15, new DriveWaypointAction(getReversePath(Robot->getStartingPosition())));
 	addFirstNode(m_driveToPeg);
 	m_driveToPeg->addNext(m_loadGearOnPeg);
 	m_loadGearOnPeg->addNext(m_reverseDrive);
-}
-
-Path * GearOnlyAuton::getPathFor(StartingPosition startingPosition) {
-	return new Path({{{162,0},25}, {{162,90},25}});
 }
 
 Path* GearOnlyAuton::getForwardPath(StartingPosition startingPosition) {

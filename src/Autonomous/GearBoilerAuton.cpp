@@ -1,37 +1,47 @@
-//#include "GearBoilerAuton.h"
-//#include "Actions.h"
-//#include "Robot.h"
-//
-//GearBoilerAuton::GearBoilerAuton() :
-//		COREAuton("Gear and Boiler Auton", &m_driveToPeg, true),
-//		m_driveToPeg(new DriveWaypointAction(getPathForPeg(Robot->getStartingPosition()))),
-//		m_loadGearOnPeg(new LoadGearOntoPegAction()),
-//		m_backupFromPeg(new DriveWaypointAction(backupFromPeg())),
-//		m_driveToBoiler(new DriveWaypointAction(getPathForBoiler())),
-//		m_dumpBallsInBoiler(new DumpBallsAction(false)),
-//		m_shimmyHopper(new ShimmyAction(0.0, 0.0)),
-//		m_resetHopper(new DumpBallsAction(true)){
-//
-//
-//}
-//
-//void GearBoilerAuton::addNodes() {
-//	m_driveToPeg.addNext(&m_loadGearOnPeg);
-//	m_loadGearOnPeg.addNext(&m_backupFromPeg);
-//	m_backupFromPeg.addNext(&m_driveToBoiler);
-//	m_driveToBoiler.addNext(&m_dumpBallsInBoiler);
-//	m_dumpBallsInBoiler.addNext(&m_shimmyHopper);
-//	m_shimmyHopper.addNext(&m_resetHopper);
-//}
-//
-//Path* GearBoilerAuton::getPathForPeg(StartingPosition startingPosition) {
-//	return new Path({{{0,0},0}, {{1,1},1}});
-//		//TODO: Replace with code that reads the path from the csv file
-//}
-//
-//Path* GearBoilerAuton::backupFromPeg() {
-//	return new Path({{{0,0},0}, {{1,1},1}});
-//}
-//
-//Path* GearBoilerAuton::getPathForBoiler(StartingPosition startingPosition) {
-//}
+#include "GearBoilerAuton.h"
+#include "Actions.h"
+#include "Robot.h"
+
+GearBoilerAuton::GearBoilerAuton(StartingPosition startingPosition) :
+		COREAuton("Gear and Boiler Auton", 0.0){
+
+
+}
+
+void GearBoilerAuton::addNodes() {
+
+	m_driveToPeg = new Node(15, new DriveWaypointAction(getForwardPath(Robot->getStartingPosition()), true));
+	m_loadGearOnPeg = new Node(15, new LoadGearOntoPegAction());
+	m_driveToBoiler = new Node(15, new DriveWaypointAction(getPathForBoiler(Robot->getStartingPosition())), false);
+	m_dumpBallsInBoiler = new Node(15, new DumpBallsAction(false));
+	m_shimmyHopper = new Node(15, new ShimmyAction(0.0, 0.0));
+
+	addFirstNode(m_driveToPeg);
+	m_driveToPeg->addNext(m_loadGearOnPeg);
+	m_loadGearOnPeg->addNext(m_driveToBoiler);
+	m_driveToBoiler->addNext(m_dumpBallsInBoiler);
+	m_dumpBallsInBoiler->addNext(m_shimmyHopper);
+	m_shimmyHopper->addNext(m_resetHopper);
+}
+
+Path * GearBoilerAuton::getForwardPath(StartingPosition startingPosition){
+	switch(startingPosition){
+	case StartingPosition::BOILER:
+		return PathLoader::loadPath("gearBoilerAuton_forward_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
+		break;
+	default:
+		PathLoader::loadPath("gearBoilerAuton_forward_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
+		break;
+	}
+}
+Path* GearBoilerAuton::getPathForBoiler(StartingPosition startingPosition) {
+	switch(startingPosition){
+	case StartingPosition::BOILER:
+		return PathLoader::loadPath("gearBoilerAuton_reverse_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
+		break;
+	default:
+		return PathLoader::loadPath("gearBoilerAuton_reverse_center.csv", 1.0, (CORERobot::getAlliance() == RED));
+		break;
+	}
+}
+

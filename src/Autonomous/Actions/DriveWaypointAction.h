@@ -6,7 +6,7 @@
 
 class DriveWaypointAction : public CORE::COREAutonAction {
 public:
-	DriveWaypointAction(Path* path, bool reversed = false, double tolerance = .25, double maxAccel = 80.0);
+	DriveWaypointAction(Path* path, bool reversed = false, double tolerance = .25, double maxAccel = 200.0);
     void actionInit() override;
     actionStatus action() override;
     void actionEnd() override;

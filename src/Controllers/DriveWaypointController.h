@@ -6,7 +6,7 @@
 class DriveWaypointController : public COREController{
 private:
 	Path m_path;
-	TankTracker m_tracker;
+	TankTracker * m_tracker;
 	AdaptivePursuit m_pursuit;
 
 public:

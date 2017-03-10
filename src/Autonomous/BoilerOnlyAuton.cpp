@@ -1,7 +1,7 @@
 #include "Robot.h"
 #include "BoilerOnlyAuton.h"
 #include "Actions.h"
-
+#include "AutonPaths.h"
 using namespace CORE;
 
 BoilerOnlyAuton::BoilerOnlyAuton() :
@@ -22,6 +22,5 @@ void BoilerOnlyAuton::addNodes() {
 }
 
 Path * BoilerOnlyAuton::getPathFor(StartingPosition startingPosition) {
-	return new Path({{{0,0},0}, {{1,1},1}});
-	//TODO: Replace with code that reads the path from the csv file
+	PathLoader::loadPath("BoilerOnlyAuton_reverse_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
 }

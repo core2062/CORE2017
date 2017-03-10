@@ -11,7 +11,7 @@ public:
 	GearOnlyAuton(StartingPosition startingPosition);
 	void addNodes() override;
 private:
-	static Path * getForwardPath(StartingPosition startingPosition);
+	static Path * getForwardPegPath(StartingPosition startingPosition);
 	static Path * getReversePath(StartingPosition startingPosition);
 	Node * m_driveToPeg = nullptr;
 	Node * m_loadGearOnPeg = nullptr;

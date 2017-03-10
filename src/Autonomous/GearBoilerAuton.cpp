@@ -1,6 +1,7 @@
 #include "GearBoilerAuton.h"
 #include "Actions.h"
 #include "Robot.h"
+#include "AutonPaths.h"
 
 GearBoilerAuton::GearBoilerAuton(StartingPosition startingPosition) :
 		COREAuton("Gear and Boiler Auton", 0.0){
@@ -30,7 +31,8 @@ Path * GearBoilerAuton::getForwardPath(StartingPosition startingPosition){
 		return PathLoader::loadPath("gearBoilerAuton_forward_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
 		break;
 	default:
-		PathLoader::loadPath("gearBoilerAuton_forward_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
+		//return AutonPaths::getForwardPegPath();
+		return PathLoader::loadPath("gearAuton_forward_center.csv", 1.0, (CORERobot::getAlliance() == RED));
 		break;
 	}
 }
@@ -40,7 +42,8 @@ Path* GearBoilerAuton::getPathForBoiler(StartingPosition startingPosition) {
 		return PathLoader::loadPath("gearBoilerAuton_reverse_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
 		break;
 	default:
-		return PathLoader::loadPath("gearBoilerAuton_reverse_center.csv", 1.0, (CORERobot::getAlliance() == RED));
+		//return AutonPaths::getForwardBoilerPath();
+		return PathLoader::loadPath("gearAuton_forward_center.csv", 1.0, (CORERobot::getAlliance() == RED));
 		break;
 	}
 }

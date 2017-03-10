@@ -1,5 +1,6 @@
 #include "DoNothingAuton.h"
 #include "Robot.h"
+#include "AutonPaths.h"
 
 
 DoNothingAuton::DoNothingAuton() :

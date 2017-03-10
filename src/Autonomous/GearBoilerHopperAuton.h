@@ -5,16 +5,16 @@
 
 using namespace CORE;
 
-class GearBoilerHopper : public COREAuton{
+class GearBoilerHopperAuton : public COREAuton{
 public:
-	GearBoilerHopper(StartingPosition startingPosition);
+	GearBoilerHopperAuton(StartingPosition startingPosition);
 	void addNodes() override;
 private:
-	static Path * getPathForPeg(int startingPosition);
-	static Path * backupFromPeg();
-	static Path * driveToBoiler();
-	static Path * backupFromBoiler();
-	static Path * driveToHopper();
+	static Path * getPathForPeg(StartingPosition startingPosition);
+	static Path * backupFromPeg(StartingPosition startingPosition);
+	static Path * driveToBoiler(StartingPosition startingPosition);
+	static Path * backupFromBoiler(StartingPosition startingPosition);
+	static Path * driveToHopper(StartingPosition startingPosition);
 
 	Node * m_driveToPeg;
 	Node * m_loadGearOnPeg;

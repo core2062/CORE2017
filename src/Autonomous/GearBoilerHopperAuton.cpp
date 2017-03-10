@@ -1,14 +1,15 @@
 #include "Actions.h"
 #include "Robot.h"
-#include <Autonomous/GearBoilerHopper.h>
+#include <Autonomous/GearBoilerHopperAuton.h>
+#include "AutonPaths.h"
 
-GearBoilerHopper::GearBoilerHopper(StartingPosition startingPosition) :
+GearBoilerHopperAuton::GearBoilerHopperAuton(StartingPosition startingPosition) :
 	COREAuton("Gear and Hopper Auton", 0.0){
 
 
 }
 
-void GearBoilerHopper::addNodes() {
+void GearBoilerHopperAuton::addNodes() {
 	m_driveToPeg = new Node(15, new DriveWaypointAction(PathLoader::loadPath("drivetopeg.csv", 1.0, true, true)));
 	m_loadGearOnPeg = new Node(15, new LoadGearOntoPegAction());
 	m_backupFromPeg = new Node(15, new DriveWaypointAction(PathLoader::loadPath("backupfrompeg.csv", 1.0, true, true)));
@@ -31,22 +32,76 @@ void GearBoilerHopper::addNodes() {
 
 }
 
-Path* GearBoilerHopper::getPathForPeg(int startingPosition) {
-	return new Path({{{0,0},0}, {{1,1},1}});
+Path* GearBoilerHopperAuton::getPathForPeg(StartingPosition startingPosition) {
+	switch(startingPosition){
+		case StartingPosition::BOILER:
+			return PathLoader::loadPath("gearBoilerAuton_driveToPeg_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
+			break;
+		case StartingPosition::FEEDER:
+			return PathLoader::loadPath("gearBoilerAuton_driveToPeg_feeder.csv", 1.0, (CORERobot::getAlliance() == RED));
+			break;
+		default:
+			return PathLoader::loadPath("gearAuton_forward_center.csv", 1.0, (CORERobot::getAlliance() == RED));
+			//return AutonPaths::getForwardPegPath();
+			break;
+	}
 }
 
-Path* GearBoilerHopper::backupFromPeg() {
-	return new Path({{{0,0},0}, {{1,1},1}});
+Path* GearBoilerHopperAuton::backupFromPeg(StartingPosition startingPosition) {
+	switch(startingPosition){
+		case StartingPosition::BOILER:
+			return PathLoader::loadPath("gearBoilerAuton_backupFromPeg_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
+			break;
+		case StartingPosition::FEEDER:
+			return PathLoader::loadPath("gearBoilerAuton_backupFromPeg_feeder.csv", 1.0, (CORERobot::getAlliance() == RED));
+			break;
+		default:
+			return PathLoader::loadPath("gearAuton_forward_center.csv", 1.0, (CORERobot::getAlliance() == RED));
+			//return AutonPaths::getReversePegPath();
+			break;
+	}
 }
 
-Path* GearBoilerHopper::driveToBoiler() {
-	return new Path({{{0,0},0}, {{1,1},1}});
+Path * GearBoilerHopperAuton::driveToBoiler(StartingPosition startingPosition) {
+	switch(startingPosition){
+		case StartingPosition::BOILER:
+			return PathLoader::loadPath("gearBoilerAuton_driveToBoiler_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
+			break;
+		case StartingPosition::FEEDER:
+			return PathLoader::loadPath("gearBoilerAuton_driveToBoiler_feeder.csv", 1.0, (CORERobot::getAlliance() == RED));
+			break;
+		default:
+			//return AutonPaths::getForwardBoilerPath();
+			return PathLoader::loadPath("gearAuton_forward_center.csv", 1.0, (CORERobot::getAlliance() == RED));
+			break;
+	}
 }
 
-Path* GearBoilerHopper::backupFromBoiler() {
-	return new Path({{{0,0},0}, {{1,1},1}});
+Path* GearBoilerHopperAuton::backupFromBoiler(StartingPosition startingPosition) {
+	switch(startingPosition){
+		case StartingPosition::BOILER:
+			return PathLoader::loadPath("gearBoilerAuton_backupFromBoiler_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
+			break;
+		case StartingPosition::FEEDER:
+			return PathLoader::loadPath("gearBoilerAuton_backupFromBoiler_feeder.csv", 1.0, (CORERobot::getAlliance() == RED));
+			break;
+		default:
+			//return AutonPaths::getReverseBoilerPath();
+			return PathLoader::loadPath("gearAuton_forward_center.csv", 1.0, (CORERobot::getAlliance() == RED));
+			break;
+	}
 }
 
-Path* GearBoilerHopper::driveToHopper() {
-	return new Path({{{0,0},0}, {{1,1},1}});
+Path* GearBoilerHopperAuton::driveToHopper(StartingPosition startingPosition) {
+	switch(startingPosition){
+		case StartingPosition::BOILER:
+			return PathLoader::loadPath("gearBoilerAuton_driveToHopper_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
+			break;
+		case StartingPosition::FEEDER:
+			return PathLoader::loadPath("gearBoilerAuton_driveToHopper_feeder.csv", 1.0, (CORERobot::getAlliance() == RED));
+			break;
+		default:
+			//return AutonPaths::getForwardHopperPath();
+			return PathLoader::loadPath("gearAuton_forward_center.csv", 1.0, (CORERobot::getAlliance() == RED));
+	}
 }

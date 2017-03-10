@@ -86,8 +86,8 @@ Path* GearBoilerHopperAuton::backupFromBoiler(StartingPosition startingPosition)
 			return PathLoader::loadPath("gearBoilerAuton_backupFromBoiler_feeder.csv", 1.0, (CORERobot::getAlliance() == RED));
 			break;
 		default:
-			//return AutonPaths::getReverseBoilerPath();
-			return PathLoader::loadPath("gearAuton_forward_center.csv", 1.0, (CORERobot::getAlliance() == RED));
+			return AutonPaths::getReverseBoilerPath();
+			//return PathLoader::loadPath("gearAuton_forward_center.csv", 1.0, (CORERobot::getAlliance() == RED));
 			break;
 	}
 }

@@ -31,7 +31,7 @@ private:
     COREMotor m_liftMotor, m_intakeMotor;
     //COREMotionProfile* m_liftController;
     Servo m_leftDumpFlapServo, m_rightDumpFlapServo;
-    COREConstant<double> m_liftBottomPos, m_liftTopPos, m_liftRaiseVel, m_liftLowerVel, m_liftTolerance, m_flapTopPos, m_flapBottomPos, m_intakeSpeed,
+    COREConstant<double> m_liftBottomPos, m_liftTopPos, m_liftRaiseVel, m_liftLowerVel, m_liftTolerance, m_intakeSpeed,
 			m_liftPID_P, m_liftPID_I, m_liftPID_D, m_liftPID_Pa, m_liftPID_Ia, m_liftPID_Da;
 //    COREPID m_liftPID;
     AnalogInput m_stringPot;
@@ -90,11 +90,11 @@ private:
     	}
 
     	double calculate(int position){
-    		error = position - setPoint;
+    		error = setPoint - position;
     		totalError += error;
 
     		double p, i, d;
-    		if(error <= 0){
+    		if(error >= 0){
     			p = error * PPos;
     			i = integral() * IPos;
     			d = derivative() * DPos;

@@ -6,9 +6,9 @@ using namespace CORE;
 DriveSubsystem::DriveSubsystem() : COREVariableControlledSubsystem("Drive Subsystem"),
 								   driveScrub("Drive Scrub", 0.15),
 								   driveTurnProportional("Drive P Value", .3),
-								   m_etherAValue("Ether A Value", .4),
-                                   m_etherBValue("Ether B Value", .6),
-								   m_etherQuickTurnValue("Ether Quick Turn Value", .5),
+								   m_etherAValue("Ether A Value", .6),
+                                   m_etherBValue("Ether B Value", .4),
+								   m_etherQuickTurnValue("Ether Quick Turn Value", 1.0),
                                    m_ticksPerInch("Ticks Per Inch", 0),
 								   m_leftMaster(FL_DRIVE_MOTOR_PORT),
 								   m_rightMaster(FR_DRIVE_MOTOR_PORT),
@@ -27,6 +27,7 @@ DriveSubsystem::DriveSubsystem() : COREVariableControlledSubsystem("Drive Subsys
 
 void DriveSubsystem::robotInit() {
     Robot->driverJoystick.registerButton(COREJoystick::LEFT_BUTTON);
+    Robot->driverJoystick.registerButton(COREJoystick::RIGHT_BUTTON);
     initTalons();
 
 	try {
@@ -49,6 +50,9 @@ void DriveSubsystem::teleopInit() {
 	setController(&m_driveTeleController);
 	m_driveTeleController.enable();
 
+	if(!m_gyro->IsConnected()) {
+		CORELog::logError("NavX not connected!");
+	}
 }
 
 
@@ -231,6 +235,9 @@ CANTalon* DriveSubsystem::getRightMaster() {
 
 AHRS* DriveSubsystem::getGyro() {
 	std::cout << "Drive Get Gyro" << std::endl;
+	if(!m_gyro->IsConnected()) {
+		CORELog::logError("NavX not connected!");
+	}
 	return m_gyro.get();
 }
 

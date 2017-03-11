@@ -33,6 +33,11 @@ void DriveOpenController::enabledLoop() {
 	double mag = -Robot->driverJoystick.getAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
 	double rot = Robot->driverJoystick.getAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_X);
 
+	if(Robot->driverJoystick.getButton(CORE::COREJoystick::RIGHT_BUTTON)){
+		mag *=.5;
+		rot *=.5;
+	}
+
 	VelocityPair speeds = COREEtherDrive::calculate(mag, rot, .1);
 	Robot->driveSubsystem.setMotorSpeed(speeds.left, speeds.right);
 }

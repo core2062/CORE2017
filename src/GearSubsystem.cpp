@@ -18,8 +18,10 @@ void GearSubsystem::robotInit() {
 }
 
 void GearSubsystem::teleopInit() {
-	m_leftFlapSolenoid.Set(DoubleSolenoid::kForward);
-	m_rightFlapSolenoid.Set(DoubleSolenoid::kForward);
+//	m_leftFlapSolenoid.Set(DoubleSolenoid::kForward);
+//	m_rightFlapSolenoid.Set(DoubleSolenoid::kForward);
+//	m_leftFlapSolenoid.Set(DoubleSolenoid::kReverse);
+//	m_rightFlapSolenoid.Set(DoubleSolenoid::kReverse);
 }
 
 void GearSubsystem::teleop(){

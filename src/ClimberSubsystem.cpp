@@ -29,9 +29,9 @@ void ClimberSubsystem::teleopInit() {
 
 void ClimberSubsystem::teleop() {
 //	std::cout << "Lift Position" << m_leftClimbMotor.getCANTalon()->GetPosition() << std::endl;;
-	double leftCurrent = m_leftClimbMotor.getCurrent();
-	double rightCurrent = m_rightClimbMotor.getCurrent();
-	double currentLimit = m_climbMotorCurrentLimit.Get();
+//	double leftCurrent = m_leftClimbMotor.getCurrent();
+//	double rightCurrent = m_rightClimbMotor.getCurrent();
+//	double currentLimit = m_climbMotorCurrentLimit.Get();
 	if (Robot->operatorJoystick.getButtonState(COREJoystick::START_BUTTON) == COREJoystick::RISING_EDGE){
 		if(isClimbing()){
 			stopClimbing();

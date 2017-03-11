@@ -11,9 +11,8 @@ public:
 private:
 	double m_numberOfSeconds;
 	double m_severityOfShimmy;
-	double m_shimmyPeriod;
 	CORETimer m_shimmyTimer;
-
+	double m_shimmyPeriod;
 };
 
 

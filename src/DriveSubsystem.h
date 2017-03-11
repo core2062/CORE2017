@@ -44,18 +44,18 @@ public:
 
 	void setPos(Position2d pos);
 
-    COREConstant<double>driveScrub;
-    COREConstant<double>driveTurnProportional;
+    COREConstant<double> driveScrub;
+    COREConstant<double> driveTurnProportional;
 private:
     COREConstant<double> m_etherAValue, m_etherBValue, m_etherQuickTurnValue, m_ticksPerInch;
     COREMotor m_leftMaster, m_rightMaster, m_leftSlave, m_rightSlave;
     DoubleSolenoid m_leftDriveShifter, m_rightDriveShifter;
     bool m_highGear;
-    shared_ptr<AHRS> m_gyro = 0;
+    shared_ptr<AHRS> m_gyro = nullptr;
     bool m_currentlyTurning;
     double m_currentYawTarget;
     double m_currentYawTolerance;
-    COREConstant<double>m_turnPIDMultiplier;
+    COREConstant<double> m_turnPIDMultiplier;
 
     DriveOpenController m_driveTeleController;
     DriveGyroController m_driveGyroController;

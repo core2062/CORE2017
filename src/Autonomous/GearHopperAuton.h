@@ -12,8 +12,8 @@ public:
 
 private:
 	static Path * getPathForPeg(StartingPosition startingPosition);
-	static Path * backupFromPeg();
-	static Path * driveToHopper();
+	static Path * backupFromPeg(StartingPosition startingPosition);
+	static Path * driveToHopper(StartingPosition startingPosition);
 	Node * m_driveToPeg;
 	Node * m_loadGearOnPeg;
 	Node * m_backupFromPeg;

@@ -1,6 +1,7 @@
 #include "DriveForwardAuton.h"
 #include "Robot.h"
 #include "Constants.h"
+#include "AutonPaths.h"
 
 using namespace CORE;
 

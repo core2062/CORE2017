@@ -48,7 +48,9 @@ void DriveSubsystem::teleopInit() {
 
 	setController(&m_driveTeleController);
 	m_driveTeleController.enable();
-
+	if(!m_gyro->IsConnected()) {
+		CORELog::logError("NavX not connected!");
+	}
 }
 
 

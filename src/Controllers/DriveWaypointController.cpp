@@ -37,7 +37,6 @@ void DriveWaypointController::disable() {
 
 void DriveWaypointController::init() {
 	m_tracker->reset(Timer::GetFPGATimestamp(), Position2d());
-	m_tracker->start();
 }
 
 void DriveWaypointController::startPath(Path path, bool reversed,

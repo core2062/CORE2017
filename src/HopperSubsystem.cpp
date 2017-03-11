@@ -8,18 +8,16 @@ HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
 									 m_intakeMotor(INTAKE_MOTOR_PORT, VICTOR),
 									 m_leftDumpFlapServo(LEFT_DUMP_FLAP_SERVO_CHANNEL),
 									 m_rightDumpFlapServo(RIGHT_DUMP_FLAP_SERVO_CHANNEL),
-									 m_liftBottomPos("Lift Bottom Position", 1.0),
-									 m_liftTopPos("Lift Top Position", 3.0),
+									 m_liftBottomPos("Lift Bottom Position", 1250),
+									 m_liftTopPos("Lift Top Position", 3420),
 									 m_liftRaiseVel("Lift Raise Velocity", 0.25),
 									 m_liftLowerVel("Lift Lower Velocity", 0.75),
 									 m_liftTolerance("Lift Position Tolerance", -1.0),
-									 m_flapTopPos("Flap Top Position", 180),
-									 m_flapBottomPos("Flap Bottom Position", 0),
 									 m_intakeSpeed("Intake Speed", .5),
-									 m_liftPID_P("Lift PID Up P Value", 0),
+									 m_liftPID_P("Lift PID Up P Value", 0.001),
 									 m_liftPID_I("Lift PID Up I Value", 0),
 									 m_liftPID_D("Lift PID Up D Value", 0),
-									 m_liftPID_Pa("Lift PID Down P Value", 0),
+									 m_liftPID_Pa("Lift PID Down P Value", 0.00075),
 									 m_liftPID_Ia("Lift PID Down I Value", 0),
 									 m_liftPID_Da("Lift PID Down D Value", 0),
 									 m_stringPot(0),
@@ -54,6 +52,7 @@ void HopperSubsystem::teleop(){
 
 //	m_liftPID.setActualPos(Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition());
 	SmartDashboard::PutNumber("Lift Encoder", Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition());
+	SmartDashboard::PutNumber("Lift Pot", m_stringPot.GetValue());
 	if (Robot->operatorJoystick.getButtonState(COREJoystick::B_BUTTON) == COREJoystick::RISING_EDGE){
 		m_flapIsOpen = !m_flapIsOpen;
 	}
@@ -116,8 +115,8 @@ void HopperSubsystem::openFlap(){
 }
 
 void HopperSubsystem::closeFlap(){
-	m_rightDumpFlapServo.Set(.6);
-	m_leftDumpFlapServo.Set(.4);
+	m_rightDumpFlapServo.Set(.5);
+	m_leftDumpFlapServo.Set(.5);
 }
 
 bool HopperSubsystem::hopperIsUp(){

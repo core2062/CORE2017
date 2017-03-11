@@ -11,10 +11,10 @@ DriveWaypointController::DriveWaypointController():
 }
 
 void DriveWaypointController::preLoopTask() {
-	m_tracker->loop();
-	Position2d current = m_tracker->getLatestFieldToVehicle();
-	SmartDashboard::PutNumber("Robot X" , current.getTranslation().getX());
-	SmartDashboard::PutNumber("Robot Y" , current.getTranslation().getY());
+	//m_tracker->loop();
+//	Position2d current = m_tracker->getLatestFieldToVehicle();
+//	SmartDashboard::PutNumber("Robot X" , current.getTranslation().getX());
+//	SmartDashboard::PutNumber("Robot Y" , current.getTranslation().getY());
 }
 
 void DriveWaypointController::postLoopTask() {

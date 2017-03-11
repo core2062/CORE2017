@@ -51,7 +51,6 @@ void Aergia::teleopInit() {
 }
 
 void Aergia::teleop(){
-
 //	testMotor.Set(0);
 //	CORELog::logInf//o("m_encoder Pos: " + to_string(testMotor.m_encoder->GetEncPos()));
 //	CORELog::logInfo("m_encoder Vel: " + to_string(testMotor.m_encoder->GetEncVel()));

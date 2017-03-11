@@ -13,7 +13,7 @@ void GearBoilerAuton::addNodes() {
 
 	m_driveToPeg = new Node(15, new DriveWaypointAction(getForwardPath(Robot->getStartingPosition()), true));
 	m_loadGearOnPeg = new Node(15, new LoadGearOntoPegAction());
-	m_driveToBoiler = new Node(15, new DriveWaypointAction(getPathForBoiler(Robot->getStartingPosition())), false);
+	m_driveToBoiler = new Node(15, new DriveWaypointAction(getPathForBoiler(Robot->getStartingPosition()), false));
 	m_dumpBallsInBoiler = new Node(15, new DumpBallsAction(false));
 	m_shimmyHopper = new Node(15, new ShimmyAction(0.0, 0.0));
 

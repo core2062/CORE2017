@@ -26,7 +26,7 @@ HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
 									 m_flapIsOpen(false) {
 }
 
-void HopperSubsystem::robotInit(){
+void HopperSubsystem::robotInit() {
 	Robot->operatorJoystick.registerButton(COREJoystick::A_BUTTON);
 	Robot->operatorJoystick.registerButton(COREJoystick::Y_BUTTON);
 	Robot->operatorJoystick.registerButton(COREJoystick::B_BUTTON);
@@ -36,7 +36,7 @@ void HopperSubsystem::robotInit(){
 	Robot->operatorJoystick.registerAxis(COREJoystick::RIGHT_STICK_Y);
 }
 
-void HopperSubsystem::teleopInit(){
+void HopperSubsystem::teleopInit() {
 	closeFlap();
 	setLiftBottom();
 	m_liftPID.PPos = m_liftPID_P.Get();
@@ -47,7 +47,7 @@ void HopperSubsystem::teleopInit(){
 	m_liftPID.DNeg = m_liftPID_Da.Get();
 }
 
-void HopperSubsystem::teleop(){
+void HopperSubsystem::teleop() {
 	m_liftPID.updateTime();
 
 //	m_liftPID.setActualPos(Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition());
@@ -66,10 +66,10 @@ void HopperSubsystem::teleop(){
 	if(fabs(liftVal) > .05){
 		m_liftPID.start(m_stringPot.GetValue());
 	} else {
-		if (Robot->operatorJoystick.getButton(COREJoystick::A_BUTTON)){
+		if (Robot->operatorJoystick.getButton(COREJoystick::A_BUTTON)) {
 			setLiftBottom();
 			liftVal = m_liftPID.calculate(m_stringPot.GetValue());
-		} else if (Robot->operatorJoystick.getButton(COREJoystick::Y_BUTTON)){
+		} else if (Robot->operatorJoystick.getButton(COREJoystick::Y_BUTTON)) {
 			setLiftTop();
 			liftVal = m_liftPID.calculate(m_stringPot.GetValue());
 		} else {
@@ -79,52 +79,52 @@ void HopperSubsystem::teleop(){
 	setLift(liftVal);
 
 
-	if(Robot->operatorJoystick.getButton(COREJoystick::DPAD_N)){
+	if(Robot->operatorJoystick.getButton(COREJoystick::DPAD_N)) {
 		setIntake(-.5);
 	}
-	if(Robot->operatorJoystick.getButton(COREJoystick::DPAD_S)){
+	if(Robot->operatorJoystick.getButton(COREJoystick::DPAD_S)) {
 		setIntake(.5);
 	}
 	double intakeVal = -Robot->operatorJoystick.getAxis(COREJoystick::RIGHT_STICK_Y);
-	if(fabs(intakeVal) > .05){
+	if(fabs(intakeVal) > .05) {
 		setIntake(intakeVal);
 	}
 
 }
 
-void HopperSubsystem::setLiftTop(){
+void HopperSubsystem::setLiftTop() {
 //	m_liftPID.disableTasks(false);
 	m_liftPID.start(m_liftTopPos.Get());
 }
 
-void HopperSubsystem::setLiftBottom(){
+void HopperSubsystem::setLiftBottom() {
 //	m_liftPID.disableTasks(false);
 	m_liftPID.start(m_liftBottomPos.Get());
 }
 
-void HopperSubsystem::setLift(double val){
+void HopperSubsystem::setLift(double val) {
 //	m_liftPID.disableTasks(true);
 	m_liftMotor.Set(val);
 
 }
 
-void HopperSubsystem::openFlap(){
+void HopperSubsystem::openFlap() {
 	m_rightDumpFlapServo.Set(0);
 	m_leftDumpFlapServo.Set(1);
 
 }
 
-void HopperSubsystem::closeFlap(){
-	m_rightDumpFlapServo.Set(.5);
-	m_leftDumpFlapServo.Set(.5);
+void HopperSubsystem::closeFlap() {
+	m_rightDumpFlapServo.Set(.43);
+	m_leftDumpFlapServo.Set(.57);
 }
 
-bool HopperSubsystem::hopperIsUp(){
+bool HopperSubsystem::hopperIsUp() {
 	/*return (m_liftPID.getPos() == m_liftTopPos.Get() &&
 			(m_liftPID.getVel() == 0));*/
 	return true;
 }
-bool HopperSubsystem::hopperIsDown(){
+bool HopperSubsystem::hopperIsDown() {
 	/*return (m_liftPID.getPos() < m_liftBottomPos.Get() + m_liftTolerance.Get() * 1.1);*/
 	return true;
 }

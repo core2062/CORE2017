@@ -31,7 +31,7 @@ void DriveSubsystem::robotInit() {
     initTalons();
 
 	try {
-		m_gyro = make_shared<AHRS>(SerialPort::Port::kUSB, AHRS::SerialDataType::kProcessedData, 80);
+		m_gyro = make_shared<AHRS>(SerialPort::Port::kUSB, AHRS::SerialDataType::kProcessedData, 100);
 		CORELog::logInfo("NavX Initialized!");
 	} catch(std::exception & ex) {
 		CORELog::logWarning("Couldn't find NavX!");

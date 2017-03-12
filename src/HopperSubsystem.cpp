@@ -10,9 +10,7 @@ HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
 									 m_rightDumpFlapServo(RIGHT_DUMP_FLAP_SERVO_CHANNEL),
 									 m_liftBottomPos("Lift Bottom Position", 1250),
 									 m_liftTopPos("Lift Top Position", 3420),
-									 m_liftRaiseVel("Lift Raise Velocity", 0.25),
-									 m_liftLowerVel("Lift Lower Velocity", 0.75),
-									 m_liftTolerance("Lift Position Tolerance", -1.0),
+									 m_liftHoldPos("Lift Hold Position", 1350),
 									 m_intakeSpeed("Intake Speed", .5),
 									 m_liftPIDUp_P("Lift PID Up P Value", 0.001),
 									 m_liftPIDUp_I("Lift PID Up I Value", 0),
@@ -75,7 +73,11 @@ void HopperSubsystem::teleop() {
 
 	} else {
 		if (Robot->operatorJoystick.getButton(COREJoystick::A_BUTTON)){
-			setLiftBottom();
+			if(m_intakeMotor.GetLast() != 0){
+				setLiftIntake();
+			} else {
+				setLiftBottom();
+			}
 			liftVal = m_liftPID.calculate(2);
 		} else if (Robot->operatorJoystick.getButton(COREJoystick::Y_BUTTON)) {
 			setLiftTop();
@@ -110,6 +112,10 @@ void HopperSubsystem::setLiftTop(){
 void HopperSubsystem::setLiftBottom(){
 //	m_liftPID.disableTasks(false);
 	m_liftPID.setPos(m_liftBottomPos.Get());
+}
+
+void HopperSubsystem::setLiftIntake(){
+	m_liftPID.setPos(m_liftHoldPos.Get());
 }
 
 void HopperSubsystem::setLift(double val){

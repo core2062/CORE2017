@@ -6,10 +6,11 @@ using namespace CORE;
 
 class DumpBallsAction : public COREAutonAction {
 public:
-	DumpBallsAction(bool reset);
+	DumpBallsAction(double dumpFlapTime);
     void actionInit() override;
     void actionEnd() override;
     COREAutonAction::actionStatus action() override;
 private:
-    bool m_reset;
+    CORETimer m_timer;
+    double m_dumpFlapTime;
 };

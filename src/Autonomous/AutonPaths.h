@@ -74,7 +74,7 @@ public:
 	static Path * getHopperToBoilerPath(double speedScale = 1.0){
 		return PathLoader::loadPath("hopperToBoiler_forward_center.csv", 1.0, (CORERobot::getAlliance() == RED));
 	}
-	static Path * getDriveForwardPath(double speedScale = 1.0){
+	static Path * getDriveForwardPath(double speedScale = 1.0) {
 		return PathLoader::loadPath("driveForward.csv", 1.0, (CORERobot::getAlliance() == RED));
 	}
 	static Path * getPegReversePath(double speedScale = 1.0){

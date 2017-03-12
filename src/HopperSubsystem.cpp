@@ -14,12 +14,15 @@ HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
 									 m_liftLowerVel("Lift Lower Velocity", 0.75),
 									 m_liftTolerance("Lift Position Tolerance", -1.0),
 									 m_intakeSpeed("Intake Speed", .5),
-									 m_liftPID_P("Lift PID Up P Value", 0.001),
-									 m_liftPID_I("Lift PID Up I Value", 0),
-									 m_liftPID_D("Lift PID Up D Value", 0),
-									 m_liftPID_Pa("Lift PID Down P Value", 0.00075),
-									 m_liftPID_Ia("Lift PID Down I Value", 0),
-									 m_liftPID_Da("Lift PID Down D Value", 0),
+									 m_liftPIDUp_P("Lift PID Up P Value", 0.001),
+									 m_liftPIDUp_I("Lift PID Up I Value", 0),
+									 m_liftPIDUp_D("Lift PID Up D Value", 0),
+									 m_liftPIDDown_P("Lift PID P Down Value", 0.0075),
+									 m_liftPIDDown_I("Lift PID I Down Value", 0),
+									 m_liftPIDDown_D("Lift PID D Down Value", 0),
+									 /*m_liftPID(POS, m_liftPIDUp_P.Get(), m_liftPIDUp_I.Get(), m_liftPIDUp_D.Get(), 1,
+											 m_liftPIDDown_P.Get(), m_liftPIDDown_I.Get(), m_liftPIDDown_D.Get()),*/
+									 m_liftPID(POS, 0, 0, 0, 1, 0, 0, 0, 1),
 									 m_stringPot(0),
 //									 m_bottomLimit(LIFT_BOTTOM_LIMIT_SWITCH_PORT),
 //									 m_topLimit(LIFT_TOP_LIMIT_SWITCH_PORT),
@@ -39,16 +42,17 @@ void HopperSubsystem::robotInit(){
 void HopperSubsystem::teleopInit(){
 	closeFlap();
 	setLiftBottom();
-	m_liftPID.PPos = m_liftPID_P.Get();
-	m_liftPID.IPos = m_liftPID_I.Get();
-	m_liftPID.DPos = m_liftPID_D.Get();
-	m_liftPID.PNeg = m_liftPID_Pa.Get();
-	m_liftPID.INeg = m_liftPID_Ia.Get();
-	m_liftPID.DNeg = m_liftPID_Da.Get();
+	m_liftPID.setP(m_liftPIDUp_P.Get(), POS, 1);
+	m_liftPID.setI(m_liftPIDUp_I.Get(), POS, 1);
+	m_liftPID.setD(m_liftPIDUp_D.Get(), POS, 1);
+	m_liftPID.setP(m_liftPIDDown_P.Get(), POS, 2);
+	m_liftPID.setI(m_liftPIDDown_I.Get(), POS, 2);
+	m_liftPID.setD(m_liftPIDDown_D.Get(), POS, 2);
 }
 
-void HopperSubsystem::teleop(){
-	m_liftPID.updateTime();
+void HopperSubsystem::teleop() {
+	//m_liftPID.updateTime();
+	m_liftPID.setActualPos(m_stringPot.GetValue());
 
 //	m_liftPID.setActualPos(Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition());
 	SmartDashboard::PutNumber("Lift Encoder", Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition());
@@ -64,24 +68,24 @@ void HopperSubsystem::teleop(){
 
 	double liftVal = -Robot->operatorJoystick.getAxis(COREJoystick::LEFT_STICK_Y);
 	if(fabs(liftVal) > .05){
-		//If the lift absolute value is greater than 0.05, we are being asked to raise the hopper
-		//Only do this if the gear flap is closed
+		m_liftPID.setPos(m_stringPot.GetValue());
 		if (liftVal > 0.05 && (Robot->gearSubsystem.flapIsOpen())){
-			closeFlap();
+			Robot->gearSubsystem.closeFlap();
 		}
-		m_liftPID.start(m_stringPot.GetValue());
+
 	} else {
 		if (Robot->operatorJoystick.getButton(COREJoystick::A_BUTTON)){
 			setLiftBottom();
-			liftVal = m_liftPID.calculate(m_stringPot.GetValue());
-		} else if (Robot->operatorJoystick.getButton(COREJoystick::Y_BUTTON)){
-			//Raise the hopper
+			liftVal = m_liftPID.calculate(2);
+		} else if (Robot->operatorJoystick.getButton(COREJoystick::Y_BUTTON)) {
 			setLiftTop();
-			liftVal = m_liftPID.calculate(m_stringPot.GetValue());
+			liftVal = m_liftPID.calculate(1);
 		} else {
+			m_liftPID.setPos(m_stringPot.GetValue());
 			liftVal = 0;
 		}
 	}
+	SmartDashboard::PutNumber("Lift Speed", liftVal);
 	setLift(liftVal);
 
 
@@ -100,12 +104,12 @@ void HopperSubsystem::teleop(){
 
 void HopperSubsystem::setLiftTop(){
 //	m_liftPID.disableTasks(false);
-	m_liftPID.start(m_liftTopPos.Get());
+	m_liftPID.setPos(m_liftTopPos.Get());
 }
 
 void HopperSubsystem::setLiftBottom(){
 //	m_liftPID.disableTasks(false);
-	m_liftPID.start(m_liftBottomPos.Get());
+	m_liftPID.setPos(m_liftBottomPos.Get());
 }
 
 void HopperSubsystem::setLift(double val){
@@ -121,8 +125,8 @@ void HopperSubsystem::openFlap(){
 }
 
 void HopperSubsystem::closeFlap(){
-	m_rightDumpFlapServo.Set(.5);
-	m_leftDumpFlapServo.Set(.5);
+	m_rightDumpFlapServo.Set(.43);
+	m_leftDumpFlapServo.Set(.57);
 }
 
 bool HopperSubsystem::hopperIsUp(){
@@ -175,7 +179,7 @@ void IntakeController::postLoopTask() {
 		return;
 	}
 
-	if(Robot->hopperSubsystem.getLiftSpeed()>0){
+	if(Robot->hopperSubsystem.getLiftSpeed() > 0) {
 		Robot->hopperSubsystem.setIntake(0.5);
 		return;
 	}

@@ -4,7 +4,7 @@
 
 
 DoNothingAuton::DoNothingAuton() :
-	COREAuton("Do Nothing Auton", 0.0){
+	COREAuton("Do Nothing Auton", true){
 
 }
 

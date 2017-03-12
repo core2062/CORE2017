@@ -61,7 +61,6 @@ void Aergia::teleop(){
 
 void Aergia::test(){
 	//Lift Test Code
-	driveSubsystem.resetYaw();
 		double liftVal = 0.0;
 		if(operatorJoystick.getButton(CORE::COREJoystick::JoystickButton::DPAD_N)){
 			liftVal += .25;

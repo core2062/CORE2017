@@ -8,6 +8,7 @@ void VisionAlignGearAuton::actionInit() {
 }
 
 COREAutonAction::actionStatus VisionAlignGearAuton::action() {
+	return COREAutonAction::END;
 }
 
 void VisionAlignGearAuton::actionEnd() {

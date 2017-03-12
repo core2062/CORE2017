@@ -14,7 +14,8 @@ Aergia::Aergia() :
 		operatorJoystick(1),
 		doNothing(),
 		driveForwardAuton(0,0),
-		gearAuton(StartingPosition::CENTER)
+		gearAuton(StartingPosition::CENTER),
+		gearBoilerAuton()
 	{
 //	Robot.shared_ptr(this);
 	Robot = this;

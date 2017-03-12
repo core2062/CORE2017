@@ -8,17 +8,16 @@ using namespace CORE;
 
 class GearBoilerAuton : public COREAuton{
 public:
-	GearBoilerAuton(StartingPosition startingPosition);
+	GearBoilerAuton();
 	void addNodes();
 
 private:
 	static Path * getPathForBoiler(StartingPosition startingPosition);
-	static Path * getForwardPath(StartingPosition startingPosition);
-	Node * m_driveToPeg;
-	Node * m_loadGearOnPeg;
-	Node * m_driveToBoiler;
-	Node * m_dumpBallsInBoiler;
-	Node * m_shimmyHopper;
-	Node * m_resetHopper;
+	Node * m_driveToPeg = nullptr;
+	Node * m_loadGearOnPeg = nullptr;
+	Node * m_driveToBoiler = nullptr;
+	Node * m_dumpBallsInBoiler = nullptr;
+	Node * m_shimmyHopper = nullptr;
+	Node * m_resetHopper = nullptr;
 };
 

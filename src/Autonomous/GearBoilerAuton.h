@@ -12,7 +12,6 @@ public:
 	void addNodes();
 
 private:
-	static Path * getPathForBoiler(StartingPosition startingPosition);
 	Node * m_driveToPeg = nullptr;
 	Node * m_loadGearOnPeg = nullptr;
 	Node * m_driveToBoiler = nullptr;

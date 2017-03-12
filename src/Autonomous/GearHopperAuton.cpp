@@ -10,7 +10,7 @@ GearHopperAuton::GearHopperAuton(StartingPosition startingPosition) :
 void GearHopperAuton::addNodes() {
 	m_driveToPeg = new Node(15, new DriveWaypointAction(AutonPaths::getWallToPegPath()));
 	m_loadGearOnPeg = new Node(15, new LoadGearOntoPegAction());
-	m_backupFromPeg = new Node(15, new DriveWaypointAction(AutonPaths::getPegToWallPath()));
+	m_backupFromPeg = new Node(15, new DriveWaypointAction(AutonPaths::getPegReversePath()));
 	m_driveToHopper = new Node(15, new DriveWaypointAction(AutonPaths::getPegToHopperPath()));
 	m_loadHopper = new Node(15, new HopperFlapAction());
 	addFirstNode(m_driveToPeg);

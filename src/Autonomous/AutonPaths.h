@@ -77,7 +77,7 @@ public:
 	static Path * getDriveForwardPath(double speedScale = 1.0){
 		return PathLoader::loadPath("driveForward.csv", 1.0, (CORERobot::getAlliance() == RED));
 	}
-	static Path * getPegToWallPath(double speedScale = 1.0){
+	static Path * getPegReversePath(double speedScale = 1.0){
 		switch(Robot->getStartingPosition()){
 			case StartingPosition::BOILER:
 				return PathLoader::loadPath("gearAuton_reverse_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));

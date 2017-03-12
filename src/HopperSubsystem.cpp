@@ -8,9 +8,9 @@ HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
 									 m_intakeMotor(INTAKE_MOTOR_PORT, VICTOR),
 									 m_leftDumpFlapServo(LEFT_DUMP_FLAP_SERVO_CHANNEL),
 									 m_rightDumpFlapServo(RIGHT_DUMP_FLAP_SERVO_CHANNEL),
-									 m_liftBottomPos("Lift Bottom Position", 1250),
-									 m_liftTopPos("Lift Top Position", 3420),
 									 m_liftHoldPos("Lift Hold Position", 1350),
+									 m_liftBottomPos("Lift Bottom Position", 1220),
+									 m_liftTopPos("Lift Top Position", 3450),
 									 m_intakeSpeed("Intake Speed", .5),
 									 m_liftPIDUp_P("Lift PID Up P Value", 0.001),
 									 m_liftPIDUp_I("Lift PID Up I Value", 0),
@@ -35,6 +35,7 @@ void HopperSubsystem::robotInit(){
 	Robot->operatorJoystick.registerButton(COREJoystick::DPAD_S);
 	Robot->operatorJoystick.registerAxis(COREJoystick::LEFT_STICK_Y);
 	Robot->operatorJoystick.registerAxis(COREJoystick::RIGHT_STICK_Y);
+	m_liftMotor.setDeadband(0.1);
 }
 
 void HopperSubsystem::teleopInit(){

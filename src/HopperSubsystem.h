@@ -7,6 +7,13 @@ using namespace CORE;
 
 class HopperSubsystem : public CORESubsystem {
 public:
+	enum hopperState {
+		INTAKE_BALLS, //When we want to intake balls
+		HOLD_BALLS, //When we want to hold balls in hopper
+		DUMP, //When we want to dump and in the range of the intake
+		SHAKE, //When we are dumping and want to shake dump flap and lift
+		MANUAL //When the lift height is manually controlled by a joystick
+	};
     HopperSubsystem();
     void robotInit() override;
     void teleopInit() override;
@@ -36,81 +43,17 @@ private:
 	m_liftPIDUp_I, m_liftPIDUp_D, m_liftPIDDown_P, m_liftPIDDown_I, m_liftPIDDown_D;
     COREPID m_liftPID;
     AnalogInput m_stringPot;
+    int m_lastPresedButton;
+    hopperState m_requestedHopperState;
+	hopperState m_actualHopperState;
 
 //    DigitalInput m_bottomLimit;
 //    DigitalInput m_topLimit;
-
+	enum pidProfileDirection {
+		UP = 1,
+		DOWN = 2
+	};
     bool m_flapIsOpen;
-
-    struct PID{
-    	double setPoint = 0.0;
-
-    	double PPos = 0.0;
-    	double IPos = 0.0;
-    	double DPos = 0.0;
-
-    	double PNeg = 0.0;
-    	double INeg = 0.0;
-    	double DNeg = 0.0;
-
-    	double error = 0.0;
-    	double lastError = 0.0;
-    	double totalError = 0.0;
-    	Timer integralTimer;
-    	double deltaTime = 0.0;
-    	double lastTime = 0.0;
-
-    	void start(double setpoint = 0){
-    		if(setpoint != setPoint){
-    			integralTimer.Reset();
-    			integralTimer.Start();
-    			error = 0.0;
-    			lastError = 0.0;
-    			totalError = 0.0;
-    			deltaTime = 0;
-    			lastTime = Timer::GetFPGATimestamp();
-    			setPoint = setpoint;
-    		}
-    	}
-
-    	void updateTime(){
-    		double currentTime = Timer::GetFPGATimestamp();
-    		deltaTime = currentTime - lastTime;
-    		lastTime = currentTime;
-    	}
-
-    	double integral(){
-    		double totalTime = integralTimer.Get();
-    		return totalError / totalTime;
-    	}
-
-    	double derivative(){
-    		double rise = error - lastError;
-    		double slope = rise / deltaTime;
-    		return slope;
-    	}
-
-    	double calculate(int position){
-    		error = setPoint - position;
-    		totalError += error;
-
-    		double p, i, d;
-    		if(error >= 0){
-    			p = error * PPos;
-    			i = integral() * IPos;
-    			d = derivative() * DPos;
-    		} else {
-    			p = error * PNeg;
-    			i = integral() * INeg;
-    			d = derivative() * DNeg;
-
-    		}
-    		lastError = error;
-    		return (p + i - d);
-    	}
-    };
-
-    //PID m_liftPID;
 };
 
 class IntakeController : public CORETask {

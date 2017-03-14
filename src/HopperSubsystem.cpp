@@ -4,26 +4,28 @@
 using namespace CORE;
 
 HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
+									 liftGearFlapPos("Lift Gear Flap Position", 3000),
 									 m_liftMotor(LIFT_MOTOR_PORT, VICTOR),
 									 m_intakeMotor(INTAKE_MOTOR_PORT, VICTOR),
 									 m_leftDumpFlapServo(LEFT_DUMP_FLAP_SERVO_CHANNEL),
 									 m_rightDumpFlapServo(RIGHT_DUMP_FLAP_SERVO_CHANNEL),
-									 m_liftBottomPos("Lift Bottom Position", 1220),
+									 m_liftBottomPos("Lift Bottom Position", 1120),
 									 m_liftHoldPos("Lift Hold Position", 1320),
 									 m_liftTopPos("Lift Top Position", 3450),
 									 m_intakeSpeed("Intake Speed", .5),
 									 m_liftPIDUp_P("Lift PID Up P Value", 0.001),
 									 m_liftPIDUp_I("Lift PID Up I Value", 0),
-									 m_liftPIDUp_D("Lift PID Up D Value", 0),
-									 m_liftPIDDown_P("Lift PID P Down Value", 0.0075),
-									 m_liftPIDDown_I("Lift PID I Down Value", 0),
-									 m_liftPIDDown_D("Lift PID D Down Value", 0),
+									 m_liftPIDUp_D("Lift PID Up D Value", 0.0006),
+									 m_liftPIDDown_P("Lift PID Down P Value", 0.0075),
+									 m_liftPIDDown_I("Lift PID Down I Value", 0),
+									 m_liftPIDDown_D("Lift PID Down D Value", 0),
 									 m_shakeFrequency("Hopper Shake Frequency", 0.5),
 									 m_liftPID(POS, 0, 0, 0, 1, 0, 0, 0, 1),
 									 m_stringPot(0),
 									 m_lastPressedButton(-1),
 									 m_requestedHopperState(MANUAL),
 									 m_actualHopperState(MANUAL),
+									 m_lastLiftHeight(0),
 									 m_flapIsOpen(false) {
 }
 
@@ -104,11 +106,13 @@ void HopperSubsystem::teleop() {
 
     if(Robot->operatorJoystick.getRisingEdge(COREJoystick::A_BUTTON)) {
         m_lastPressedButton = COREJoystick::A_BUTTON;
-    } else if (Robot->operatorJoystick.getRisingEdge(COREJoystick::Y_BUTTON)) {
-        m_lastPressedButton = COREJoystick::Y_BUTTON;
+        closeFlap();
+    } else if (Robot->operatorJoystick.getRisingEdge(COREJoystick::Y_BUTTON)
+    		|| Robot->operatorJoystick.getRisingEdge(COREJoystick::X_BUTTON)) {
+        m_lastPressedButton = -1;
     }
 
-	if(abs(Robot->operatorJoystick.getAxis(COREJoystick::RIGHT_STICK_Y)) > 0.05) {
+	if(abs(Robot->operatorJoystick.getAxis(COREJoystick::LEFT_STICK_Y)) > 0.05) {
 		m_requestedHopperState = MANUAL;
         m_lastPressedButton = -1;
 	} else if (Robot->operatorJoystick.getButton(COREJoystick::X_BUTTON)) {
@@ -118,9 +122,8 @@ void HopperSubsystem::teleop() {
                   && !Robot->operatorJoystick.getButton(COREJoystick::DPAD_S))) {
         m_requestedHopperState = HOLD_BALLS;
     } else if(m_lastPressedButton == COREJoystick::A_BUTTON
-              || (Robot->driveSubsystem.getForwardPower() > 0
-                  || Robot->operatorJoystick.getButton(COREJoystick::DPAD_S)
-                  || Robot->operatorJoystick.getButton(COREJoystick::DPAD_N))) {
+              && (Robot->driveSubsystem.getForwardPower() > 0
+                  || Robot->operatorJoystick.getButton(COREJoystick::DPAD_S))) {
         m_requestedHopperState = INTAKE_BALLS;
 	} else if(Robot->operatorJoystick.getButton(COREJoystick::Y_BUTTON)) {
         m_requestedHopperState = DUMP;
@@ -128,6 +131,17 @@ void HopperSubsystem::teleop() {
         m_requestedHopperState = MANUAL;
         m_lastPressedButton = -1;
     }
+
+	if(Robot->operatorJoystick.getRisingEdge(COREJoystick::B_BUTTON)) {
+		if(m_flapIsOpen) {
+			closeFlap();
+			m_flapIsOpen = false;
+		} else {
+			openFlap();
+			m_flapIsOpen = true;
+		}
+	}
+	m_liftPID.putToDashboard();
 }
 
 void HopperSubsystem::setLiftTop() {
@@ -157,15 +171,14 @@ void HopperSubsystem::setLift(double val){
 
 }
 
-void HopperSubsystem::openFlap(){
-	m_rightDumpFlapServo.Set(0);
-	m_leftDumpFlapServo.Set(1);
-
-}
-
-void HopperSubsystem::closeFlap(){
+void HopperSubsystem::openFlap() {
 	m_rightDumpFlapServo.Set(.43);
 	m_leftDumpFlapServo.Set(.57);
+}
+
+void HopperSubsystem::closeFlap() {
+	m_rightDumpFlapServo.Set(0);
+	m_leftDumpFlapServo.Set(1);
 }
 
 bool HopperSubsystem::hopperIsUp(){
@@ -208,6 +221,10 @@ double HopperSubsystem::getLiftEncoder() {
 	//TODO Fill this in
 }
 
+double HopperSubsystem::getLiftPos() {
+	return m_stringPot.GetValue();
+}
+
 bool HopperSubsystem::flapIsOpen() {
 	return m_flapIsOpen;
 }
@@ -227,20 +244,20 @@ void HopperSubsystem::postLoopTask() {
             break;
         case DUMP:
             Robot->gearSubsystem.closeFlap();
-            if(liftHeight < m_liftHoldPos.Get()) { //In intake zone
+            if(liftHeight < 2040) { //In intake zone
                 turnOnIntake();
             } else { //Above intake zone
                 //turnOffIntake();
-                setIntake(-0.1);
+                setIntake(-0.2);
             }
             setLiftTop();
             break;
         case SHAKE:
-            //TODO: Figure out best way to shake
+        	setLiftPos(liftGearFlapPos.Get());
             break;
         case MANUAL:
             m_liftPID.setPos(liftHeight);
-            if(abs(Robot->operatorJoystick.getAxis(COREJoystick::RIGHT_STICK_Y)) < 0.05) {
+            if(abs(Robot->operatorJoystick.getAxis(COREJoystick::LEFT_STICK_Y)) < 0.05) {
                 setLift(m_liftPID.calculate());
                 if(Robot->driveSubsystem.getForwardPower() > 0) {
                     setIntake(Robot->driveSubsystem.getForwardPower() + 0.1);
@@ -248,15 +265,12 @@ void HopperSubsystem::postLoopTask() {
                     setIntake(0);
                 }
             } else {
-                setLift(-Robot->operatorJoystick.getAxis(COREJoystick::RIGHT_STICK_Y));
-                if(liftHeight < m_liftHoldPos.Get()) { //In intake zone
+                setLift(-Robot->operatorJoystick.getAxis(COREJoystick::LEFT_STICK_Y));
+                if(liftHeight < 2040) { //In intake zone
     				turnOnIntake();
     			} else { //Above intake zone
-    				setIntake(-0.1);
+    				setIntake(-0.2);
     			}
-            }
-            if(Robot->operatorJoystick.getAxis(COREJoystick::RIGHT_STICK_Y) > 0) {
-                Robot->gearSubsystem.closeFlap();
             }
             break;
     }
@@ -271,6 +285,13 @@ void HopperSubsystem::postLoopTask() {
     } else if(liftHeight < m_liftBottomPos.Get() && m_liftMotor.Get() < 0) { //Bottom limit
     	m_liftMotor.Set(0);
     }
+    if((m_lastLiftHeight + 5) < liftHeight) {
+		Robot->gearSubsystem.closeFlap();
+	}
+	if(Robot->driveSubsystem.getForwardPower() > 0 && liftHeight > 2040) {
+		setIntake(-0.2);
+	}
+    m_lastLiftHeight = liftHeight;
     m_actualHopperState = m_requestedHopperState;
 }
 

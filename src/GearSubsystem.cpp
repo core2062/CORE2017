@@ -25,10 +25,10 @@ void GearSubsystem::teleopInit() {
 }
 
 void GearSubsystem::teleop(){
-	if (Robot->operatorJoystick.getButtonState(COREJoystick::LEFT_BUTTON) == COREJoystick::RISING_EDGE) {
-		if (flapIsOpen()){
+	if (Robot->operatorJoystick.getRisingEdge(COREJoystick::LEFT_BUTTON)) {
+		if (flapIsOpen()) {
 			closeFlap();
-		}else{
+		} else if ((Robot->hopperSubsystem.liftGearFlapPos.Get() - 100) > Robot->hopperSubsystem.getLiftPos()) {
 			openFlap();
 		}
 	}

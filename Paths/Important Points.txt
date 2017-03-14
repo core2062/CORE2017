@@ -1,0 +1,15 @@
+Center Start: 0,162
+Boiler Start: 0,236
+Feeder Start: 0,105
+Center Peg: -70,162 (Tip at -100,162)
+Boiler Peg: -94,206 (delta 94,30.5)(angle = -120)
+
+
+MODIFIED subtracted 30 from y
+Center Peg: -100, 162
+Feeder Peg: -125, 119
+Boiler Peg: -125, 205
+Boiler: -39, 283.5
+
+Near Hopper Facing Gearside: -97, 316
+Far Hopper Facing Gearside: -145, 316

@@ -10,7 +10,7 @@ enum class DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
 
 using namespace CORE;
 
-class DriveSubsystem : public COREVariableControlledSubsystem {
+class DriveSubsystem : public COREVariableControlledSubsystem, public CORETask {
 public:
     DriveSubsystem();
     void robotInit() override;
@@ -46,6 +46,11 @@ public:
 
     COREConstant<double> driveScrub;
     COREConstant<double> driveTurnProportional;
+
+    void autonInitTask();
+    void autonEndTask();
+    void teleopInitTask();
+    void teleopEndTask();
 private:
     COREConstant<double> m_etherAValue, m_etherBValue, m_etherQuickTurnValue, m_ticksPerInch;
     COREMotor m_leftMaster, m_rightMaster, m_leftSlave, m_rightSlave;

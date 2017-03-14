@@ -258,3 +258,32 @@ void DriveSubsystem::setPos(Position2d pos) {
 		m_driveWaypointController->resetTracker(pos);
 	}
 }
+
+void DriveSubsystem::autonInitTask() {
+	m_leftMaster.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_rightMaster.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_leftSlave.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_rightSlave.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+}
+void DriveSubsystem::autonEndTask() {
+	if(!CORERobot::IsCompetition()) { //This should make it easier to move robot manually when it is disabled
+		m_leftMaster.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_rightMaster.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_leftSlave.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_rightSlave.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+	}
+}
+void DriveSubsystem::teleopInitTask() {
+	m_leftMaster.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_rightMaster.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_leftSlave.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_rightSlave.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+}
+void DriveSubsystem::teleopEndTask() {
+	if(!CORERobot::IsCompetition()) { //This should make it easier to move robot manually when it is disabled
+		m_leftMaster.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_rightMaster.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_leftSlave.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_rightSlave.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+	}
+}

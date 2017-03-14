@@ -5,13 +5,16 @@ public:
 	static Path * getWallToPegPath(double speedScale = 1.0){
 		switch(Robot->getStartingPosition()){
 			case StartingPosition::BOILER:
-				return PathLoader::loadPath("gearAuton_forward_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("gearAuton_forward_boiler.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::FEEDER:
-				return PathLoader::loadPath("gearAuton_forward_feeder.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("gearAuton_forward_feeder.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::CENTER:
-				return PathLoader::loadPath("gearAuton_forward_center.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("gearAuton_forward_center.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			default:
 				return nullptr;
@@ -22,13 +25,16 @@ public:
 	static Path * getWallToBoiler(double speedScale = 1.0){
 		switch(Robot->getStartingPosition()){
 			case StartingPosition::BOILER:
-				return PathLoader::loadPath("gearToHopperAuton_forward_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("gearToHopperAuton_forward_boiler.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::FEEDER:
-				return PathLoader::loadPath("gearToHopperAuton_forward_feeder.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("gearToHopperAuton_forward_feeder.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::CENTER:
-				return PathLoader::loadPath("gearToHopperAuton_forward_center.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("gearToHopperAuton_forward_center.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			default:
 				return nullptr;
@@ -37,15 +43,18 @@ public:
 	}
 
 	static Path * getPegToHopperPath(double speedScale = 1.0){
-		switch(Robot->getStartingPosition()){
+		switch(Robot->getStartingPosition()){ //TODO: Check these file names, I'm pretty sure they're incorrect as they are same as above
 			case StartingPosition::BOILER:
-				return PathLoader::loadPath("gearToHopperAuton_forward_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("gearToHopperAuton_forward_boiler.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::FEEDER:
-				return PathLoader::loadPath("gearToHopperAuton_forward_feeder.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("gearToHopperAuton_forward_feeder.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::CENTER:
-				return PathLoader::loadPath("gearToHopperAuton_forward_center.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("gearToHopperAuton_forward_center.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			default:
 				return nullptr;
@@ -55,13 +64,16 @@ public:
 	static Path * getPegToBoilerPath(double speedScale = 1.0){
 		switch(Robot->getStartingPosition()){
 			case StartingPosition::BOILER:
-				return PathLoader::loadPath("gearToBoilerAuton_forward_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("gearToBoilerAuton_forward_boiler.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::FEEDER:
-				return PathLoader::loadPath("gearToBoilerAuton_forward_feeder.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("gearToBoilerAuton_forward_feeder.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::CENTER:
-				return PathLoader::loadPath("gearToBoilerAuton_forward_center.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("gearToBoilerAuton_forward_center.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			default:
 				return nullptr;
@@ -69,24 +81,28 @@ public:
 		}
 	}
 	static Path * getBoilerToHopperPath(double speedScale = 1.0){
-		return PathLoader::loadPath("boilerToHopper.csv", 1.0, (CORERobot::getAlliance() == RED));
+		return PathLoader::loadPath("boilerToHopper.csv", 1.0, (CORERobot::getAlliance() == CORERobot::RED));
 	}
 	static Path * getHopperToBoilerPath(double speedScale = 1.0){
-		return PathLoader::loadPath("hopperToBoiler_forward_center.csv", 1.0, (CORERobot::getAlliance() == RED));
+		return PathLoader::loadPath("hopperToBoiler_forward_center.csv", 1.0,
+				(CORERobot::getAlliance() == CORERobot::RED));
 	}
 	static Path * getDriveForwardPath(double speedScale = 1.0) {
-		return PathLoader::loadPath("driveForward.csv", 1.0, (CORERobot::getAlliance() == RED));
+		return PathLoader::loadPath("driveForward.csv", 1.0, (CORERobot::getAlliance() == CORERobot::RED));
 	}
 	static Path * getPegReversePath(double speedScale = 1.0){
 		switch(Robot->getStartingPosition()){
 			case StartingPosition::BOILER:
-				return PathLoader::loadPath("gearAuton_reverse_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("gearAuton_reverse_boiler.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::FEEDER:
-				return PathLoader::loadPath("gearAuton_reverse_feeder.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("gearAuton_reverse_feeder.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::CENTER:
-				return PathLoader::loadPath("gearAuton_reverse_center.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("gearAuton_reverse_center.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			default:
 				return nullptr;
@@ -96,13 +112,16 @@ public:
 	static Path * getBoilerToWallPath(double speedScale = 1.0){
 		switch(Robot->getStartingPosition()){
 			case StartingPosition::BOILER:
-				return PathLoader::loadPath("boilerAuton_reverse_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("boilerAuton_reverse_boiler.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::FEEDER:
-				return PathLoader::loadPath("boilerAuton_reverse_feeder.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("boilerAuton_reverse_feeder.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::CENTER:
-				return PathLoader::loadPath("boilerAuton_reverse_center.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("boilerAuton_reverse_center.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			default:
 				return nullptr;
@@ -112,13 +131,16 @@ public:
 	static Path * getHopperToWallPath(double speedScale = 1.0){
 		switch(Robot->getStartingPosition()){
 			case StartingPosition::BOILER:
-				return PathLoader::loadPath("hopperAuton_reverse_boiler.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("hopperAuton_reverse_boiler.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::FEEDER:
-				return PathLoader::loadPath("hopperAuton_reverse_feeder.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("hopperAuton_reverse_feeder.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::CENTER:
-				return PathLoader::loadPath("hopperAuton_reverse_center.csv", 1.0, (CORERobot::getAlliance() == RED));
+				return PathLoader::loadPath("hopperAuton_reverse_center.csv", 1.0,
+						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			default:
 				return nullptr;

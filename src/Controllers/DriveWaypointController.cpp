@@ -18,7 +18,7 @@ void DriveWaypointController::preLoopTask() {
 }
 
 void DriveWaypointController::postLoopTask() {
-	if ( m_enabled && (Robot->getMode() == CORE::gameMode::AUTON)){
+	if (m_enabled && (Robot->getMode() == CORERobot::gameMode::AUTON)){
 		enabledLoop();
 	}
 }

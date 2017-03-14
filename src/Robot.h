@@ -74,7 +74,6 @@ public:
     ClimberSubsystem climberSubsystem;
     HopperSubsystem hopperSubsystem;
     GearSubsystem gearSubsystem;
-    IntakeController intakeController;
     COREJoystick driverJoystick;
     COREJoystick operatorJoystick;
 

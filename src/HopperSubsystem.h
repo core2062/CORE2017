@@ -5,7 +5,7 @@
 
 using namespace CORE;
 
-class HopperSubsystem : public CORESubsystem {
+class HopperSubsystem : public CORESubsystem, public CORETask {
 public:
 	enum hopperState {
 		INTAKE_BALLS, //When we want to intake balls
@@ -20,7 +20,8 @@ public:
     void teleop() override;
     void setLiftTop();
     void setLiftBottom();
-    void setLiftIntake();
+    void setLiftHold();
+    void setLiftPos(double height);
     void setLift(double val);
     void openFlap();
     void closeFlap();
@@ -33,32 +34,24 @@ public:
     double getLiftSpeed();
     double getLiftEncoder();
     bool flapIsOpen();
-
+    void setRequestedState(hopperState requestedState);
+    hopperState getHopperState();
+    void postLoopTask();
 
 private:
     COREMotor m_liftMotor, m_intakeMotor;
-    //COREMotionProfile* m_liftController;
     Servo m_leftDumpFlapServo, m_rightDumpFlapServo;
-    COREConstant<double> m_liftBottomPos, m_liftTopPos, m_liftHoldPos, m_intakeSpeed, m_liftPIDUp_P,
-	m_liftPIDUp_I, m_liftPIDUp_D, m_liftPIDDown_P, m_liftPIDDown_I, m_liftPIDDown_D;
+    COREConstant<double> m_liftBottomPos, m_liftHoldPos, m_liftTopPos, m_intakeSpeed, m_liftPIDUp_P,
+	m_liftPIDUp_I, m_liftPIDUp_D, m_liftPIDDown_P, m_liftPIDDown_I, m_liftPIDDown_D, m_shakeFrequency;
     COREPID m_liftPID;
     AnalogInput m_stringPot;
-    int m_lastPresedButton;
+    int m_lastPressedButton;
     hopperState m_requestedHopperState;
 	hopperState m_actualHopperState;
-
-//    DigitalInput m_bottomLimit;
-//    DigitalInput m_topLimit;
+	CORETimer m_shakeTimer;
 	enum pidProfileDirection {
 		UP = 1,
 		DOWN = 2
 	};
     bool m_flapIsOpen;
-};
-
-class IntakeController : public CORETask {
-public:
-	IntakeController();
-	void postLoopTask() override;
-	void disabledTask() override;
 };

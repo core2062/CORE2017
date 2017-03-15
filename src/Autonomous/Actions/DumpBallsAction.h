@@ -11,6 +11,5 @@ public:
     void actionEnd() override;
     COREAutonAction::actionStatus action() override;
 private:
-    CORETimer m_timer;
-    double m_dumpFlapTime;
+
 };

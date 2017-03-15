@@ -77,7 +77,6 @@ public:
     COREJoystick driverJoystick;
     COREJoystick operatorJoystick;
 
-    DoNothingAuton doNothing;
     DriveForwardAuton driveForwardAuton;
     GearOnlyAuton gearAuton;
     GearBoilerAuton gearBoilerAuton;

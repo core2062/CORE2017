@@ -43,7 +43,7 @@ public:
 private:
     COREMotor m_liftMotor, m_intakeMotor;
     Servo m_leftDumpFlapServo, m_rightDumpFlapServo;
-    COREConstant<double> m_liftBottomPos, m_liftHoldPos, m_liftTopPos, m_intakeSpeed,
+    COREConstant<double> m_liftBottomPos, m_liftHoldPos, m_liftIntakePos, m_liftTopPos, m_intakeSpeed,
 	m_liftPIDUp_P, m_liftPIDUp_I, m_liftPIDUp_D, m_liftPIDDown_P, m_liftPIDDown_I, m_liftPIDDown_D, m_shakeFrequency;
     COREPID m_liftPID;
     AnalogInput m_stringPot;

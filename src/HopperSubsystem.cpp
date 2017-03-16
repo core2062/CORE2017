@@ -14,7 +14,7 @@ HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
 									 m_liftIntakePos("Lift Intake Position", 2040),
 									 m_liftTopPos("Lift Top Position", 3450),
 									 m_intakeSpeed("Intake Speed", .5),
-									 m_liftPIDUp_P("Lift PID Up P Value", 0.001),
+									 m_liftPIDUp_P("Lift PID Up P Value", 0.002),
 									 m_liftPIDUp_I("Lift PID Up I Value", 0),
 									 m_liftPIDUp_D("Lift PID Up D Value", 0.0006),
 									 m_liftPIDDown_P("Lift PID Down P Value", 0.0075),
@@ -40,11 +40,19 @@ void HopperSubsystem::robotInit(){
 	Robot->operatorJoystick.registerAxis(COREJoystick::LEFT_STICK_Y);
 	Robot->operatorJoystick.registerAxis(COREJoystick::RIGHT_STICK_Y);
 	m_liftMotor.setDeadband(0.1);
+
+	m_liftPID.setP(m_liftPIDUp_P.Get(), POS, UP);
+	m_liftPID.setI(m_liftPIDUp_I.Get(), POS, UP);
+	m_liftPID.setD(m_liftPIDUp_D.Get(), POS, UP);
+	m_liftPID.setP(m_liftPIDDown_P.Get(), POS, DOWN);
+	m_liftPID.setI(m_liftPIDDown_I.Get(), POS, DOWN);
+	m_liftPID.setD(m_liftPIDDown_D.Get(), POS, DOWN);
 }
 
 void HopperSubsystem::teleopInit(){
 	closeFlap();
 	setLiftBottom();
+	m_requestedHopperState = HOLD_BALLS;
 	m_liftPID.setP(m_liftPIDUp_P.Get(), POS, UP);
 	m_liftPID.setI(m_liftPIDUp_I.Get(), POS, UP);
 	m_liftPID.setD(m_liftPIDUp_D.Get(), POS, UP);
@@ -183,9 +191,8 @@ void HopperSubsystem::closeFlap() {
 }
 
 bool HopperSubsystem::hopperIsUp(){
-	/*return (m_liftPID.getPos() == m_liftTopPos.Get() &&
-			(m_liftPID.getVel() == 0));*/
-	return true;
+	double range = m_liftTopPos.Get() - m_liftBottomPos.Get();
+	return (fabs((m_stringPot.GetValue() - m_liftTopPos.Get()) / range) < .05);
 }
 bool HopperSubsystem::hopperIsDown(){
 	/*return (m_liftPID.getPos() < m_liftBottomPos.Get() + m_liftTolerance.Get() * 1.1);*/

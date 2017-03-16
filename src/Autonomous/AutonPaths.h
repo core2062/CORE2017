@@ -5,15 +5,15 @@ public:
 	static Path * getWallToPegPath(double speedScale = 1.0){
 		switch(Robot->getStartingPosition()){
 			case StartingPosition::BOILER:
-				return PathLoader::loadPath("gearAuton_forward_boiler.csv", 1.0,
+				return PathLoader::loadPath("wallToPeg_boiler.csv", 1.0,
 						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::FEEDER:
-				return PathLoader::loadPath("gearAuton_forward_feeder.csv", 1.0,
+				return PathLoader::loadPath("wallToPeg_feeder.csv", 1.0,
 						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::CENTER:
-				return PathLoader::loadPath("gearAuton_forward_center.csv", 1.0,
+				return PathLoader::loadPath("wallToPeg_center.csv", 1.0,
 						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			default:
@@ -64,15 +64,15 @@ public:
 	static Path * getPegToBoilerPath(double speedScale = 1.0){
 		switch(Robot->getStartingPosition()){
 			case StartingPosition::BOILER:
-				return PathLoader::loadPath("gearToBoilerAuton_forward_boiler.csv", 1.0,
+				return PathLoader::loadPath("pegToBoiler_boiler.csv", 1.0,
 						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::FEEDER:
-				return PathLoader::loadPath("gearToBoilerAuton_forward_feeder.csv", 1.0,
+				return PathLoader::loadPath("pegToBoiler_feeder.csv", 1.0,
 						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::CENTER:
-				return PathLoader::loadPath("gearToBoilerAuton_forward_center.csv", 1.0,
+				return PathLoader::loadPath("pegToBoiler_center.csv", 1.0,
 						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			default:
@@ -93,15 +93,15 @@ public:
 	static Path * getPegReversePath(double speedScale = 1.0){
 		switch(Robot->getStartingPosition()){
 			case StartingPosition::BOILER:
-				return PathLoader::loadPath("gearAuton_reverse_boiler.csv", 1.0,
+				return PathLoader::loadPath("pegReverse_boiler.csv", 1.0,
 						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::FEEDER:
-				return PathLoader::loadPath("gearAuton_reverse_feeder.csv", 1.0,
+				return PathLoader::loadPath("pegReverse_feeder.csv", 1.0,
 						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			case StartingPosition::CENTER:
-				return PathLoader::loadPath("gearAuton_reverse_center.csv", 1.0,
+				return PathLoader::loadPath("pegReverse_center.csv", 1.0,
 						(CORERobot::getAlliance() == CORERobot::RED));
 				break;
 			default:

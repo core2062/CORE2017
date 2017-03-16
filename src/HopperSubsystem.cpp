@@ -4,18 +4,18 @@
 using namespace CORE;
 
 HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
-									 liftGearFlapPos("Lift Gear Flap Position", 3000),
+									 liftGearFlapPos("Lift Gear Flap Position", 2775),
 									 m_liftMotor(LIFT_MOTOR_PORT, VICTOR),
 									 m_intakeMotor(INTAKE_MOTOR_PORT, VICTOR),
 									 m_leftDumpFlapServo(LEFT_DUMP_FLAP_SERVO_CHANNEL),
 									 m_rightDumpFlapServo(RIGHT_DUMP_FLAP_SERVO_CHANNEL),
-									 m_liftBottomPos("Lift Bottom Position", 1120),
-									 m_liftHoldPos("Lift Hold Position", 1320),
-									 m_liftIntakePos("Lift Intake Position", 2040),
-									 m_liftTopPos("Lift Top Position", 3450),
-									 m_intakeSpeed("Intake Speed", .5),
-									 m_liftPIDUp_P("Lift PID Up P Value", 0.002),
-									 m_liftPIDUp_I("Lift PID Up I Value", 0),
+									 m_liftBottomPos("Lift Bottom Position", 1150),
+									 m_liftHoldPos("Lift Hold Position", 1120),
+									 m_liftIntakePos("Lift Intake Position", 2030),
+									 m_liftTopPos("Lift Top Position", 3380),
+									 m_intakeSpeed("Intake Speed", 1),
+									 m_liftPIDUp_P("Lift PID Up P Value", 0.0013),
+									 m_liftPIDUp_I("Lift PID Up I Value", 0.000043),
 									 m_liftPIDUp_D("Lift PID Up D Value", 0.0006),
 									 m_liftPIDDown_P("Lift PID Down P Value", 0.0075),
 									 m_liftPIDDown_I("Lift PID Down I Value", 0),
@@ -62,57 +62,6 @@ void HopperSubsystem::teleopInit(){
 }
 
 void HopperSubsystem::teleop() {
-
-/*//	m_liftPID.setActualPos(Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition());
-	SmartDashboard::PutNumber("Lift Encoder", Robot->climberSubsystem.getLiftEncoderMotor()->GetEncPosition());
-	SmartDashboard::PutNumber("Lift Pot", m_stringPot.GetValue());
-	if (Robot->operatorJoystick.getButtonState(COREJoystick::B_BUTTON) == COREJoystick::RISING_EDGE){
-		m_flapIsOpen = !m_flapIsOpen;
-	}
-	if (m_flapIsOpen) {
-		closeFlap();
-	} else {
-		openFlap();
-	}
-
-	double liftVal = -Robot->operatorJoystick.getAxis(COREJoystick::LEFT_STICK_Y);
-	if(fabs(liftVal) > .05){
-		m_liftPID.setPos(m_stringPot.GetValue());
-		if (liftVal > 0.05 && (Robot->gearSubsystem.flapIsOpen())){
-			Robot->gearSubsystem.closeFlap();
-		}
-
-	} else {
-		if (Robot->operatorJoystick.getButton(COREJoystick::A_BUTTON)){
-			if(m_intakeMotor.GetLast() != 0){
-				setLiftHold();
-			} else {
-				setLiftBottom();
-			}
-			liftVal = m_liftPID.calculate(2);
-		} else if (Robot->operatorJoystick.getButton(COREJoystick::Y_BUTTON)) {
-			setLiftTop();
-			liftVal = m_liftPID.calculate(1);
-		} else {
-			m_liftPID.setPos(m_stringPot.GetValue());
-			liftVal = 0;
-		}
-	}
-	SmartDashboard::PutNumber("Lift Speed", liftVal);
-	setLift(liftVal);
-
-
-	if(Robot->operatorJoystick.getButton(COREJoystick::DPAD_N)){
-		setIntake(-.5);
-	}
-	if(Robot->operatorJoystick.getButton(COREJoystick::DPAD_S)){
-		setIntake(.5);
-	}
-	double intakeVal = -Robot->operatorJoystick.getAxis(COREJoystick::RIGHT_STICK_Y);
-	if(fabs(intakeVal) > .05){
-		setIntake(intakeVal);
-	}/*/
-
     if(Robot->operatorJoystick.getRisingEdge(COREJoystick::A_BUTTON)) {
         m_lastPressedButton = COREJoystick::A_BUTTON;
         closeFlap();
@@ -252,7 +201,7 @@ void HopperSubsystem::postLoopTask() {
             break;
         case DUMP:
             Robot->gearSubsystem.closeFlap();
-            if(liftHeight < 2040) { //In intake zone
+            if(liftHeight < m_liftIntakePos.Get()) { //In intake zone
                 turnOnIntake();
             } else { //Above intake zone
                 //turnOffIntake();
@@ -262,6 +211,11 @@ void HopperSubsystem::postLoopTask() {
             break;
         case SHAKE:
         	setLiftPos(liftGearFlapPos.Get());
+        	if(liftHeight < m_liftIntakePos.Get()) { //In intake zone
+				turnOnIntake();
+			} else { //Above intake zone
+				setIntake(-0.2);
+			}
             break;
         case MANUAL:
             m_liftPID.setPos(liftHeight);
@@ -274,7 +228,7 @@ void HopperSubsystem::postLoopTask() {
                 }
             } else {
                 setLift(-Robot->operatorJoystick.getAxis(COREJoystick::LEFT_STICK_Y));
-                if(liftHeight < 2040) { //In intake zone
+                if(liftHeight < m_liftIntakePos.Get()) { //In intake zone
     				turnOnIntake();
     			} else { //Above intake zone
     				setIntake(-0.2);
@@ -293,10 +247,10 @@ void HopperSubsystem::postLoopTask() {
     } else if(liftHeight < m_liftBottomPos.Get() && m_liftMotor.Get() < 0) { //Bottom limit
     	m_liftMotor.Set(0);
     }
-    if((m_lastLiftHeight + 5) < liftHeight) {
+    if(((m_lastLiftHeight + 5) < liftHeight) && m_liftMotor.Get() > 0) {
 		Robot->gearSubsystem.closeFlap();
 	}
-	if(Robot->driveSubsystem.getForwardPower() > 0 && liftHeight > 2040) {
+	if(Robot->driveSubsystem.getForwardPower() > 0 && liftHeight > m_liftIntakePos.Get()) {
 		setIntake(-0.2);
 	}
     m_lastLiftHeight = liftHeight;

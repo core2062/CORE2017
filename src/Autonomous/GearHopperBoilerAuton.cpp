@@ -15,7 +15,7 @@ void GearHopperBoilerAuton::addNodes(){
 	m_backupFromPeg = new Node(15, new DriveWaypointAction(AutonPaths::getPegReversePath()));
 	m_driveToHopper = new Node(15, new DriveWaypointAction(AutonPaths::getPegToHopperPath()));
 	m_loadHopper = new Node(3, new HopperFlapAction());
-	m_backupFromHopper = new Node(15, new DriveWaypointAction(AutonPaths::getHopperToWallPath()));
+	m_backupFromHopper = new Node(15, new DriveWaypointAction(AutonPaths::backupFromHopperPath()));
 	m_driveToBoiler = new Node(15, new DriveWaypointAction(AutonPaths::getHopperToBoilerPath()));
 	m_dumpBallsInBoiler = new Node(4, new DumpBallsAction(true));
 	m_shimmyHopper = new Node(3, new ShimmyAction(0.0, 0.0));

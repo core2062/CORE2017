@@ -24,6 +24,7 @@ void Aergia::robotInit() {
 	m_positionChooser.AddObject("Boiler", new StartingPosition(StartingPosition::BOILER));
 	m_positionChooser.AddObject("Feeder", new StartingPosition(StartingPosition::FEEDER));
 	SmartDashboard::PutData("Starting Position", &m_positionChooser);
+	SmartDashboard::PutBoolean("Auto Cross Field", false);
 }
 
 

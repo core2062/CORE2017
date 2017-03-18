@@ -13,7 +13,7 @@ HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
 									 m_liftHoldPos("Lift Hold Position", 1320),
 									 m_liftIntakePos("Lift Intake Position", 2040),
 									 m_liftTopPos("Lift Top Position", 3450),
-									 m_intakeSpeed("Intake Speed", .5),
+									 m_intakeSpeed("Intake Speed", 1.0),
 									 m_liftPIDUp_P("Lift PID Up P Value", 0.002),
 									 m_liftPIDUp_I("Lift PID Up I Value", 0),
 									 m_liftPIDUp_D("Lift PID Up D Value", 0.0006),
@@ -256,12 +256,18 @@ void HopperSubsystem::postLoopTask() {
                 turnOnIntake();
             } else { //Above intake zone
                 //turnOffIntake();
-                setIntake(-0.2);
+                setIntake(-0.4);
             }
             setLiftTop();
             break;
         case SHAKE:
         	setLiftPos(liftGearFlapPos.Get());
+        	if(liftHeight < 2040) { //In intake zone
+        	                turnOnIntake();
+        	            } else { //Above intake zone
+        	                //turnOffIntake();
+        	                setIntake(-0.4);
+        	            }
             break;
         case MANUAL:
             m_liftPID.setPos(liftHeight);
@@ -293,7 +299,7 @@ void HopperSubsystem::postLoopTask() {
     } else if(liftHeight < m_liftBottomPos.Get() && m_liftMotor.Get() < 0) { //Bottom limit
     	m_liftMotor.Set(0);
     }
-    if((m_lastLiftHeight + 5) < liftHeight) {
+    if((m_lastLiftHeight + 55) < liftHeight) {
 		Robot->gearSubsystem.closeFlap();
 	}
 	if(Robot->driveSubsystem.getForwardPower() > 0 && liftHeight > 2040) {

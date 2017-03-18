@@ -147,5 +147,10 @@ public:
 				break;
 		}
 	}
+
+	static Path * getCrossFieldPath(double speedScale = 1.0){
+		return PathLoader::loadPath("boilerToOpposite.csv", speedScale,
+				(CORERobot::getAlliance() == CORERobot::RED));
+	}
 };
 

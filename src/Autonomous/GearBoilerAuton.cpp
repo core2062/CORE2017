@@ -12,12 +12,16 @@ void GearBoilerAuton::addNodes() {
 	m_loadGearOnPeg = new Node(15, new LoadGearOntoPegAction());
 	m_driveToBoiler = new Node(5, new DriveWaypointAction(AutonPaths::getPegToBoilerPath(), false));
 	m_dumpBallsInBoiler = new Node(5, new DumpBallsAction(1.5));
+	m_cross = new Node(9, new DriveWaypointAction(AutonPaths::getCrossFieldPath(), true));
 //	m_shimmyHopper = new Node(1, new ShimmyAction(0.0, 0.0));
 
 	addFirstNode(m_driveToPeg);
 	m_driveToPeg->addNext(m_loadGearOnPeg);
 	m_loadGearOnPeg->addNext(m_driveToBoiler);
 	m_driveToBoiler->addNext(m_dumpBallsInBoiler);
+	if (SmartDashboard::GetBoolean("Auto Cross Field", false)){
+		m_dumpBallsInBoiler->addNext(m_cross);
+	}
 //	m_dumpBallsInBoiler->addNext(m_shimmyHopper);
 //	m_shimmyHopper->addNext(m_resetHopper);
 }

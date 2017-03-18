@@ -18,5 +18,6 @@ private:
 	Node * m_dumpBallsInBoiler = nullptr;
 	Node * m_shimmyHopper = nullptr;
 	Node * m_resetHopper = nullptr;
+	Node * m_cross = nullptr;
 };
 

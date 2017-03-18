@@ -205,7 +205,7 @@ void HopperSubsystem::postLoopTask() {
                 turnOnIntake();
             } else { //Above intake zone
                 //turnOffIntake();
-                setIntake(-0.2);
+                setIntake(-0.4);
             }
             setLiftTop();
             break;
@@ -214,8 +214,8 @@ void HopperSubsystem::postLoopTask() {
         	if(liftHeight < m_liftIntakePos.Get()) { //In intake zone
 				turnOnIntake();
 			} else { //Above intake zone
-				setIntake(-0.2);
 			}
+				setIntake(-0.2);
             break;
         case MANUAL:
             m_liftPID.setPos(liftHeight);
@@ -248,6 +248,7 @@ void HopperSubsystem::postLoopTask() {
     	m_liftMotor.Set(0);
     }
     if(((m_lastLiftHeight + 5) < liftHeight) && m_liftMotor.Get() > 0) {
+    if((m_lastLiftHeight + 55) < liftHeight) {
 		Robot->gearSubsystem.closeFlap();
 	}
 	if(Robot->driveSubsystem.getForwardPower() > 0 && liftHeight > m_liftIntakePos.Get()) {

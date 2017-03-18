@@ -8,12 +8,14 @@ GearHopperAuton::GearHopperAuton(StartingPosition startingPosition) :
 
 }
 void GearHopperAuton::addNodes() {
+	m_setLowGearPosition = new Node(10, new DriveShiftAction(GearPosition::LOW_GEAR));
 	m_driveToPeg = new Node(15, new DriveWaypointAction(AutonPaths::getWallToPegPath()));
 	m_loadGearOnPeg = new Node(15, new LoadGearOntoPegAction());
 	m_backupFromPeg = new Node(15, new DriveWaypointAction(AutonPaths::getPegReversePath()));
 	m_driveToHopper = new Node(15, new DriveWaypointAction(AutonPaths::getPegToHopperPath()));
 	m_loadHopper = new Node(15, new HopperFlapAction());
-	addFirstNode(m_driveToPeg);
+	addFirstNode(m_setLowGearPosition);
+	m_setLowGearPosition->addNext(m_driveToPeg);
 	m_driveToPeg->addNext(m_loadGearOnPeg);
 	m_loadGearOnPeg->addNext(m_backupFromPeg);
 	m_backupFromPeg->addNext(m_driveToHopper);

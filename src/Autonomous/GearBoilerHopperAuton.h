@@ -16,6 +16,7 @@ private:
 	static Path * backupFromBoiler(StartingPosition startingPosition);
 	static Path * driveToHopper(StartingPosition startingPosition);
 
+	Node * m_setLowGearPosition = nullptr;
 	Node * m_driveToPeg = nullptr;
 	Node * m_loadGearOnPeg = nullptr;
 	Node * m_backupFromPeg = nullptr;

@@ -11,6 +11,7 @@ public:
 	GearOnlyAuton(StartingPosition startingPosition);
 	void addNodes() override;
 private:
+	Node * m_setLowGearPosition = nullptr;
 	Node * m_driveToPeg = nullptr;
 	Node * m_loadGearOnPeg = nullptr;
 	Node * m_reverseDrive = nullptr;

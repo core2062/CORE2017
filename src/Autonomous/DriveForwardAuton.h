@@ -6,6 +6,7 @@
 #include "Actions/DriveDistanceAction.h"
 #include "Actions/DriveWaypointAction.h"
 #include "Actions/GearFlapAction.h"
+#include "Actions.h"
 
 using namespace CORE;
 

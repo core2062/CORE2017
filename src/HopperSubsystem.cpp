@@ -257,6 +257,7 @@ void HopperSubsystem::postLoopTask() {
     m_lastLiftHeight = liftHeight;
     m_actualHopperState = m_requestedHopperState;
 }
+}
 
 void HopperSubsystem::setRequestedState(HopperSubsystem::hopperState requestedState) {
     m_requestedHopperState = requestedState;

@@ -9,5 +9,6 @@
 #include "Actions/IntakeBallsAction.h"
 #include "Actions/ShimmyAction.h"
 #include "Actions/SetLiftPositionAction.h"
+#include "Actions/DriveShiftAction.h"
 
 

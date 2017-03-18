@@ -1,4 +1,4 @@
-#pragma once;
+#pragma once
 #include "CORERobotLib.h"
 #include "Constants.h"
 

@@ -13,7 +13,7 @@ void GearBoilerAuton::addNodes() {
 	m_driveToBoiler = new Node(5, new DriveWaypointAction(AutonPaths::getPegToBoilerPath(), false));
 	m_dumpBallsInBoiler = new Node(5, new DumpBallsAction(1.5));
 	m_goHigh = new Node(2,  new DriveShiftAction(GearPosition::HIGH_GEAR));
-	m_cross = new Node(9, new DriveWaypointAction(AutonPaths::getCrossFieldPath(), true, .2, 20));
+	m_cross = new Node(9, new DriveForwardWithoutPathAction(GearPosition::HIGH_GEAR));
 //	m_shimmyHopper = new Node(1, new ShimmyAction(0.0, 0.0));
 
 	addFirstNode(m_setLowGearPosition);

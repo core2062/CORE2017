@@ -10,5 +10,6 @@
 #include "Actions/ShimmyAction.h"
 #include "Actions/SetLiftPositionAction.h"
 #include "Actions/DriveShiftAction.h"
+#include "Actions/DriveForwardWithoutPathAction.h"
 
 

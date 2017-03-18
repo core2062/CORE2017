@@ -4,15 +4,15 @@
 using namespace CORE;
 
 HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
-									 liftGearFlapPos("Lift Gear Flap Position", 2950),
+									 liftGearFlapPos("Lift Gear Flap Position", 3050),
 									 m_liftMotor(LIFT_MOTOR_PORT, VICTOR),
 									 m_intakeMotor(INTAKE_MOTOR_PORT, VICTOR),
 									 m_leftDumpFlapServo(LEFT_DUMP_FLAP_SERVO_CHANNEL),
 									 m_rightDumpFlapServo(RIGHT_DUMP_FLAP_SERVO_CHANNEL),
-									 m_liftBottomPos("Lift Bottom Position", 1080),
-									 m_liftHoldPos("Lift Hold Position", 1220),
-									 m_liftIntakePos("Lift Intake Position", 2030),
-									 m_liftTopPos("Lift Top Position", 3400),
+									 m_liftBottomPos("Lift Bottom Position", 1160),
+									 m_liftHoldPos("Lift Hold Position", 1320),
+									 m_liftIntakePos("Lift Intake Position", 2210),
+									 m_liftTopPos("Lift Top Position", 3475),
 									 m_intakeSpeed("Intake Speed", 1),
 									 m_liftPIDUp_P("Lift PID Up P Value", 0.006),
 									 m_liftPIDUp_I("Lift PID Up I Value", 0),
@@ -204,7 +204,6 @@ void HopperSubsystem::postLoopTask() {
             if(liftHeight < m_liftIntakePos.Get()) { //In intake zone
                 turnOnIntake();
             } else { //Above intake zone
-                //turnOffIntake();
                 setIntake(-0.4);
             }
             setLiftTop();
@@ -214,8 +213,8 @@ void HopperSubsystem::postLoopTask() {
         	if(liftHeight < m_liftIntakePos.Get()) { //In intake zone
 				turnOnIntake();
 			} else { //Above intake zone
+				setIntake(-0.4);
 			}
-				setIntake(-0.2);
             break;
         case MANUAL:
             m_liftPID.setPos(liftHeight);
@@ -231,7 +230,7 @@ void HopperSubsystem::postLoopTask() {
                 if(liftHeight < m_liftIntakePos.Get()) { //In intake zone
     				turnOnIntake();
     			} else { //Above intake zone
-    				setIntake(-0.2);
+    				setIntake(-0.4);
     			}
             }
             break;
@@ -247,8 +246,7 @@ void HopperSubsystem::postLoopTask() {
     } else if(liftHeight < m_liftBottomPos.Get() && m_liftMotor.Get() < 0) { //Bottom limit
     	m_liftMotor.Set(0);
     }
-    if(((m_lastLiftHeight + 5) < liftHeight) && m_liftMotor.Get() > 0) {
-    if((m_lastLiftHeight + 55) < liftHeight) {
+    if(((m_lastLiftHeight + 30) < liftHeight) && m_liftMotor.Get() > 0) {
 		Robot->gearSubsystem.closeFlap();
 	}
 	if(Robot->driveSubsystem.getForwardPower() > 0 && liftHeight > m_liftIntakePos.Get()) {
@@ -256,7 +254,6 @@ void HopperSubsystem::postLoopTask() {
 	}
     m_lastLiftHeight = liftHeight;
     m_actualHopperState = m_requestedHopperState;
-}
 }
 
 void HopperSubsystem::setRequestedState(HopperSubsystem::hopperState requestedState) {

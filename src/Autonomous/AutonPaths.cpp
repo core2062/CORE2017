@@ -1,6 +1,7 @@
 #include "AutonPaths.h"
 #include "Robot.h"
 
+/*
 using namespace CORE;
 
 Path * AutonPaths::getWallToPegPath(double speedScale){
@@ -157,3 +158,4 @@ Path * AutonPaths::backupFromHopperPath(double speedScale){
 		}
 	}
 
+*/

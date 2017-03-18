@@ -13,7 +13,7 @@ BoilerOnlyAuton::BoilerOnlyAuton() :
 
 void BoilerOnlyAuton::addNodes() {
 	m_setLowGearPosition = new Node (10, new DriveShiftAction(GearPosition::LOW_GEAR));
-	m_driveToBoiler = new Node(10, new DriveWaypointAction(AutonPaths::getWallToBoilerPath()));
+//	m_driveToBoiler = new Node(10, new DriveWaypointAction(AutonPaths::getWallToBoilerPath()));
 	m_dumpBallsInBoiler = new Node(15, new DumpBallsAction(false)); //Hardcoded value for now, need to pass in a reset bool.
 	m_shimmyHopper = new Node(15, new ShimmyAction(0.0, 0.0));
 	addFirstNode(m_setLowGearPosition);

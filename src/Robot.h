@@ -9,6 +9,7 @@
 #include "HopperSubsystem.h"
 #include "GearSubsystem.h"
 #include "ClimberSubsystem.h"
+#include "VisionSubsystem.h"
 #include "Constants.h"
 
 #include "Autonomous/Autons.h"
@@ -74,6 +75,7 @@ public:
     ClimberSubsystem climberSubsystem;
     HopperSubsystem hopperSubsystem;
     GearSubsystem gearSubsystem;
+    VisionSubsystem visionSubsystem;
     COREJoystick driverJoystick;
     COREJoystick operatorJoystick;
 

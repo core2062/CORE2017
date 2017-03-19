@@ -9,6 +9,7 @@ Aergia::Aergia() :
 		climberSubsystem(),
 		hopperSubsystem(),
 		gearSubsystem(),
+		visionSubsystem(),
 		driverJoystick(0),
 		operatorJoystick(1),
 		driveForwardAuton(0,0),

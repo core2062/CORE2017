@@ -197,7 +197,11 @@ void HopperSubsystem::postLoopTask() {
             break;
         case HOLD_BALLS:
             setLiftHold();
-            turnOffIntake();
+            if(liftHeight < m_liftHoldPos.Get() - 50) { //In intake zone
+                turnOnIntake();
+            } else { //Above intake zone
+                setIntake(0);
+            }
             break;
         case DUMP:
             Robot->gearSubsystem.closeFlap();
@@ -246,7 +250,7 @@ void HopperSubsystem::postLoopTask() {
     } else if(liftHeight < m_liftBottomPos.Get() && m_liftMotor.Get() < 0) { //Bottom limit
     	m_liftMotor.Set(0);
     }
-    if(((m_lastLiftHeight + 30) < liftHeight) && m_liftMotor.Get() > 0) {
+    if(((((m_lastLiftHeight + 30) < liftHeight) && m_actualHopperState != HOLD_BALLS) && m_actualHopperState != INTAKE_BALLS) && m_liftMotor.Get() > 0) {
 		Robot->gearSubsystem.closeFlap();
 	}
 	if(Robot->driveSubsystem.getForwardPower() > 0 && liftHeight > m_liftIntakePos.Get()) {

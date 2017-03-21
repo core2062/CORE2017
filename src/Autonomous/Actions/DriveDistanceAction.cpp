@@ -10,16 +10,25 @@ DriveDistanceAction::DriveDistanceAction(double speedInFraction, double distance
     void DriveDistanceAction::actionInit() {
         //driveMotorFR.CANTalonController->SetEncPosition(0);
         Robot->driveSubsystem.resetEncoders(DriveSide::BOTH);
-    	Robot->driveSubsystem.setHighGear(m_setHighGear);
+        if(m_setHighGear){
+        	Robot->driveSubsystem.setHighGear(true);
+        } else {
+        	Robot->driveSubsystem.setLowGear(true);
+        }
+        m_initTime.Reset();
+        m_initTime.Start();
+
+        Robot->driveSubsystem.teleopInit();
+
     }
     COREAutonAction::actionStatus DriveDistanceAction::action() {
     	//How far have we gone since the reset?
-    	double averDist = Robot->driveSubsystem.getDistanceInInches(DriveSide::BOTH);
-
+    	std::pair<double, double> dists = Robot->driveSubsystem.getEncoderInches();
+    	double averDist = (fabs(dists.first) + fabs(dists.second)) * .5;
     	//Is this less than how far we were supposed to go?
-    	if (averDist < m_distanceInInches) {
+    	if (averDist < m_distanceInInches || m_initTime.Get() < 1.0) {
     		//If yes, set motors to appropriate speed, return CONTINUE.
-    		Robot->driveSubsystem.setMotorSpeed(m_speedInFraction, DriveSide::BOTH);
+    		Robot->driveSubsystem.setMotorSpeed(-1.0, -1.0);
     		return COREAutonAction::CONTINUE;
 
     	}else{

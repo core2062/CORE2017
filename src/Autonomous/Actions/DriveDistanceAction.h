@@ -13,4 +13,5 @@ private:
 	double m_speedInFraction;
     double m_distanceInInches;
     bool m_setHighGear;
+    Timer m_initTime;
 };

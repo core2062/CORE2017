@@ -14,6 +14,7 @@ GearSubsystem::GearSubsystem() : CORESubsystem("Gear"),
 void GearSubsystem::robotInit() {
 	Robot->operatorJoystick.registerButton(COREJoystick::LEFT_BUTTON);
 	Robot->operatorJoystick.registerButton(COREJoystick::RIGHT_BUTTON);
+	Robot->gearSubsystem.openFlap();
 
 }
 

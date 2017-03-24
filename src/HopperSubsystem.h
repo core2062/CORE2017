@@ -37,6 +37,7 @@ public:
     bool flapIsOpen();
     void setRequestedState(hopperState requestedState);
     hopperState getHopperState();
+    void autonInitTask() override;
     void postLoopTask();
 
     COREConstant<double> liftGearFlapPos;

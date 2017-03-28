@@ -8,7 +8,7 @@ VisionSubsystem::VisionSubsystem() : CORESubsystem("Vision"){
 }
 
 void VisionSubsystem::robotInit(){
-	Robot->driverJoystick.registerButton(COREJoystick::RIGHT_BUTTON);
+	Robot->operatorJoystick.registerButton(COREJoystick::BACK_BUTTON);
 	visionTable = NetworkTable::GetTable("Vision");
 }
 
@@ -16,7 +16,7 @@ void VisionSubsystem::teleopInit(){
 
 }
 void VisionSubsystem::teleop() {
-	if (Robot->driverJoystick.getRisingEdge(COREJoystick::RIGHT_BUTTON)){
+	if (Robot->operatorJoystick.getRisingEdge(COREJoystick::BACK_BUTTON)){
 		//if the right button is pressed, switch the front camera to the gear camera
 		if (whichCamera == frontCamera){
 			whichCamera = gearCamera;

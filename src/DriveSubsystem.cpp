@@ -9,7 +9,7 @@ DriveSubsystem::DriveSubsystem() : COREVariableControlledSubsystem("Drive Subsys
 								   m_etherAValue("Ether A Value", .6),
                                    m_etherBValue("Ether B Value", .4),
 								   m_etherQuickTurnValue("Ether Quick Turn Value", 1.0),
-                                   m_ticksPerInch("Ticks Per Inch", 0),
+                                   m_ticksPerInch("Ticks Per Inch", (4 * 3.1415) / 1024),
 								   m_leftMaster(FL_DRIVE_MOTOR_PORT),
 								   m_rightMaster(FR_DRIVE_MOTOR_PORT),
 								   m_leftSlave(BL_DRIVE_MOTOR_PORT),
@@ -49,6 +49,7 @@ void DriveSubsystem::teleopInit() {
 
 	setController(&m_driveTeleController);
 	m_driveTeleController.enable();
+	m_driveWaypointController->disable();
 
 	if(!m_gyro->IsConnected()) {
 		CORELog::logError("NavX not connected!");
@@ -98,9 +99,11 @@ void DriveSubsystem::resetEncoders(DriveSide whichSide){
 	//Encoders only on front drive motors
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::RIGHT){
 		m_rightMaster.getCANTalon()->SetEncPosition(0);
+		m_rightMaster.getCANTalon()->SetPosition(0);
 	}
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::LEFT){
 		m_leftMaster.getCANTalon()->SetEncPosition(0);
+		m_leftMaster.getCANTalon()->SetPosition(0);
 	}
 }
 

@@ -11,5 +11,6 @@
 #include "Actions/SetLiftPositionAction.h"
 #include "Actions/DriveShiftAction.h"
 #include "Actions/DriveForwardWithoutPathAction.h"
+#include "Actions/DriveDistanceAction.h"
 
 

@@ -15,6 +15,9 @@ private:
 	Node * m_driveToPeg = nullptr;
 	Node * m_loadGearOnPeg = nullptr;
 	Node * m_reverseDrive = nullptr;
+	Node * m_prepCrossA = nullptr;
+	Node * m_prepCrossB = nullptr;
+	Node * m_cross = nullptr;
 };
 
 

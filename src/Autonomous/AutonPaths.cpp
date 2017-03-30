@@ -24,7 +24,7 @@ Path * AutonPaths::getWallToPegPath(double speedScale){
 		}
 	}
 Path * AutonPaths::getWallToBoilerPath(double speedScale){
-		switch(Robot->getStartingPosition()){ //TODO: Check these file names, I'm pretty sure they're incorrect as they are same as above
+		switch(Robot->getStartingPosition()){
 			case StartingPosition::BOILER:
 				return PathLoader::loadPath("gearToHopperAuton_forward_boiler.csv", speedScale,
 						(CORERobot::getAlliance() == CORERobot::RED));
@@ -44,7 +44,7 @@ Path * AutonPaths::getWallToBoilerPath(double speedScale){
 
 }
 Path * AutonPaths::getPegToHopperPath(double speedScale){
-		switch(Robot->getStartingPosition()){ //TODO: Check these file names, I'm pretty sure they're incorrect as they are same as above
+		switch(Robot->getStartingPosition()){
 			case StartingPosition::BOILER:
 				return PathLoader::loadPath("pegToHopper_forward_boiler.csv", speedScale,
 						(CORERobot::getAlliance() == CORERobot::RED));
@@ -241,6 +241,49 @@ Path * AutonPaths::getReverseHopperPath(double speedScale){
 			return nullptr;
 			break;
 	}
+}
+Path * AutonPaths::getReverseBoilerPath(double speedScale){
+	//TODO add the csv files into this one
+	switch(Robot->getStartingPosition()){
+		case StartingPosition::BOILER:
+			return PathLoader::loadPath("pegToCrossB_boiler.csv", 1.0,
+					(CORERobot::getAlliance() == CORERobot::RED));
+			break;
+		case StartingPosition::FEEDER:
+			return PathLoader::loadPath("pegToCrossB_feeder.csv", 1.0,
+					(CORERobot::getAlliance() == CORERobot::RED));
+			break;
+		case StartingPosition::CENTER:
+			return PathLoader::loadPath("pegToCrossB_center.csv", 1.0,
+					(CORERobot::getAlliance() == CORERobot::RED));
+			break;
+		default:
+			return nullptr;
+			break;
 
 }
 
+}
+
+Path * AutonPaths::getBoilerToPegPath(double speedScale){
+
+	//TODO add the proper csv file names
+	switch(Robot->getStartingPosition()){
+		case StartingPosition::BOILER:
+			return PathLoader::loadPath("pegToCrossB_boiler.csv", 1.0,
+					(CORERobot::getAlliance() == CORERobot::RED));
+			break;
+		case StartingPosition::FEEDER:
+			return PathLoader::loadPath("pegToCrossB_feeder.csv", 1.0,
+					(CORERobot::getAlliance() == CORERobot::RED));
+			break;
+		case StartingPosition::CENTER:
+			return PathLoader::loadPath("pegToCrossB_center.csv", 1.0,
+					(CORERobot::getAlliance() == CORERobot::RED));
+			break;
+		default:
+			return nullptr;
+			break;
+}
+
+}

@@ -23,6 +23,8 @@ private:
 	Node * m_dumpBallsInBoiler = nullptr;
 	Node * m_shimmyHopper = nullptr;
 	Node * m_resetHopper = nullptr;
+	Node * m_backupFromBoiler = nullptr;
+	Node * m_driveToPeg = nullptr;
 	COREConstant<double> m_shimmyScale;
 
 };

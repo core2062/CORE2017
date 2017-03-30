@@ -18,6 +18,7 @@ void HopperBoilerAuton::addNodes(){
 	m_backupFromHopper = new Node(15, new DriveWaypointAction(AutonPaths::getReverseHopperPath()));
 	m_driveToBoiler = new Node(15, new DriveWaypointAction(AutonPaths::getHopperToBoilerPath()));
 	m_dumpBallsInBoiler = new Node(4, new DumpBallsAction(1.5));
+	m_backupFromBoiler = new Node(10, new DriveWaypointAction(AutonPaths::))
 
 	addFirstNode(m_setLowGearPosition);
 	m_setLowGearPosition->addNext(m_driveToHopper);
@@ -27,6 +28,8 @@ void HopperBoilerAuton::addNodes(){
 	m_driveToBoiler->addNext(m_dumpBallsInBoiler);
 	m_dumpBallsInBoiler->addNext(m_shimmyHopper);
 	m_shimmyHopper->addNext(m_resetHopper);
+	m_resetHopper->addNext(m_backupFromBoiler);
+	m_backupFromBoiler->addNext(m_driveToPeg);
 
 
 }

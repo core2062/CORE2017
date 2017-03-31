@@ -10,7 +10,7 @@ public:
 
 	static Path * getPegToHopperPath(double speedScale = 1.0);
 
-	static Path * getPegToBoilerPath(double speedScale = 1.0);
+	static Path * getPegToBoilerPath(double speedScale = 1.0, bool reverse = false);
 
 	static Path * getBoilerToHopperPath(double speedScale = 1.0);
 

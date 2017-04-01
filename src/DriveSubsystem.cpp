@@ -179,6 +179,11 @@ void DriveSubsystem::followPath(Path path, bool reversed, double maxAccel,
 	m_driveWaypointController->enable();
 }
 
+void DriveSubsystem::setFrame(RobotFrame * frame){
+	if(m_driveWaypointController){
+		m_driveWaypointController->frame = frame;
+	}
+}
 
 void DriveSubsystem::initTalons() {
 	shared_ptr<CANTalon> leftMaster = m_leftMaster.getCANTalon();

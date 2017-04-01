@@ -83,6 +83,8 @@ public:
     GearOnlyAuton gearAuton;
     GearBoilerAuton gearBoilerAuton;
 
+    RobotFrame * initialFrame;
+
     SendableChooser<StartingPosition*> m_positionChooser;
 
 private:

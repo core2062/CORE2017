@@ -42,6 +42,8 @@ void Aergia::autonInit() {
 		driveSubsystem.setPos(Position2d(Translation2d(-30,105 * CORERobot::getAlliance()), Rotation2d(driveSubsystem.getGyroAngle())));
 		break;
 	}
+	initialFrame = new RobotFrame(Position2d(Translation2d(),driveSubsystem.getGyroAngle()));
+	driveSubsystem.setFrame(initialFrame);
 //	driveSubsystem.resetYaw();
 }
 

@@ -32,6 +32,7 @@ public:
     bool pathDone();
     bool checkPathEvent(std::string event);
     void followPath(Path path, bool reversed = false, double maxAccel = 25.0, double tolerance = .25);
+    void setFrame(RobotFrame * frame);
     CANTalon * getLeftMaster();
     CANTalon * getRightMaster();
     AHRS * getGyro();

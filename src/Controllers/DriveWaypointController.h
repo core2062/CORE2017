@@ -2,6 +2,7 @@
 
 #include "COREScheduler.h"
 #include "WaypointFollower/WaypointFollower.h"
+#include "WaypointFollower/RobotFrame.h"
 
 class DriveWaypointController : public COREController{
 private:
@@ -23,5 +24,7 @@ public:
 	bool isDone();
 	bool checkEvent(std::string event);
 	void updatePathFollower();
+
+	RobotFrame * frame = nullptr;
 
 };

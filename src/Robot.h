@@ -1,5 +1,7 @@
 #pragma once
 
+//#define GEAR_PICKUP
+
 #include <iostream>
 #include <memory>
 #include "WPILib.h"
@@ -7,7 +9,21 @@
 #include "CORERobotLib.h"
 #include "DriveSubsystem.h"
 #include "HopperSubsystem.h"
-#include "GearSubsystem.h"
+#ifdef GEAR_PICKUP
+	#include "GearPickupSubsystem.h"
+	#define GEAR_PICKUP_LEFT_OUT_PORT 4
+	#define GEAR_PICKUP_LEFT_IN_PORT 5
+	#define GEAR_PICKUP_LEFT_PCM 2
+	#define GEAR_PICKUP_RIGHT_OUT_PORT 6
+	#define GEAR_PICKUP_RIGHT_IN_PORT 7
+	#define GEAR_PICKUP_RIGHT_PCM 2
+	#define GEAR_INTAKE_PORT 4
+#else
+	#include "GearSubsystem.h"
+	#define PUNCH_SOLENOID_OUT_PORT 4
+	#define PUNCH_SOLENOID_IN_PORT 5
+	#define PUNCH_SOLENOID_PCM 1
+#endif
 #include "ClimberSubsystem.h"
 #include "VisionSubsystem.h"
 #include "Constants.h"
@@ -47,9 +63,6 @@
 #define RIGHT_DRIVE_SHIFTER_HIGH_GEAR_PORT 2
 #define RIGHT_DRIVE_SHIFTER_LOW_GEAR_PORT 3
 #define RIGHT_DRIVE_SHIFTER_PCM 1
-#define PUNCH_SOLENOID_OUT_PORT 4
-#define PUNCH_SOLENOID_IN_PORT 5
-#define PUNCH_SOLENOID_PCM 1
 #define LEFT_GEAR_FLAP_SOLENOID_OUT_PORT 0
 #define LEFT_GEAR_FLAP_SOLENOID_IN_PORT 1
 #define LEFT_GEAR_FLAP_SOLENOID_PCM 2
@@ -83,7 +96,7 @@ public:
     GearOnlyAuton gearAuton;
     GearBoilerAuton gearBoilerAuton;
 
-    RobotFrame * initialFrame;
+    RobotFrame * initialFrame = nullptr;
 
     SendableChooser<StartingPosition*> m_positionChooser;
 

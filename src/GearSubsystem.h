@@ -1,3 +1,5 @@
+#ifndef GEAR_PICKUP
+
 #pragma once
 
 #include "CORERobotLib.h"
@@ -23,3 +25,5 @@ private:
     COREConstant<double> m_punchTime;
     CORETimer m_punchTimer;
 };
+
+#endif

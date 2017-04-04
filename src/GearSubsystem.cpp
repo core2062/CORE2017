@@ -1,3 +1,5 @@
+#ifndef GEAR_PICKUP
+
 #include "GearSubsystem.h"
 #include "Robot.h"
 
@@ -72,4 +74,6 @@ void GearSubsystem::closeFlap(){
 bool GearSubsystem::flapIsOpen(){
 	return (m_leftFlapSolenoid.Get() != DoubleSolenoid::kForward);
 }
+
+#endif
 

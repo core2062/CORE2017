@@ -1,5 +1,6 @@
 #pragma once
 #include "CORERobotLib.h"
+#include "WPILib.h"
 
 using namespace CORE;
 class DriveDistanceAction : public COREAutonAction {

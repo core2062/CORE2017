@@ -99,6 +99,10 @@ bool GearSubsystem::flapIsOpen(){
 	return (m_leftFlapSolenoid.Get() != DoubleSolenoid::kForward);
 }
 
+GearPickupState GearSubsystem::getState(){
+	return m_state;
+}
+
 void GearSubsystem::postLoopTask() {
 	switch(m_state){
 	case(GearPickupState::HOLDING):

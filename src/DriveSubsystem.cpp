@@ -217,12 +217,12 @@ void DriveSubsystem::initTalons() {
 }
 
 std::pair<double, double> DriveSubsystem::getEncoderInches() {
-	double factor = 4.0 * PI;
+	double factor = TankKinematics::wheelDiameter.Get() * PI;
 	return {m_leftMaster.getCANTalon()->GetPosition() * factor, m_rightMaster.getCANTalon()->GetPosition() * factor};
 }
 
 std::pair<double, double> DriveSubsystem::getEncoderSpeed() {
-	double factor = 4.0 * PI * .0166666666; //Multiply by 1/60 to get RPS from RPM
+	double factor = TankKinematics::wheelDiameter.Get() * PI * .0166666666; //Multiply by 1/60 to get RPS from RPM
 	return {m_leftMaster.getCANTalon()->GetSpeed() * factor, m_rightMaster.getCANTalon()->GetSpeed() * factor};
 }
 

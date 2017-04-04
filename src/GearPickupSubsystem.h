@@ -30,6 +30,7 @@ public:
     void openFlap();
     void closeFlap();
     bool flapIsOpen();
+    GearPickupState getState();
 
     void postLoopTask() override;
 private:

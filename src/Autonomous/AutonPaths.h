@@ -37,5 +37,10 @@ public:
 	static Path * getReverseBoilerPath(double speedScale = 1.0);
 
 	static Path * getBoilerToPegPath(double speedScale = 1.0);
+
+	static Path * getWallToFarHopperPath(double speedScale = 1.0);
+
+	static Path * getFarHopperToBoilerPath(double speedScale = 1.0);
+
 };
 

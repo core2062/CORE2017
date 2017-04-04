@@ -11,8 +11,6 @@ public:
 	void addNodes() override;
 
 private:
-	static Path * getPathFor(StartingPosition startingPosition);
-
 	Node * m_setLowGearPosition = nullptr;
 	Node * m_driveToBoiler = nullptr;
 	Node * m_dumpBallsInBoiler = nullptr;

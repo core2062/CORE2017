@@ -223,14 +223,13 @@ Path * AutonPaths::getWallToHopperPath(double speedscale){
 }
 
 Path * AutonPaths::getReverseHopperPath(double speedScale){
-	//TODO Add the proper csv files so that the robot follows the right path
 
 	return PathLoader::loadPath("backupFromHopper.csv", 1.0,
 		(CORERobot::getAlliance() == CORERobot::RED));
 
 }
 Path * AutonPaths::getReverseBoilerPath(double speedScale){
-	//TODO add the csv files into this one
+
 	return PathLoader::loadPath("backupFromBoiler.csv.csv", 1.0,
 		(CORERobot::getAlliance() == CORERobot::RED));
 
@@ -238,7 +237,50 @@ Path * AutonPaths::getReverseBoilerPath(double speedScale){
 }
 
 Path * AutonPaths::getBoilerToPegPath(double speedScale){
-
 	return getPegToBoilerPath(speedScale, true);
+}
+
+Path * AutonPaths::getWallToFarHopperPath(double speedScale){
+	//TODO Add the csv file for this path
+	switch(Robot->getStartingPosition()){
+		case StartingPosition::BOILER:
+			return PathLoader::loadPath("wallToHopper_boiler.csv", 1.0,
+					(CORERobot::getAlliance() == CORERobot::RED));
+			break;
+		case StartingPosition::FEEDER:
+			return PathLoader::loadPath("wallToHopper_feeder.csv", 1.0,
+					(CORERobot::getAlliance() == CORERobot::RED));
+			break;
+		case StartingPosition::CENTER:
+			return PathLoader::loadPath("wallToHopper_center.csv", 1.0,
+					(CORERobot::getAlliance() == CORERobot::RED));
+			break;
+		default:
+			return nullptr;
+			break;
+	}
 
 }
+
+Path * AutonPaths::getFarHopperToBoilerPath(double speedScale){
+	//TODO Add the file that goes from the far hopper to the boiler
+	switch(Robot->getStartingPosition()){
+		case StartingPosition::BOILER:
+			return PathLoader::loadPath("wallToHopper_boiler.csv", 1.0,
+					(CORERobot::getAlliance() == CORERobot::RED));
+			break;
+		case StartingPosition::FEEDER:
+			return PathLoader::loadPath("wallToHopper_feeder.csv", 1.0,
+					(CORERobot::getAlliance() == CORERobot::RED));
+			break;
+		case StartingPosition::CENTER:
+			return PathLoader::loadPath("wallToHopper_center.csv", 1.0,
+					(CORERobot::getAlliance() == CORERobot::RED));
+			break;
+		default:
+			return nullptr;
+			break;
+	}
+
+}
+

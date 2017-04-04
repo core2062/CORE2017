@@ -26,6 +26,7 @@ void Aergia::robotInit() {
 	m_positionChooser.AddObject("Feeder", new StartingPosition(StartingPosition::FEEDER));
 	SmartDashboard::PutData("Starting Position", &m_positionChooser);
 	SmartDashboard::PutBoolean("Auto Cross Field", false);
+	initialFrame = new RobotFrame(Position2d(Translation2d(),driveSubsystem.getGyroAngle()));
 }
 
 
@@ -42,6 +43,7 @@ void Aergia::autonInit() {
 		driveSubsystem.setPos(Position2d(Translation2d(-30,105 * CORERobot::getAlliance()), Rotation2d(driveSubsystem.getGyroAngle())));
 		break;
 	}
+	delete initialFrame;
 	initialFrame = new RobotFrame(Position2d(Translation2d(),driveSubsystem.getGyroAngle()));
 	driveSubsystem.setFrame(initialFrame);
 //	driveSubsystem.resetYaw();

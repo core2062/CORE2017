@@ -1,6 +1,6 @@
 #pragma once
 
-//#define GEAR_PICKUP
+#define GEAR_PICKUP
 
 #include <iostream>
 #include <memory>

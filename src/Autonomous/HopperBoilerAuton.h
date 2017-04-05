@@ -8,7 +8,7 @@ using namespace CORE;
 
 class HopperBoilerAuton : public COREAuton{
 public:
-	HopperBoilerAuton(StartingPosition startingPosition);
+	HopperBoilerAuton();
 	void addNodes() override;
 
 private:

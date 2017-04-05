@@ -1,6 +1,6 @@
 #pragma once
 
-#define GEAR_PICKUP
+//#define GEAR_PICKUP
 
 #include <iostream>
 #include <memory>
@@ -96,6 +96,7 @@ public:
     DriveForwardAuton driveForwardAuton;
     GearOnlyAuton gearAuton;
     GearBoilerAuton gearBoilerAuton;
+    HopperBoilerAuton hopperBoilerAuton;
 
     SendableChooser<StartingPosition*> m_positionChooser;
 

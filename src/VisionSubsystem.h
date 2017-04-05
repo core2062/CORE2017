@@ -1,5 +1,4 @@
 #pragma once
-
 #include "CORERobotLib.h"
 #include "WPILib.h"
 #include "WaypointFollower/RobotFrame.h"
@@ -22,6 +21,11 @@ private:
     shared_ptr<NetworkTable> visionTable;
     std::vector<double> m_timeOffsets;
     double m_timeOffset = 0.0;
+    COREConstant<double> m_imageWidth;
+    COREConstant<double> m_imageHeight;
+    COREConstant<double> m_cameraPegDeltaH;
+    COREConstant<double> m_verticalFieldOfView;
+    COREConstant<double> m_horizontalFieldOfView;
     RobotFrame m_visionFrame;
     Path m_pathToPeg;
 

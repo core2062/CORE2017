@@ -14,7 +14,8 @@ Aergia::Aergia() :
 		operatorJoystick(1),
 		driveForwardAuton(0,0),
 		gearAuton(StartingPosition::CENTER),
-		gearBoilerAuton()
+		gearBoilerAuton(),
+		hopperBoilerAuton()
 	{
 	Robot = this;
 }

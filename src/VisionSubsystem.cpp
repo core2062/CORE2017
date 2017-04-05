@@ -3,14 +3,19 @@
 
 using namespace CORE;
 
-VisionSubsystem::VisionSubsystem() : CORESubsystem("Vision"){
+VisionSubsystem::VisionSubsystem() : CORESubsystem("Vision"),
+	m_imageWidth("Image width", 1280),
+	m_imageHeight("Image height", 720),
+	m_cameraPegDeltaH("Camera height above the target", 8),
+	m_verticalFieldOfView("Vertical field of view", 40),
+	m_horizontalFieldOfView("Horizontal field of view", 66){
 
 }
 
 void VisionSubsystem::robotInit(){
 	Robot->operatorJoystick.registerButton(COREJoystick::BACK_BUTTON);
-	visionTable = NetworkTable::GetTable("Vision");
-	visionTable->PutNumber("piTime", -1);
+//	visionTable = NetworkTable::GetTable("Vision");
+//	visionTable->PutNumber("piTime", -1);
 }
 
 void VisionSubsystem::teleopInit(){
@@ -25,12 +30,18 @@ void VisionSubsystem::teleop() {
 			whichCamera = frontCamera;
 		}
 	}
-	visionTable->PutString("camera", whichCamera);
+//	visionTable->PutString("camera", whichCamera);
 }
 
 void VisionSubsystem::preLoopTask() {
+	double x;
+	double y;
+
+
+
 	if(m_timeOffsets.size() < 30){
-		double piTime = visionTable->GetNumber("piTime", -1);
+		//double piTime = visionTable->GetNumber("piTime", -1);
+		double piTime = -1.0;
 		if(piTime != -1){
 			double botTime = Timer::GetFPGATimestamp();
 			m_timeOffsets.push_back(botTime - piTime);

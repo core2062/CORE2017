@@ -76,3 +76,7 @@ void DriveWaypointController::updatePathFollower() {
 	}
 	Robot->driveSubsystem.setMotorSpeed(setpoint.left * .01, setpoint.right * .01);
 }
+
+void DriveWaypointController::autonInitTask(){
+	m_tracker->setInitialRotation(Rotation2d::fromDegrees(Robot->driveSubsystem.getGyroAngle().getDegrees()));
+}

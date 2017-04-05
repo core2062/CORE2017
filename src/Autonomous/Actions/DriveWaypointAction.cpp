@@ -3,15 +3,16 @@
 #include "CORERobotLib.h"
 
 DriveWaypointAction::DriveWaypointAction(Path* path, bool reversed,
-		double tolerance, double maxAccel) {
+		double tolerance, double maxAccel, bool gradualStop) {
 	m_path = path;
 	m_reversed = reversed;
 	m_tolerance = tolerance;
 	m_maxAccel = maxAccel;
+	m_gradualStop = gradualStop;
 }
 
 void DriveWaypointAction::actionInit() {
-	Robot->driveSubsystem.followPath(*m_path, m_reversed, m_maxAccel, m_tolerance);
+	Robot->driveSubsystem.followPath(*m_path, m_reversed, m_maxAccel, m_tolerance, m_gradualStop);
 }
 
 DriveWaypointAction::actionStatus DriveWaypointAction::action() {

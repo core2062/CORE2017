@@ -2,6 +2,7 @@
 
 #include "CORERobotLib.h"
 #include "WPILib.h"
+#include "WaypointFollower/RobotFrame.h"
 
 using namespace CORE;
 
@@ -21,5 +22,7 @@ private:
     shared_ptr<NetworkTable> visionTable;
     std::vector<double> m_timeOffsets;
     double m_timeOffset = 0.0;
+    RobotFrame m_visionFrame;
+    Path m_pathToPeg;
 
 };

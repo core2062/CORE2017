@@ -173,12 +173,12 @@ bool DriveSubsystem::checkPathEvent(std::string event) {
 }
 
 void DriveSubsystem::followPath(Path path, bool reversed, double maxAccel,
-		double tolerance) {
+		double tolerance, bool gradualStop) {
 	if(!m_driveWaypointController){
 		m_driveWaypointController = new DriveWaypointController();
 		m_driveWaypointController->init();
 	}
-	m_driveWaypointController->startPath(path, reversed, maxAccel, tolerance);
+	m_driveWaypointController->startPath(path, reversed, maxAccel, tolerance, gradualStop);
 	m_driveWaypointController->enable();
 }
 

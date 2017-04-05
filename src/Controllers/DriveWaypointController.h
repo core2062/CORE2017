@@ -19,7 +19,7 @@ public:
 	void disable() override;
 
 	void init();
-	void startPath(Path path, bool reversed = false, double maxAccel = 25.0, double tolerance = .25);
+	void startPath(Path path, bool reversed = false, double maxAccel = 25.0, double tolerance = .25, bool gradualStop = true);
 	void resetTracker(Position2d initialPos);
 	bool isDone();
 	bool checkEvent(std::string event);

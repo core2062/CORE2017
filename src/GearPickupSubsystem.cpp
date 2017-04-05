@@ -1,7 +1,8 @@
+#include "Robot.h"
+
 #ifdef GEAR_PICKUP
 
 #include "GearPickupSubsystem.h"
-#include "Robot.h"
 
 using namespace CORE;
 
@@ -11,7 +12,8 @@ GearSubsystem::GearSubsystem() : CORESubsystem("Gear"),
 								m_leftFlapSolenoid(LEFT_GEAR_FLAP_SOLENOID_PCM, LEFT_GEAR_FLAP_SOLENOID_OUT_PORT, LEFT_GEAR_FLAP_SOLENOID_IN_PORT),
 								m_rightFlapSolenoid(RIGHT_GEAR_FLAP_SOLENOID_PCM, RIGHT_GEAR_FLAP_SOLENOID_OUT_PORT, RIGHT_GEAR_FLAP_SOLENOID_IN_PORT),
 								m_rollerMotor(GEAR_INTAKE_PORT, VICTOR),
-								m_placeTime("Gear Placing Time", .5){
+								m_placeTime("Gear Placing Time", .5),
+								m_reverseRollerTime("Gear Place Roller Delay", .1){
 	CORELog::logInfo("Gear subsystem constructor!");
 }
 

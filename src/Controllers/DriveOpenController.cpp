@@ -23,7 +23,7 @@ void DriveOpenController::enabledLoop() {
 	SmartDashboard::PutNumber("Right Speed", vels.second);
 
 	if(Robot->driverJoystick.getRisingEdge(COREJoystick::START_BUTTON)){
-		Robot->driveSubsystem.resetYaw();
+		Robot->driveSubsystem.hardResetYaw();
 	}
 
 	if(Robot->driverJoystick.getRisingEdge(COREJoystick::LEFT_BUTTON)){

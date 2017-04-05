@@ -136,13 +136,16 @@ void DriveSubsystem::setMotorSpeed(double leftPercent, double rightPercent) {
 	setMotorSpeed(rightPercent, DriveSide::RIGHT);
 }
 
-void DriveSubsystem::resetYaw() {
+void DriveSubsystem::hardResetYaw() {
 	m_gyro->ZeroYaw();
+}
 
+void DriveSubsystem::softResetYaw(){
+	m_gyro->SetAngleAdjustment(m_gyro->GetYaw());
 }
 
 double DriveSubsystem::getYaw() {
-	return (double) m_gyro->GetYaw();
+	return (double) m_gyro->GetAngle();
 }
 
 bool DriveSubsystem::isTurning() {
@@ -227,7 +230,7 @@ std::pair<double, double> DriveSubsystem::getEncoderSpeed() {
 }
 
 Rotation2d DriveSubsystem::getGyroAngle() {
-	double degrees = m_gyro->GetYaw();
+	double degrees = getYaw();
 	return Rotation2d::fromDegrees(degrees);
 }
 

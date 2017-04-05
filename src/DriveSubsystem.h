@@ -25,7 +25,8 @@ public:
     double getDistanceInInches(DriveSide whichSide);
     void setMotorSpeed(double speedInFraction, DriveSide);
     void setMotorSpeed(double leftPercent, double rightPercent);
-    void resetYaw();
+    void hardResetYaw();
+    void softResetYaw();
     double getYaw();
     bool isTurning();
     void startTurning(double angle, double tolerance, bool relative = false);

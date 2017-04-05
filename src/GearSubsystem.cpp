@@ -1,7 +1,8 @@
+#include "Robot.h"
+
 #ifndef GEAR_PICKUP
 
 #include "GearSubsystem.h"
-#include "Robot.h"
 
 using namespace CORE;
 

@@ -1,10 +1,9 @@
-#ifndef GEAR_PICKUP
-
 #pragma once
 
 #include "CORERobotLib.h"
 #include "WPILib.h"
 
+#ifndef GEAR_PICKUP
 
 using namespace CORE;
 

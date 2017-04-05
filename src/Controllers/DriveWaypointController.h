@@ -17,6 +17,7 @@ public:
 	void enabledLoop() override;
 	void enable() override;
 	void disable() override;
+	void autonInitTask() override;
 
 	void init();
 	void startPath(Path path, bool reversed = false, double maxAccel = 25.0, double tolerance = .25);

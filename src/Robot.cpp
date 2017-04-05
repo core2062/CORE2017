@@ -14,7 +14,8 @@ Aergia::Aergia() :
 		operatorJoystick(1),
 		driveForwardAuton(0,0),
 		gearAuton(StartingPosition::CENTER),
-		gearBoilerAuton()
+		gearBoilerAuton(),
+		hopperBoilerAuton()
 	{
 	Robot = this;
 }
@@ -26,7 +27,7 @@ void Aergia::robotInit() {
 	m_positionChooser.AddObject("Feeder", new StartingPosition(StartingPosition::FEEDER));
 	SmartDashboard::PutData("Starting Position", &m_positionChooser);
 	SmartDashboard::PutBoolean("Auto Cross Field", false);
-	initialFrame = new RobotFrame(Position2d(Translation2d(),driveSubsystem.getGyroAngle()));
+	initialFrame = new RobotFrame(Position2d(Translation2d(), Rotation2d::fromDegrees(0)));
 }
 
 
@@ -44,7 +45,7 @@ void Aergia::autonInit() {
 		break;
 	}
 	delete initialFrame;
-	initialFrame = new RobotFrame(Position2d(Translation2d(),driveSubsystem.getGyroAngle()));
+	initialFrame = new RobotFrame(Position2d(Translation2d(),Rotation2d::fromDegrees(-driveSubsystem.getGyroAngle().getDegrees())));
 	driveSubsystem.setFrame(initialFrame);
 //	driveSubsystem.resetYaw();
 }

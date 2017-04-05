@@ -3,3 +3,4 @@
 #include "DriveForwardAuton.h"
 #include "GearOnlyAuton.h"
 #include "GearBoilerAuton.h"
+#include "HopperBoilerAuton.h"

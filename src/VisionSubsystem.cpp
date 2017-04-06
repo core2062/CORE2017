@@ -8,19 +8,7 @@ VisionSubsystem::VisionSubsystem() : CORESubsystem("Vision"),
 	m_imageHeight("Image height", 720),
 	m_cameraPegDeltaH("Camera height above the target", 8),
 	m_verticalFieldOfView("Vertical field of view", 40),
-	m_horizontalFieldOfView("Horizontal field of view", 66),
-	gyroAngle(),
-	pictureXPixl(),
-	pictureYPixl(),
-	distanceFromTarget(),
-	focalLength(),
-	angleY(),
-	distanceToTarget(),
-	pegLength(),
-	cameraXAngle(),
-	hypotenuseLengthX(),
-	imageCenterPixl(),
-	cameraYAngle(){
+	m_horizontalFieldOfView("Horizontal field of view", 66){
 
 }
 
@@ -46,18 +34,11 @@ void VisionSubsystem::teleop() {
 }
 
 void VisionSubsystem::preLoopTask() {
-/*	double x;
-double y;
-*/
-
-    double gyroAngle;
+	double gyroAngle;
     double pictureXPixl;
     double pictureYPixl;
     double distanceFromTarget;
     double focalLength;
-    //The tangentForHoizontalFieldDividedByTwo variable was made because the tan operation would not
-    //work without it
-    double tangentForHoizontalFieldDividedByTwo;
     double hypotenuseLengthX;
     double angleY;
     double pegLength;
@@ -65,7 +46,6 @@ double y;
     double cameraYAngle;
     double distanceToTarget;
     double imageCenterPixl;
-    double horizontalFieldOfViewHalved;
     double cameraXArctanInput;
     double cameraYArctanInput;
 
@@ -84,15 +64,15 @@ double y;
 	}
 	angleY = 90 - abs(gyroAngle + cameraXAngle);
 	hypotenuseLengthX = m_cameraPegDeltaH.Get() / cos(angleY);
-	imageCenterPixl = cameraXAngle - (m_imageWidth * 0.5) - 0.5;
+	imageCenterPixl = cameraXAngle - (m_imageWidth.Get() * 0.5) - 0.5;
 	pegLength = 6.0;
-	cameraXArctanInput = pictureXPixl - ((m_imageWidth * 0.5) - 0.5);
-	cameraYArctanInput = pictureYPixl - ((m_imageHeight * 0.5) - 0.5);
+	cameraXArctanInput = pictureXPixl - ((m_imageWidth.Get() * 0.5) - 0.5);
+	cameraYArctanInput = pictureYPixl - ((m_imageHeight.Get() * 0.5) - 0.5);
 
 	distanceFromTarget = cos(angleY) * hypotenuseLengthX;
 	distanceToTarget = ((sin(angleY) * hypotenuseLengthX) - pegLength);
-	focalLength = m_imageWidth / (2 * tan(m_horizontalFieldOfView.Get() * 0.5));
-	cameraXAngle = (atan(cameraYArctanInput)) / (m_imageWidth / 2 * tan(m_horizontalFieldOfView.Get() * .5));
-	cameraYAngle = (atan(cameraYArctanInput)) / (m_imageWidth / 2 * tan(m_horizontalFieldOfView.Get() * .5));
+	focalLength = m_imageWidth.Get() / (2 * tan(m_horizontalFieldOfView.Get() * 0.5));
+	cameraXAngle = (atan(cameraYArctanInput)) / (m_imageWidth.Get() / 2 * tan(m_horizontalFieldOfView.Get() * .5));
+	cameraYAngle = (atan(cameraYArctanInput)) / (m_imageWidth.Get() / 2 * tan(m_horizontalFieldOfView.Get() * .5));
 
 }

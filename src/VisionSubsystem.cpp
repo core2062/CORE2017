@@ -1,6 +1,6 @@
 #include "VisionSubsystem.h"
 #include "Robot.h"
-
+#include "Math.h"
 using namespace CORE;
 
 VisionSubsystem::VisionSubsystem() : CORESubsystem("Vision"),
@@ -8,7 +8,19 @@ VisionSubsystem::VisionSubsystem() : CORESubsystem("Vision"),
 	m_imageHeight("Image height", 720),
 	m_cameraPegDeltaH("Camera height above the target", 8),
 	m_verticalFieldOfView("Vertical field of view", 40),
-	m_horizontalFieldOfView("Horizontal field of view", 66){
+	m_horizontalFieldOfView("Horizontal field of view", 66),
+	gyroAngle(),
+	pictureXPixl(),
+	pictureYPixl(),
+	distanceFromTarget(),
+	focalLength(),
+	angleY(),
+	distanceToTarget(),
+	pegLength(),
+	cameraXAngle(),
+	hypotenuseLengthX(),
+	imageCenterPixl(),
+	cameraYAngle(){
 
 }
 
@@ -34,10 +46,28 @@ void VisionSubsystem::teleop() {
 }
 
 void VisionSubsystem::preLoopTask() {
-	double x;
-	double y;
+/*	double x;
+double y;
+*/
 
-
+    double gyroAngle;
+    double pictureXPixl;
+    double pictureYPixl;
+    double distanceFromTarget;
+    double focalLength;
+    //The tangentForHoizontalFieldDividedByTwo variable was made because the tan operation would not
+    //work without it
+    double tangentForHoizontalFieldDividedByTwo;
+    double hypotenuseLengthX;
+    double angleY;
+    double pegLength;
+    double cameraXAngle;
+    double cameraYAngle;
+    double distanceToTarget;
+    double imageCenterPixl;
+    double horizontalFieldOfViewHalved;
+    double cameraXArctanInput;
+    double cameraYArctanInput;
 
 	if(m_timeOffsets.size() < 30){
 		//double piTime = visionTable->GetNumber("piTime", -1);
@@ -52,4 +82,17 @@ void VisionSubsystem::preLoopTask() {
 			m_timeOffset /= m_timeOffsets.size();
 		}
 	}
+	angleY = 90 - abs(gyroAngle + cameraXAngle);
+	hypotenuseLengthX = m_cameraPegDeltaH.Get() / cos(angleY);
+	imageCenterPixl = cameraXAngle - (m_imageWidth * 0.5) - 0.5;
+	pegLength = 6.0;
+	cameraXArctanInput = pictureXPixl - ((m_imageWidth * 0.5) - 0.5);
+	cameraYArctanInput = pictureYPixl - ((m_imageHeight * 0.5) - 0.5);
+
+	distanceFromTarget = cos(angleY) * hypotenuseLengthX;
+	distanceToTarget = ((sin(angleY) * hypotenuseLengthX) - pegLength);
+	focalLength = m_imageWidth / (2 * tan(m_horizontalFieldOfView.Get() * 0.5));
+	cameraXAngle = (atan(cameraYArctanInput)) / (m_imageWidth / 2 * tan(m_horizontalFieldOfView.Get() * .5));
+	cameraYAngle = (atan(cameraYArctanInput)) / (m_imageWidth / 2 * tan(m_horizontalFieldOfView.Get() * .5));
+
 }

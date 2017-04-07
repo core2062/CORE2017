@@ -14,8 +14,7 @@ void DriveOpenController::robotInitTask() {
 void DriveOpenController::enabledLoop() {
 
 //	std::cout << "Gyro Angle: " << Robot->driveSubsystem.getGyroAngle().getDegrees() << std::endl;
-//	SmartDashboard::PutNumber("Gyro Yaw", Robot->driveSubsystem.getGyroAngle().getDegrees());
-	SmartDashboard::PutNumber("Gyro Yaw", Robot->initialFrame->getLatest().getRotation().getDegrees());
+	SmartDashboard::PutNumber("Gyro Yaw", Robot->driveSubsystem.getGyroAngle().getDegrees());
 //	std::cout << "Gyro Update Rate: " << Robot->driveSubsystem.getGyro()->GetActualUpdateRate() << std::endl;
 	std::pair<double, double> vels = Robot->driveSubsystem.getEncoderSpeed();
 //	std::cout << "Left Speed: " << vels.first << std::endl;

@@ -78,5 +78,4 @@ void DriveWaypointController::updatePathFollower() {
 }
 
 void DriveWaypointController::autonInitTask(){
-	m_tracker->setInitialRotation(Rotation2d::fromDegrees(Robot->driveSubsystem.getGyroAngle().getDegrees()));
 }

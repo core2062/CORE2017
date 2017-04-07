@@ -4,3 +4,4 @@
 #include "GearOnlyAuton.h"
 #include "GearBoilerAuton.h"
 #include "HopperBoilerAuton.h"
+#include "AntiTitaniumAuton.h"

@@ -15,7 +15,8 @@ Aergia::Aergia() :
 		driveForwardAuton(0,0),
 		gearAuton(StartingPosition::CENTER),
 		gearBoilerAuton(),
-		hopperBoilerAuton()
+		hopperBoilerAuton(),
+		antiAuton()
 	{
 	Robot = this;
 }

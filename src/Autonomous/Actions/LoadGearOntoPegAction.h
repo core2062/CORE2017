@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CORERobotLib.h"
+#include "WPILib.h"
 
 using namespace CORE;
 
@@ -12,5 +13,6 @@ public:
 	void actionEnd() override;
 private:
 	bool m_punchIsOut;
+	Timer m_endTimer;
 
 };

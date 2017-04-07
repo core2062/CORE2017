@@ -9,6 +9,8 @@ void LoadGearOntoPegAction::actionInit(){
 	std::cout << "Punch Out" << std::endl;
 #ifdef GEAR_PICKUP
 	Robot->gearSubsystem.placeGear();
+	m_endTimer.Reset();
+	m_endTimer.Start();
 #else
 	Robot->gearSubsystem.punchOut();
 #endif
@@ -16,9 +18,12 @@ void LoadGearOntoPegAction::actionInit(){
 
 COREAutonAction::actionStatus LoadGearOntoPegAction::action() {
 #ifdef GEAR_PICKUP
-	if(Robot->gearSubsystem.getState() == GearPickupState::HOLDING){
+	if(m_endTimer.Get() > 1.5){
 		return COREAutonAction::actionStatus::END;
 	}
+//	if(Robot->gearSubsystem.getState() == GearPickupState::HOLDING){
+//		return COREAutonAction::actionStatus::END;
+//	}
 #else
 	if(Robot->gearSubsystem.checkPunchShouldClose()){
 		Robot->gearSubsystem.punchIn();

@@ -1,6 +1,6 @@
 #pragma once
 
-//#define GEAR_PICKUP
+#define GEAR_PICKUP
 
 #include <iostream>
 #include <memory>
@@ -61,10 +61,16 @@
 	#define GEAR_PICKUP_LEFT_OUT_PORT 4
 	#define GEAR_PICKUP_LEFT_IN_PORT 5
 	#define GEAR_PICKUP_LEFT_PCM 2
-	#define GEAR_PICKUP_RIGHT_OUT_PORT 6
-	#define GEAR_PICKUP_RIGHT_IN_PORT 7
-	#define GEAR_PICKUP_RIGHT_PCM 2
-	#define GEAR_INTAKE_PORT 4
+	#define GEAR_PICKUP_RIGHT_OUT_PORT 4
+	#define GEAR_PICKUP_RIGHT_IN_PORT 5
+	#define GEAR_PICKUP_RIGHT_PCM 1
+	#define GEAR_PICKUP_FORWARD_PCM 1
+	#define GEAR_PICKUP_FORWARD_ON_PORT 4
+	#define GEAR_PICKUP_FORWARD_OFF_PORT 5
+	#define GEAR_PICKUP_REVERSE_PCM 2
+	#define GEAR_PICKUP_REVERSE_ON_PORT 4
+	#define GEAR_PICKUP_REVERSE_OFF_PORT 5
+	#define GEAR_INTAKE_PORT 16
 #else
 	#define PUNCH_SOLENOID_OUT_PORT 4
 	#define PUNCH_SOLENOID_IN_PORT 5
@@ -97,6 +103,7 @@ public:
     GearOnlyAuton gearAuton;
     GearBoilerAuton gearBoilerAuton;
     HopperBoilerAuton hopperBoilerAuton;
+    AntiTitaniumAuton antiAuton;
 
     SendableChooser<StartingPosition*> m_positionChooser;
 

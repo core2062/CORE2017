@@ -4,6 +4,8 @@
 
 #include "CORERobotLib.h"
 
+using namespace CORE;
+
 class VisionGetBallsAction : public COREAutonAction {
 public:
 	VisionGetBallsAction();

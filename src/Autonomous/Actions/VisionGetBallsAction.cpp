@@ -1,18 +1,19 @@
 #include "VisionGetBallsAction.h"
+#include "Robot.h"
 
 VisionGetBallsAction::VisionGetBallsAction() {
 
 }
 
 void VisionGetBallsAction::actionInit() {
-    COREAutonAction::actionInit();
+
 }
 
 void VisionGetBallsAction::actionEnd() {
-    COREAutonAction::actionEnd();
+
 }
 
-COREAutonAction::actionStatus VisionGetBallsAction::action() {
+COREAutonAction::actionStatus action() {
     return COREAutonAction::END;
 }
 

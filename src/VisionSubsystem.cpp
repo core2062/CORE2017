@@ -19,6 +19,8 @@ void VisionSubsystem::robotInit(){
 	Robot->operatorJoystick.registerButton(COREJoystick::BACK_BUTTON);
 	visionTable = NetworkTable::GetTable("Vision");
 	visionTable->PutNumber("piTime", -1);
+	visionTable->PutNumber("targetX", 1000);
+	visionTable->PutNumber("targetY", 450);
 }
 
 void VisionSubsystem::teleopInit(){
@@ -63,7 +65,8 @@ void VisionSubsystem::calculatePath() {
 	double x = visionTable->GetNumber("targetX", -1);
 	double y = visionTable->GetNumber("targetY", -1);
 
-	double captureTime = visionTable->GetNumber("captureTime", -1) - m_timeOffset;
+//	double captureTime = visionTable->GetNumber("captureTime", -1) - m_timeOffset;
+	double captureTime = Timer::GetFPGATimestamp();
 	Position2d capturePos = TankTracker::GetInstance()->getFieldToVehicle(captureTime);
 	double captureRot = capturePos.getRotation().getDegrees();
 
@@ -91,33 +94,19 @@ void VisionSubsystem::calculatePath() {
 	pegPos = pegPos.rotateBy(coordRot);
 
 	//MATH
-
+	std::cout << "About To generate points" << std::endl;
 	std::vector<Waypoint> points;
 	points.push_back(Waypoint(Translation2d(),100));
 	int samples = m_pegApproachSamples.Get();
+	std::cout << "Taking " << samples << " Samples" << std::endl;
 	double sampleDelta = (m_pegPlaceDist.Get() - m_pegApproachDist.Get()) / (double)samples;
-	for(int i = samples; i >= 0; i ++){
+	for(int i = samples; i >= 0; i--){
 		points.push_back(Waypoint(Translation2d(pegPos.getX() + m_pegPlaceDist.Get() + sampleDelta * i,
 				pegPos.getY()), 100));
 	}
 	m_pathToPeg = Path(points);
 
+	std::cout << "Done Calcing Vision" << std::endl;
+
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

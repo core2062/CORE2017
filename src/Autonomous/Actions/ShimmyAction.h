@@ -4,15 +4,14 @@ using namespace CORE;
 
 class ShimmyAction : public COREAutonAction {
 public:
-	ShimmyAction(double numberOfSeconds, double severityOfShimmy);
+	ShimmyAction(double numberOfSeconds, double dir = 1.0);
     void actionInit() override;
     void actionEnd() override;
     COREAutonAction::actionStatus action() override;
 private:
 	double m_numberOfSeconds;
-	double m_severityOfShimmy;
+	double m_dir;
 	CORETimer m_shimmyTimer;
-	double m_shimmyPeriod;
 };
 
 

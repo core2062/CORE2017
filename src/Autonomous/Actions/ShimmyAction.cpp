@@ -2,38 +2,32 @@
 #include "Math.h"
 #include "Robot.h"
 
-ShimmyAction::ShimmyAction(double numberOfSeconds, double severityOfShimmy):m_shimmyTimer(), m_shimmyPeriod(){
+ShimmyAction::ShimmyAction(double numberOfSeconds, double dir):m_shimmyTimer(){
 	m_numberOfSeconds = numberOfSeconds;
-	m_severityOfShimmy = severityOfShimmy;
+	m_dir = dir;
 }
 
 void ShimmyAction::actionInit() {
-	m_shimmyTimer.Reset();
-	m_shimmyTimer.Start();
+	Robot->driveSubsystem.setLowGear(true);
+    Robot->driveSubsystem.teleopInit();
+    m_shimmyTimer.Reset();
+    m_shimmyTimer.Start();
 }
 
 COREAutonAction::actionStatus ShimmyAction::action() {
 	double elapsed = m_shimmyTimer.Get();
 
-	//Find if elapsed is greater than number of seconds
-	//If it is, end action
+	double mag = .25 * m_dir;
+	double rot = cos(4*elapsed);
+	VelocityPair speeds = COREEtherDrive::calculate(mag, rot, .1);
 
-	if (elapsed >= m_numberOfSeconds){
+	Robot->driveSubsystem.setMotorSpeed(speeds.left, speeds.right);
+
+	if(elapsed > m_numberOfSeconds){
+		Robot->driveSubsystem.setMotorSpeed(0,0);
 		return COREAutonAction::actionStatus::END;
 	}
-	double fraction = fmod(elapsed, m_numberOfSeconds);
 
-	//If fraction is less than half
-	//Shimmy left
-	if (fraction < 0.5){
-		Robot->driveSubsystem.setMotorSpeed(-m_severityOfShimmy, m_severityOfShimmy);
-	}
-
-	//Otherwise fraction is greater than or equal to half
-	//Shimmy right
-	if (fraction >= 0.5){
-		Robot->driveSubsystem.setMotorSpeed(m_severityOfShimmy, -m_severityOfShimmy);
-	}
 	return COREAutonAction::actionStatus::CONTINUE;
 }
 

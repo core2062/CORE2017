@@ -141,7 +141,7 @@ void DriveSubsystem::hardResetYaw() {
 }
 
 void DriveSubsystem::softResetYaw(){
-	m_gyro->SetAngleAdjustment(m_gyro->GetYaw());
+	m_gyro->SetAngleAdjustment(-m_gyro->GetYaw());
 }
 
 double DriveSubsystem::getYaw() {

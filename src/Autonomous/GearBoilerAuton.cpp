@@ -12,7 +12,7 @@ void GearBoilerAuton::addNodes() {
 //	m_loadGearOnPeg = new Node(15, new LoadGearOntoPegAction());
 	m_driveToBoiler = new Node(5, new DriveWaypointAction(AutonPaths::getPegToBoilerPath(), false), new LoadGearOntoPegAction());
 	m_dumpBallsInBoiler = new Node(5, new DumpBallsAction(1.5));
-	m_cross = new Node(9, new DriveWaypointAction(AutonPaths::getCrossFieldPath(), true));
+	m_cross = new Node(9, new DriveWaypointAction(AutonPaths::getCrossFieldPath(), true, .25, 125, false));
 	m_goHigh = new Node(2,  new DriveShiftAction(GearPosition::HIGH_GEAR));
 	m_driveCross = new Node(5, new DriveDistanceAction(-1.0, 150, true));
 
@@ -20,8 +20,9 @@ void GearBoilerAuton::addNodes() {
 
 	addFirstNode(m_setLowGearPosition);
 	m_setLowGearPosition->addNext(m_driveToPeg);
-	m_driveToPeg->addNext(m_loadGearOnPeg);
-	m_loadGearOnPeg->addNext(m_driveToBoiler);
+//	m_driveToPeg->addNext(m_loadGearOnPeg);
+	m_driveToPeg->addNext(m_driveToBoiler);
+//	m_loadGearOnPeg->addNext(m_driveToBoiler);
 	m_driveToBoiler->addNext(m_dumpBallsInBoiler);
 	if (SmartDashboard::GetBoolean("Auto Cross Field", false)){
 		m_dumpBallsInBoiler->addNext(m_goHigh);

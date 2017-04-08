@@ -144,7 +144,7 @@ void GearSubsystem::postLoopTask() {
 		break;
 	case(GearPickupState::FEEDING):
 		pickupIn();
-		setRoller(-.5);
+		setRoller(-1.0);
 		break;
 	case(GearPickupState::PICKUP):
 		if(m_placeTimer.Get() < m_actuateTime.Get()){

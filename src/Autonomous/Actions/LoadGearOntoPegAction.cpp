@@ -19,6 +19,7 @@ void LoadGearOntoPegAction::actionInit(){
 COREAutonAction::actionStatus LoadGearOntoPegAction::action() {
 #ifdef GEAR_PICKUP
 	if(m_endTimer.Get() > 1.5){
+		Robot->gearSubsystem.holdIn();
 		return COREAutonAction::actionStatus::END;
 	}
 //	if(Robot->gearSubsystem.getState() == GearPickupState::HOLDING){

@@ -14,19 +14,19 @@ void GearOnlyAuton::addNodes() {
 	m_driveToPeg = new Node(7, new DriveWaypointAction(AutonPaths::getWallToPegPath(), true));
 //	m_loadGearOnPeg = new Node(1.5, new LoadGearOntoPegAction());
 	m_reverseDrive = new Node(15, new DriveWaypointAction(AutonPaths::getPegReversePath()),  new LoadGearOntoPegAction());
-	m_prepCrossA = new Node(12, new DriveWaypointAction(AutonPaths::getPegToCrossPathA(), false),  new LoadGearOntoPegAction());
-	m_prepCrossB = new Node(12, new DriveWaypointAction(AutonPaths::getPegToCrossPathB(), true));
-	m_cross = new Node(6, new DriveDistanceAction(1.0, 180, true));
+	m_prepCrossA = new Node(12, new DriveWaypointAction(AutonPaths::getPegToCrossPathA(), false, .25, 50.0, false),  new LoadGearOntoPegAction());
+	m_prepCrossB = new Node(12, new DriveWaypointAction(AutonPaths::getPegToCrossPathB(), true, .25, 90.0, false));
+//	m_cross = new Node(6, new DriveDistanceAction(-1.0, 100, true));
 
 	addFirstNode(m_setLowGearPosition);
 	m_setLowGearPosition->addNext(m_driveToPeg);
-	m_driveToPeg->addNext(m_loadGearOnPeg);
-
+//	m_driveToPeg->addNext(m_loadGearOnPeg);
+	m_driveToPeg->addNext(m_reverseDrive);
 	if (SmartDashboard::GetBoolean("Auto Cross Field", false)){
-		m_loadGearOnPeg->addNext(m_prepCrossA);
+		m_driveToPeg->addNext(m_prepCrossA);
 		m_prepCrossA->addNext(m_prepCrossB);
 		m_prepCrossB->addNext(m_cross);
 	} else {
-		m_loadGearOnPeg->addNext(m_reverseDrive);
+		m_driveToPeg->addNext(m_reverseDrive);
 	}
 }

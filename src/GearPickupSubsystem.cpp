@@ -66,6 +66,9 @@ void GearSubsystem::teleop(){
 	oldIntakeButton = intakeButton;
 }
 
+void GearSubsystem::teleopEnd() {
+	pickupOff();
+}
 
 void GearSubsystem::placeGear() {
 	m_placeTimer.Reset();
@@ -168,5 +171,7 @@ void GearSubsystem::postLoopTask() {
 		break;
 	}
 }
+
+
 
 #endif

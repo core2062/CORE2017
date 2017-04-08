@@ -20,6 +20,7 @@ public:
     void robotInit() override;
     void teleopInit() override;
     void teleop() override;
+    void teleopEnd() override;
     void placeGear();
     void pickupGear();
     void holdIn();

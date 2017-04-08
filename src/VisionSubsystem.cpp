@@ -66,6 +66,10 @@ void VisionSubsystem::calculatePath() {
 	double x = visionTable->GetNumber("targetX", -1);
 	double y = visionTable->GetNumber("targetY", -1);
 
+	if(x == -1 || y == -1){
+		return;
+	}
+
 //	double captureTime = visionTable->GetNumber("captureTime", -1) - m_timeOffset;
 	double captureTime = Timer::GetFPGATimestamp();
 	Position2d capturePos = TankTracker::GetInstance()->getFieldToVehicle(captureTime);

@@ -13,5 +13,5 @@ public:
 	COREAutonAction::actionStatus action() override;
 	void actionEnd() override;
 private:
-    /*Node m_driveForward;*/
+
 };

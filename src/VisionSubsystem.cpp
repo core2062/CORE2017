@@ -1,6 +1,6 @@
 #include "VisionSubsystem.h"
 #include "Robot.h"
-
+#include "Math.h"
 using namespace CORE;
 
 VisionSubsystem::VisionSubsystem() : CORESubsystem("Vision"),
@@ -51,6 +51,7 @@ void VisionSubsystem::preLoopTask() {
 			m_timeOffset /= m_timeOffsets.size();
 		}
 	}
+
 }
 
 Path * VisionSubsystem::getPath() {

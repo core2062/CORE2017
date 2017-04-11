@@ -8,7 +8,7 @@ GearBoilerAuton::GearBoilerAuton() :
 
 void GearBoilerAuton::addNodes() {
 	m_setLowGearPosition = new Node(10, new DriveShiftAction(GearPosition::LOW_GEAR));
-	m_driveToPeg = new Node(4.5, new DriveWaypointAction(AutonPaths::getWallToPegPath(), true));
+	m_driveToPeg = new Node(6.5, new DriveWaypointAction(AutonPaths::getWallToPegPath(), true, .25, 100.0));
 //	m_loadGearOnPeg = new Node(15, new LoadGearOntoPegAction());
 	m_driveToBoiler = new Node(5, new DriveWaypointAction(AutonPaths::getPegToBoilerPath(), false), new LoadGearOntoPegAction());
 	m_dumpBallsInBoiler = new Node(5, new DumpBallsAction(1.5));

@@ -43,24 +43,16 @@ Path * AutonPaths::getWallToBoilerPath(double speedScale){
 			}
 
 }
-Path * AutonPaths::getPegToHopperPath(double speedScale){
-		switch(Robot->getStartingPosition()){
-			case StartingPosition::BOILER:
-				return PathLoader::loadPath("pegToHopper_forward_boiler.csv", speedScale,
-						(CORERobot::getAlliance() == CORERobot::RED));
-				break;
-			case StartingPosition::FEEDER:
-				return PathLoader::loadPath("pegToHopper_forward_feeder.csv", speedScale,
-						(CORERobot::getAlliance() == CORERobot::RED));
-				break;
-			case StartingPosition::CENTER:
-				return PathLoader::loadPath("pegToHopper_forward_center.csv", speedScale,
-						(CORERobot::getAlliance() == CORERobot::RED));
-				break;
-			default:
-				return nullptr;
-				break;
-		}
+Path * AutonPaths::getPegToHopperPathA(double speedScale){
+
+	return PathLoader::loadPath("pegToHopperA.csv", speedScale, (CORERobot::getAlliance() == CORERobot::RED));
+
+	}
+
+Path * AutonPaths::getPegToHopperPathB(double speedScale){
+
+	return PathLoader::loadPath("pegToHopperB.csv", speedScale, (CORERobot::getAlliance() == CORERobot::RED));
+
 	}
 
 Path * AutonPaths::getPegToBoilerPath(double speedScale, bool reverse){

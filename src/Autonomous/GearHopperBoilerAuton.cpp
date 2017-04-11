@@ -4,31 +4,25 @@
 #include "AutonPaths.h"
 
 GearHopperBoilerAuton::GearHopperBoilerAuton() :
-	COREAuton("Gear, Boiler and Hopper Auton", 0.0),
-	m_shimmyScale("Shimmy Scale", 0.0){
+	COREAuton("Gear, Boiler, and Hopper Auton", 0.0){
 
 	}
 
 void GearHopperBoilerAuton::addNodes(){
 	m_setLowGearPosition = new Node(10, new DriveShiftAction(GearPosition::LOW_GEAR));
-	m_driveToPeg = new Node(15, new DriveWaypointAction(AutonPaths::getWallToPegPath()));
-	m_loadGearOnPeg = new Node(1, new LoadGearOntoPegAction());
-	m_driveToHopper = new Node(15, new DriveWaypointAction(AutonPaths::getPegToHopperPath()));
+	m_driveToPeg = new Node(5, new DriveWaypointAction(AutonPaths::getWallToPegPath(), true, .25, 100.0, true));
+	m_driveToHopperA = new Node(5, new DriveWaypointAction(AutonPaths::getPegToHopperPathA(), false, .25, 500.0, false), new LoadGearOntoPegAction());
+	m_driveToHopperB = new Node(5, new DriveWaypointAction(AutonPaths::getPegToHopperPathB(), true, .25, 500.0, false));
 	m_loadHopper = new Node(3, new WaitAction(2.5));
-//	m_backupFromHopper = new Node(15, new DriveWaypointAction(AutonPaths::backupFromHopperPath()));
-	m_driveToBoiler = new Node(15, new DriveWaypointAction(AutonPaths::getHopperToBoilerPath()));
-	m_dumpBallsInBoiler = new Node(4, new DumpBallsAction(1.5));
+	m_driveToBoiler = new Node(5, new DriveWaypointAction(AutonPaths::getHopperToBoilerPath(), false, .25, 250.0, false));
+	m_dumpBallsInBoiler = new Node(8, new DumpBallsAction(8), new ShimmyAction(8));
 
 	addFirstNode(m_setLowGearPosition);
 	m_setLowGearPosition->addNext(m_driveToPeg);
-	m_driveToPeg->addNext(m_loadGearOnPeg);
-	m_loadGearOnPeg->addNext(m_backupFromPeg);
-	m_backupFromPeg->addNext(m_driveToHopper);
-	m_driveToHopper->addNext(m_loadHopper);
-	m_loadHopper->addNext(m_backupFromHopper);
-	m_backupFromHopper->addNext(m_driveToBoiler);
+	m_driveToPeg->addNext(m_driveToHopperA);
+	m_driveToHopperA->addNext(m_driveToHopperB);
+	m_driveToHopperB->addNext(m_loadHopper);
+	m_loadHopper->addNext(m_driveToBoiler);
 	m_driveToBoiler->addNext(m_dumpBallsInBoiler);
-	m_dumpBallsInBoiler->addNext(m_shimmyHopper);
-	m_shimmyHopper->addNext(m_resetHopper);
 	}
 

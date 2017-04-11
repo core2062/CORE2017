@@ -1,4 +1,5 @@
 #include "VisionAlignGearAction.h"
+#include "Robot.h"
 
 VisionAlignGearAction::VisionAlignGearAction(double maxAccel, bool gradualStop, bool continuousUpdate) /*: m_driveForward()*/ {
 	m_maxAccel = maxAccel;
@@ -9,18 +10,20 @@ VisionAlignGearAction::VisionAlignGearAction(double maxAccel, bool gradualStop, 
 void VisionAlignGearAction::actionInit() {
 	Robot->visionSubsystem.calculatePath();
 	Robot->driveSubsystem.setFrame(Robot->visionSubsystem.getFrame());
-	if (m_continuousUpdate){
-		m_calculatedPath = Robot->visionSubsystem.calculatePath();
-		Robot->driveSubsystem.followPath(m_calculatedPath, true, m_maxAccel, 0.25, m_gradualStop);
-	}
+	Robot->visionSubsystem.calculatePath();
+	Robot->driveSubsystem.followPath(*Robot->visionSubsystem.getPath(), true, m_maxAccel, 0.25, m_gradualStop);
 }
 
 COREAutonAction::actionStatus VisionAlignGearAction::action() {
 	if(!Robot->driveSubsystem.pathDone()){
-			return COREAutonAction::CONTINUE;
+		if (m_continuousUpdate){
+			Robot->visionSubsystem.calculatePath();
+			Robot->driveSubsystem.followPath(*Robot->visionSubsystem.getPath(), true, 99999999.9, 0.25, false);
 		}
-		std::cout << "Waypoint Action Done" << std::endl;
-		return COREAutonAction::END;
+		return COREAutonAction::CONTINUE;
+	}
+	std::cout << "Waypoint Action Done" << std::endl;
+	return COREAutonAction::END;
 }
 
 void VisionAlignGearAction::actionEnd() {

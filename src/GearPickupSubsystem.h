@@ -11,7 +11,8 @@ enum class GearPickupState{
 	HOLDING,
 	FEEDING,
 	PICKUP,
-	PLACING
+	PLACING,
+	PICKINGUP
 };
 
 class GearSubsystem : public CORESubsystem, public CORETask {
@@ -25,6 +26,7 @@ public:
     void pickupGear();
     void holdIn();
     void feed();
+    void safePickup();
     void pickupIn();
     void pickupOut();
     void pickupOff();

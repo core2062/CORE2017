@@ -7,8 +7,8 @@ VisionSubsystem::VisionSubsystem() : CORESubsystem("Vision"),
 	m_imageWidth("Image width", 1280),
 	m_imageHeight("Image height", 720),
 	m_cameraPegDeltaH("Camera height above the target", 8),
-	m_verticalFieldOfView("Vertical field of view", 40),
-	m_horizontalFieldOfView("Horizontal field of view", 66),
+	m_verticalFieldOfView("Vertical field of view", 31),
+	m_horizontalFieldOfView("Horizontal field of view", 50.5),
 	m_pegPlaceDist("Peg Place Distance", 12),
 	m_pegApproachDist("Peg Approach Distance", 24),
 	m_pegApproachSamples("Peg Approach Samples", 3){
@@ -65,6 +65,9 @@ RobotFrame * VisionSubsystem::getFrame(){
 void VisionSubsystem::calculatePath() {
 	double x = visionTable->GetNumber("targetX", -1);
 	double y = visionTable->GetNumber("targetY", -1);
+	x = m_imageWidth.Get() - x;
+//	double x = 1000;
+//	double y = 450;
 
 	if(x == -1 || y == -1){
 		return;
@@ -72,8 +75,10 @@ void VisionSubsystem::calculatePath() {
 
 //	double captureTime = visionTable->GetNumber("captureTime", -1) - m_timeOffset;
 	double captureTime = Timer::GetFPGATimestamp();
-	Position2d capturePos = TankTracker::GetInstance()->getFieldToVehicle(captureTime);
+	Position2d capturePos = TankTracker::GetInstance()->getFieldToVehicle(captureTime-.5);
 	double captureRot = capturePos.getRotation().getDegrees();
+	std::cout << "X:" << capturePos.getTranslation().getX() << " Y:" <<
+			capturePos.getTranslation().getY() << " T:" << capturePos.getRotation().getDegrees() << std::endl;
 
 	Rotation2d coordRot;
 
@@ -95,21 +100,25 @@ void VisionSubsystem::calculatePath() {
 	double forward = cos(hAngle) * distToPeg;
 	double side = sin(hAngle) * distToPeg;
 
-	Translation2d pegPos(-forward,side);
+	Translation2d pegPos(-forward,-side);
 	pegPos = pegPos.rotateBy(coordRot);
 
 	//MATH
-	std::cout << "About To generate points" << std::endl;
+	std::cout << "About To generate points, x at" << pegPos.getX() << std::endl;
 	std::vector<Waypoint> points;
 	points.push_back(Waypoint(Translation2d(),100));
 	int samples = m_pegApproachSamples.Get();
 	std::cout << "Taking " << samples << " Samples" << std::endl;
-	double sampleDelta = (m_pegPlaceDist.Get() - m_pegApproachDist.Get()) / (double)samples;
+	double sampleDelta = fabs(m_pegPlaceDist.Get() - m_pegApproachDist.Get()) / (double)samples;
 	for(int i = samples; i >= 0; i--){
 		points.push_back(Waypoint(Translation2d(pegPos.getX() + m_pegPlaceDist.Get() + sampleDelta * i,
 				pegPos.getY()), 100));
 	}
 	m_pathToPeg = Path(points);
+
+	for(auto i : points){
+		std::cout << "X:" << i.position.getX() << " Y:" << i.position.getY() << " Speed:" << i.speed << std::endl;
+	}
 
 	std::cout << "Done Calcing Vision" << std::endl;
 

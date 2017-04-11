@@ -56,10 +56,10 @@ void GearSubsystem::teleop(){
 	} else if (intakeButton >= .1 && oldIntakeButton < .1){
 		pickupGear();
 	} else if (intakeButton < .1 && oldIntakeButton >= .1){
-		holdIn();
+		safePickup();
 	}  else if (Robot->operatorJoystick.getAxis(COREJoystick::LEFT_TRIGGER_AXIS) > .1){
 		feed();
-	} else if (m_state != GearPickupState::PICKUP && m_state != GearPickupState::PLACING){
+	} else if (m_state != GearPickupState::PICKUP && m_state != GearPickupState::PLACING && m_state != GearPickupState::PICKINGUP){
 		holdIn();
 	}
 
@@ -85,6 +85,12 @@ void GearSubsystem::pickupGear() {
 
 void GearSubsystem::holdIn() {
 	m_state = GearPickupState::HOLDING;
+}
+
+void GearSubsystem::safePickup() {
+	m_placeTimer.Reset();
+	m_placeTimer.Start();
+	m_state = GearPickupState::PICKINGUP;
 }
 
 void GearSubsystem::feed() {
@@ -147,6 +153,7 @@ void GearSubsystem::postLoopTask() {
 		break;
 	case(GearPickupState::FEEDING):
 		pickupIn();
+//		pickupOff();
 		setRoller(-1.0);
 		break;
 	case(GearPickupState::PICKUP):
@@ -165,6 +172,17 @@ void GearSubsystem::postLoopTask() {
 			setRoller(1.0);
 		}
 		pickupOut();
+//		if(m_placeTimer.Get() > m_placeTime.Get()){
+//			m_state = GearPickupState::HOLDING;
+//		}
+		break;
+	case(GearPickupState::PICKINGUP):
+		if(m_placeTimer.Get() < m_actuateTime.Get()*3){
+			setRoller(-1.0);
+		}else{
+			holdIn();
+		}
+		pickupIn();
 //		if(m_placeTimer.Get() > m_placeTime.Get()){
 //			m_state = GearPickupState::HOLDING;
 //		}

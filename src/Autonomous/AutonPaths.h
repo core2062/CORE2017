@@ -8,7 +8,9 @@ public:
 
 	static Path * getWallToBoilerPath(double speedScale = 1.0);
 
-	static Path * getPegToHopperPath(double speedScale = 1.0);
+	static Path * getPegToHopperPathA(double speedScale = 1.0);
+
+	static Path * getPegToHopperPathB(double speedScale = 1.0);
 
 	static Path * getPegToBoilerPath(double speedScale = 1.0, bool reverse = false);
 

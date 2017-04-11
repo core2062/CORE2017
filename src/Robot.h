@@ -104,6 +104,8 @@ public:
     GearBoilerAuton gearBoilerAuton;
     HopperBoilerAuton hopperBoilerAuton;
     AntiTitaniumAuton antiAuton;
+    GearHopperBoilerAuton gearHopperBoilerAuton;
+    TwoGearAuton twoGearAuton;
 
     SendableChooser<StartingPosition*> m_positionChooser;
 

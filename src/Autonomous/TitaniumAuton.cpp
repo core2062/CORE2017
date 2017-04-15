@@ -15,7 +15,7 @@ void TitaniumAuton::addNodes() {
 	m_driveToHopper = new Node(4.5, new DriveWaypointAction(AutonPaths::getWallToFarHopperPath(),true, .25, 150, false));
 	m_lowerLift = new Node(4.5, new WaitAction(4.5));
 	m_driveToBoiler = new Node(4.5, new DriveWaypointAction(AutonPaths::getFarHopperToBoilerPath(),true));
-	m_dumpBalls = new Node(4.5, new DumpBallsAction(3.5), new ShimmyAction(2.5));
+	m_dumpBalls = new Node(4.5, new DumpBallsAction(3.5), new ShimmyAction(3.5));
 
 	addFirstNode(m_setLowGear);
 	m_setLowGear->addNext(m_driveToHopper);

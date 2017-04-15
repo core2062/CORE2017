@@ -58,14 +58,17 @@ bool DriveWaypointController::checkEvent(std::string event) {
 
 void DriveWaypointController::updatePathFollower() {
 	Position2d pos;
-	if(frame == nullptr){
+//	if(frame == nullptr){
 		pos = m_tracker->getLatestFieldToVehicle();
-	} else {
-		pos = frame->getLatest();
-		std::cout << "X:" << pos.getTranslation().getX() << " Y:" << pos.getTranslation().getY() << " T:" << pos.getRotation().getDegrees() << std::endl;
-	}
+//	} else {
+//		pos = frame->getLatest();
+		std::stringstream a;
+		a << "X:" << pos.getTranslation().getX() << " Y:" << pos.getTranslation().getY() << " T:" << pos.getRotation().getDegrees() << std::endl;
+		CORELog::logInfo(a.str());
+//		std::cout << "X:" << pos.getTranslation().getX() << " Y:" << pos.getTranslation().getY() << " T:" << pos.getRotation().getDegrees() << std::endl;
+//	}
 	Position2d::Delta command = m_pursuit.update(pos, Timer::GetFPGATimestamp());
-	std::cout << command.dx << "   " << command.dy << "   " << command.dtheta << std::endl;
+//	std::cout << command.dx << "   " << command.dy << "   " << command.dtheta << std::endl;
 	VelocityPair setpoint = TankKinematics::inverseKinematics(command);
 	double maxVel = 0.0;
 	maxVel = max(maxVel, setpoint.left);

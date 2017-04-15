@@ -38,13 +38,13 @@ void Aergia::autonInit() {
 	StartingPosition * pos = m_positionChooser.GetSelected();
 	switch(*pos){
 	case (StartingPosition::BOILER):
-		driveSubsystem.setPos(Position2d(Translation2d(-30,236 * CORERobot::getAlliance()), Rotation2d::fromDegrees(0)));
+		driveSubsystem.setPos(Position2d(Translation2d(-23,236 * CORERobot::getAlliance()), Rotation2d::fromDegrees(0)));
 		break;
 	case (StartingPosition::CENTER):
-		driveSubsystem.setPos(Position2d(Translation2d(-30,162 * CORERobot::getAlliance()), Rotation2d::fromDegrees(0)));
+		driveSubsystem.setPos(Position2d(Translation2d(-23,162 * CORERobot::getAlliance()), Rotation2d::fromDegrees(0)));
 		break;
 	case (StartingPosition::FEEDER):
-		driveSubsystem.setPos(Position2d(Translation2d(-30,105 * CORERobot::getAlliance()), Rotation2d::fromDegrees(0)));
+		driveSubsystem.setPos(Position2d(Translation2d(-23,102 * CORERobot::getAlliance()), Rotation2d::fromDegrees(0)));
 		break;
 	}
 }

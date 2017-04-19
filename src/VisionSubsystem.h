@@ -34,6 +34,6 @@ private:
     COREConstant<double> m_imageWidth;
     COREConstant<double> m_horizontalFieldOfView;
 
-    AnalogInput m_ultra;
-    AnalogInput m_jumper;
+    AnalogInput m_leftUltra;
+    AnalogInput m_rightUltra;
 };

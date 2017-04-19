@@ -17,6 +17,7 @@ ClimberSubsystem::ClimberSubsystem() : CORESubsystem("Climber"),
 
 void ClimberSubsystem::robotInit() {
 	Robot->operatorJoystick.registerButton(COREJoystick::START_BUTTON);
+	Robot->operatorJoystick.registerAxis(COREJoystick::RIGHT_STICK_Y);
 	m_leftClimbMotor.setReversed(true);
 	m_rightClimbMotor.setReversed(false);
 }
@@ -48,9 +49,14 @@ void ClimberSubsystem::teleop() {
 	if (isClimbing()){
 		setClimber(1.0);
 	} else {
-		setClimber(0);
+		double stick = Robot->operatorJoystick.getAxis(COREJoystick::RIGHT_STICK_Y);
+		stick = fabs(stick);
+		if(stick > .1){
+			setClimber(stick);
+		}else {
+			setClimber(0);
+		}
 	}
-
 }
 
 shared_ptr<COREEncoder> ClimberSubsystem::getLiftEncoder() {

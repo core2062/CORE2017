@@ -36,8 +36,8 @@
 /****************************************************ANALOG SENSORS****************************************************/
 #define LIFT_ENCODER_A_PORT 0
 #define LIFT_ENCODER_B_PORT 1
-#define GEAR_ULTRA_PORT 2
-#define JUMPER_PORT 3
+#define LEFT_GEAR_ULTRA_PORT 2
+#define RIGHT_GEAR_ULTRA_PORT 3
 
 /****************************************************DIGITAL SENSORS***************************************************/
 #define CLIMB_LIMIT_SWITCH_PORT 0

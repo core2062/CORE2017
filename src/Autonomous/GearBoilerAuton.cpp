@@ -14,7 +14,7 @@ void GearBoilerAuton::addNodes() {
 	}
 	m_driveToPeg = new Node(6.5, new VisionAlignGearAction());
 	m_loadGearOnPeg = new Node(15, new LoadGearOntoPegAction(), new WaitAction(.5));
-	m_driveToBoiler = new Node(5, new DriveWaypointAction(AutonPaths::getPegToBoilerPath(), false));
+	m_driveToBoiler = new Node(10, new DriveWaypointAction(AutonPaths::getPegToBoilerPath(), false));
 	m_dumpBallsInBoiler = new Node(5, new DumpBallsAction(1.5));
 	m_cross = new Node(9, new DriveWaypointAction(AutonPaths::getCrossFieldPath(), true, .25, 125, false));
 	m_goHigh = new Node(2,  new DriveShiftAction(GearPosition::HIGH_GEAR));

@@ -8,8 +8,8 @@ VisionSubsystem::VisionSubsystem() : CORESubsystem("Vision"),
 	ultrakP("Ultrasonic kP", .3),
 	m_imageWidth("Image width", 1280),
 	m_horizontalFieldOfView("Horizontal field of view", 50.5),
-	m_ultra(GEAR_ULTRA_PORT),
-	m_jumper(JUMPER_PORT){
+	m_leftUltra(LEFT_GEAR_ULTRA_PORT),
+	m_rightUltra(RIGHT_GEAR_ULTRA_PORT){
 
 }
 
@@ -75,5 +75,5 @@ Rotation2d VisionSubsystem::getError(){
 
 double VisionSubsystem::getUltraDist() {
 	double scale = (1024.0 / 2.54); //403.1496
-	return (1000.0 * m_ultra.GetVoltage()) / ((m_jumper.GetVoltage() * 1000.0) / scale);
+	return (1000.0 * .5 * (m_leftUltra.GetVoltage() + m_rightUltra.GetVoltage())) / ((5.00 * 1000.0) / scale);
 }

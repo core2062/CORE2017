@@ -4,8 +4,7 @@
 using namespace CORE;
 
 DriveSubsystem::DriveSubsystem() : COREVariableControlledSubsystem("Drive Subsystem"),
-								   driveScrub("Drive Scrub", 0.15),
-								   driveTurnProportional("Drive P Value", .3),
+								   driveTurnkP("Drive Turn P Value", .3),
 								   m_etherAValue("Ether A Value", .6),
                                    m_etherBValue("Ether B Value", .4),
 								   m_etherQuickTurnValue("Ether Quick Turn Value", 1.0),

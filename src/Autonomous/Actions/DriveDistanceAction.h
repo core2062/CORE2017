@@ -5,7 +5,7 @@
 using namespace CORE;
 class DriveDistanceAction : public COREAutonAction {
 public:
-    DriveDistanceAction(double speedInFraction, double distanceInFeet, bool setHighGear);
+    DriveDistanceAction(double speedInFraction, double distanceInInches, bool setHighGear = false);
     void actionInit() override;
     COREAutonAction::actionStatus action() override;
     void actionEnd() override;

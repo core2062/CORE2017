@@ -76,6 +76,12 @@ void GearSubsystem::placeGear() {
 	m_state = GearPickupState::PLACING;
 }
 
+void GearSubsystem::autoPlaceGear() {
+	m_placeTimer.Reset();
+	m_placeTimer.Start();
+	m_state = GearPickupState::AUTOPLACING;
+}
+
 void GearSubsystem::pickupGear() {
 	m_placeTimer.Reset();
 	m_placeTimer.Start();
@@ -175,6 +181,17 @@ void GearSubsystem::postLoopTask() {
 //		if(m_placeTimer.Get() > m_placeTime.Get()){
 //			m_state = GearPickupState::HOLDING;
 //		}
+		break;
+	case(GearPickupState::AUTOPLACING):
+		if(m_placeTimer.Get() < m_reverseRollerTime.Get()){
+			setRoller(0);
+		} else {
+			setRoller(1.0);
+		}
+		pickupOut();
+		if(m_placeTimer.Get() > 2){
+			m_state = GearPickupState::HOLDING;
+		}
 		break;
 	case(GearPickupState::PICKINGUP):
 		if(m_placeTimer.Get() < m_actuateTime.Get()*3){

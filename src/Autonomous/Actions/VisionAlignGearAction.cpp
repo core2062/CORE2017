@@ -1,31 +1,33 @@
 #include "VisionAlignGearAction.h"
 #include "Robot.h"
 
-VisionAlignGearAction::VisionAlignGearAction(double maxAccel, bool gradualStop, bool continuousUpdate) /*: m_driveForward()*/ {
-	m_maxAccel = maxAccel;
-	m_gradualStop = gradualStop;
-	m_continuousUpdate = continuousUpdate;
+VisionAlignGearAction::VisionAlignGearAction(){
+
 }
 
 void VisionAlignGearAction::actionInit() {
-	Robot->visionSubsystem.calculatePath();
-	Robot->driveSubsystem.setFrame(Robot->visionSubsystem.getFrame());
-	Robot->visionSubsystem.calculatePath();
-	Robot->driveSubsystem.followPath(*Robot->visionSubsystem.getPath(), true, m_maxAccel, 0.25, m_gradualStop);
+	Robot->driveSubsystem.setLowGear(true);
+    Robot->driveSubsystem.teleopInit();
 }
 
 COREAutonAction::actionStatus VisionAlignGearAction::action() {
-	if(!Robot->driveSubsystem.pathDone()){
-		if (m_continuousUpdate){
-			Robot->visionSubsystem.calculatePath();
-			Robot->driveSubsystem.followPath(*Robot->visionSubsystem.getPath(), true, 99999999.9, 0.25, false);
+	double magError = Robot->visionSubsystem.getUltraDist() - Robot->visionSubsystem.gearPlaceDist.Get();
+	double rotError = Robot->visionSubsystem.getError().getDegrees();
+	double rot = rotError * Robot->driveSubsystem.driveTurnkP.Get();
+	if(magError < 1){
+		Robot->driveSubsystem.setMotorSpeed(0,0);
+		return COREAutonAction::END;
+	} else {
+		double mag = magError * Robot->visionSubsystem.ultrakP.Get();
+		if(mag < .2){
+			mag = .2;
 		}
-		return COREAutonAction::CONTINUE;
+		VelocityPair speeds = COREEtherDrive::calculate(mag, rot, .05);
+		Robot->driveSubsystem.setMotorSpeed(speeds.left, speeds.right);
 	}
-	std::cout << "Waypoint Action Done" << std::endl;
-	return COREAutonAction::END;
+	return COREAutonAction::CONTINUE;
 }
 
 void VisionAlignGearAction::actionEnd() {
-	Robot->driveSubsystem.setController(nullptr);
+
 }

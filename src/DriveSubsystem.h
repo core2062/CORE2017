@@ -46,8 +46,7 @@ public:
 
 	void setPos(Position2d pos);
 
-    COREConstant<double> driveScrub;
-    COREConstant<double> driveTurnProportional;
+    COREConstant<double> driveTurnkP;
 
     void autonInitTask();
     void autonEndTask();

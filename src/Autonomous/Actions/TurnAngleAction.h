@@ -4,15 +4,16 @@
 
 #include "CORERobotLib.h"
 #include "WPILib.h"
+#include "WaypointFollower/Rotation2d.h"
 using namespace CORE;
 
 class TurnAngleAction : public COREAutonAction {
 public:
-	TurnAngleAction(double target, double tolerance, bool relative = false);
+	TurnAngleAction(Rotation2d target, double tolerance);
     void actionInit() override;
     COREAutonAction::actionStatus action() override;
     void actionEnd() override;
 private:
-    double m_angle, m_tolerance;
-    bool m_setHighGear;
+    Rotation2d m_target;
+    double m_tolerance;
 };

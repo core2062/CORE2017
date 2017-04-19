@@ -1,22 +1,28 @@
 #include "TurnAngleAction.h"
 #include "Robot.h"
 
-TurnAngleAction::TurnAngleAction(double angle, double tolerance, bool setHighGear): m_angle(angle), m_tolerance(tolerance), m_setHighGear() {
+TurnAngleAction::TurnAngleAction(Rotation2d target, double tolerance): m_target(target), m_tolerance(tolerance){
 
 }
 
 void TurnAngleAction::actionInit() {
-	Robot->driveSubsystem.startTurning(m_angle, m_tolerance);
-	Robot->driveSubsystem.setHighGear(m_setHighGear);
+	Robot->driveSubsystem.setLowGear(true);
+    Robot->driveSubsystem.teleopInit();
 }
 
 COREAutonAction::actionStatus TurnAngleAction::action() {
-    //If we are still turning, CONTINUE
-    if (Robot->driveSubsystem.isTurning()){
-        return COREAutonAction::CONTINUE;
-    }
-    //If we are no longer turning, END
-    return COREAutonAction::END;
+	Position2d pos = TankTracker::GetInstance()->getLatestFieldToVehicle();
+	double error = m_target.rotateBy(pos.getRotation().inverse()).getDegrees();
+	if(fabs(error) < m_tolerance){
+		Robot->driveSubsystem.setMotorSpeed(0,0);
+		return COREAutonAction::END;
+	} else {
+		double rot = error * Robot->driveSubsystem.driveTurnkP.Get();
+		VelocityPair speeds = COREEtherDrive::calculate(0, rot, .01);
+		Robot->driveSubsystem.setMotorSpeed(speeds.left, speeds.right);
+	}
+
+    return COREAutonAction::CONTINUE;
 }
 
 void TurnAngleAction::actionEnd() {

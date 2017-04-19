@@ -10,8 +10,11 @@ class GearOnlyAuton : public COREAuton{
 public:
 	GearOnlyAuton(StartingPosition startingPosition);
 	void addNodes() override;
+	COREConstant<double> feederForwardDist, boilerForwardDist;
 private:
-	Node * m_setLowGearPosition = nullptr;
+	Node * m_setLowGear = nullptr;
+	Node * m_driveForward = nullptr;
+	Node * m_turnToPeg = nullptr;
 	Node * m_driveToPeg = nullptr;
 	Node * m_loadGearOnPeg = nullptr;
 	Node * m_reverseDrive = nullptr;

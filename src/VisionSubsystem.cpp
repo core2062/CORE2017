@@ -4,14 +4,12 @@
 using namespace CORE;
 
 VisionSubsystem::VisionSubsystem() : CORESubsystem("Vision"),
+	gearPlaceDist("Gear Place Distance", 12),
+	ultrakP("Ultrasonic kP", .3),
 	m_imageWidth("Image width", 1280),
-	m_imageHeight("Image height", 720),
-	m_cameraPegDeltaH("Camera height above the target", 8),
-	m_verticalFieldOfView("Vertical field of view", 31),
 	m_horizontalFieldOfView("Horizontal field of view", 50.5),
-	m_pegPlaceDist("Peg Place Distance", 12),
-	m_pegApproachDist("Peg Approach Distance", 24),
-	m_pegApproachSamples("Peg Approach Samples", 3){
+	m_ultra(GEAR_ULTRA_PORT),
+	m_jumper(JUMPER_PORT){
 
 }
 
@@ -19,8 +17,7 @@ void VisionSubsystem::robotInit(){
 	Robot->operatorJoystick.registerButton(COREJoystick::BACK_BUTTON);
 	visionTable = NetworkTable::GetTable("Vision");
 	visionTable->PutNumber("piTime", -1);
-	visionTable->PutNumber("targetX", 1000);
-	visionTable->PutNumber("targetY", 450);
+	visionTable->PutNumber("targetX", -1);
 }
 
 void VisionSubsystem::teleopInit(){
@@ -39,8 +36,8 @@ void VisionSubsystem::teleop() {
 }
 
 void VisionSubsystem::preLoopTask() {
+	double piTime = visionTable->GetNumber("piTime", -1);
 	if(m_timeOffsets.size() < 30){
-		double piTime = visionTable->GetNumber("piTime", -1);
 		if(piTime != -1){
 			double botTime = Timer::GetFPGATimestamp();
 			m_timeOffsets.push_back(botTime - piTime);
@@ -52,75 +49,31 @@ void VisionSubsystem::preLoopTask() {
 		}
 	}
 
-}
-
-Path * VisionSubsystem::getPath() {
-	return &m_pathToPeg;
-}
-
-RobotFrame * VisionSubsystem::getFrame(){
-	return &m_visionFrame;
-}
-
-void VisionSubsystem::calculatePath() {
 	double x = visionTable->GetNumber("targetX", -1);
-	double y = visionTable->GetNumber("targetY", -1);
 	x = m_imageWidth.Get() - x;
-//	double x = 1000;
-//	double y = 450;
 
-	if(x == -1 || y == -1){
+	if(x == -1 || m_lastPiTime == piTime){
 		return;
 	}
 
-//	double captureTime = visionTable->GetNumber("captureTime", -1) - m_timeOffset;
-	double captureTime = Timer::GetFPGATimestamp();
+	double captureTime = visionTable->GetNumber("piTime", -1) + m_timeOffset;
+
 	Position2d capturePos = TankTracker::GetInstance()->getFieldToVehicle(captureTime-.5);
-	double captureRot = capturePos.getRotation().getDegrees();
-	std::cout << "X:" << capturePos.getTranslation().getX() << " Y:" <<
-			capturePos.getTranslation().getY() << " T:" << capturePos.getRotation().getDegrees() << std::endl;
-
-	Rotation2d coordRot;
-
-	if(captureRot > -29 && captureRot < 29){
-		coordRot = capturePos.getRotation();
-		m_visionFrame = RobotFrame(Position2d(capturePos.getTranslation(), Rotation2d::fromDegrees(0)));
-	} else if (captureRot > 31 && captureRot < 89){
-		coordRot = Rotation2d::fromDegrees(60).rotateBy(capturePos.getRotation());
-		m_visionFrame = RobotFrame(Position2d(capturePos.getTranslation(), Rotation2d::fromDegrees(60)));
-	} else if (captureRot > -89 && captureRot < -31){
-		coordRot = Rotation2d::fromDegrees(-60).rotateBy(capturePos.getRotation());
-		m_visionFrame = RobotFrame(Position2d(capturePos.getTranslation(), Rotation2d::fromDegrees(-60)));
-	}
+	Rotation2d captureRot = capturePos.getRotation();
 
 	double focalLen = m_imageWidth.Get() / (2 * tan(CORE::toRadians(m_horizontalFieldOfView.Get() * .5)));
 	double hAngle = atan((x-(m_imageWidth.Get() * .5 - .5)) / focalLen);
-	double vAngle = atan((y-(m_imageHeight.Get() * .5 - .5)) / focalLen);
-	double distToPeg = m_cameraPegDeltaH.Get() / tan(vAngle);
-	double forward = cos(hAngle) * distToPeg;
-	double side = sin(hAngle) * distToPeg;
 
-	Translation2d pegPos(-forward,-side);
-	pegPos = pegPos.rotateBy(coordRot);
+	m_targetRotation = captureRot.rotateBy(Rotation2d::fromRadians(hAngle));
+}
 
-	//MATH
-	std::cout << "About To generate points, x at" << pegPos.getX() << std::endl;
-	std::vector<Waypoint> points;
-	points.push_back(Waypoint(Translation2d(),100));
-	int samples = m_pegApproachSamples.Get();
-	std::cout << "Taking " << samples << " Samples" << std::endl;
-	double sampleDelta = fabs(m_pegPlaceDist.Get() - m_pegApproachDist.Get()) / (double)samples;
-	for(int i = samples; i >= 0; i--){
-		points.push_back(Waypoint(Translation2d(pegPos.getX() + m_pegPlaceDist.Get() + sampleDelta * i,
-				pegPos.getY()), 100));
-	}
-	m_pathToPeg = Path(points);
+Rotation2d VisionSubsystem::getError(){
+	Rotation2d current = TankTracker::GetInstance()->getLatestFieldToVehicle().getRotation();
+	Rotation2d target = m_targetRotation;
+	return target.rotateBy(current.inverse());
+}
 
-	for(auto i : points){
-		std::cout << "X:" << i.position.getX() << " Y:" << i.position.getY() << " Speed:" << i.speed << std::endl;
-	}
-
-	std::cout << "Done Calcing Vision" << std::endl;
-
-
+double VisionSubsystem::getUltraDist() {
+	double scale = (1024.0 / 2.54); //403.1496
+	return (1000.0 * m_ultra.GetVoltage()) / ((m_jumper.GetVoltage() * 1000.0) / scale);
 }

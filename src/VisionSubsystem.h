@@ -13,9 +13,12 @@ public:
     void teleopInit() override;
     void teleop() override;
     void preLoopTask() override;
-    Path * getPath();
-    RobotFrame * getFrame();
-    void calculatePath();
+    Rotation2d getError();
+
+    double getUltraDist();
+
+    COREConstant<double> gearPlaceDist;
+    COREConstant<double> ultrakP;
 
 private:
     const string frontCamera = "front";
@@ -24,17 +27,13 @@ private:
     shared_ptr<NetworkTable> visionTable;
     std::vector<double> m_timeOffsets;
     double m_timeOffset = 0.0;
+    double m_lastPiTime = 0.0;
+
+    Rotation2d m_targetRotation;
 
     COREConstant<double> m_imageWidth;
-    COREConstant<double> m_imageHeight;
-    COREConstant<double> m_cameraPegDeltaH;
-    COREConstant<double> m_verticalFieldOfView;
     COREConstant<double> m_horizontalFieldOfView;
-    COREConstant<double> m_pegPlaceDist;
-    COREConstant<double> m_pegApproachDist;
-    COREConstant<int> m_pegApproachSamples;
 
-    RobotFrame m_visionFrame;
-    Path m_pathToPeg;
-
+    AnalogInput m_ultra;
+    AnalogInput m_jumper;
 };

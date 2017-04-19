@@ -12,7 +12,8 @@ enum class GearPickupState{
 	FEEDING,
 	PICKUP,
 	PLACING,
-	PICKINGUP
+	PICKINGUP,
+	AUTOPLACING
 };
 
 class GearSubsystem : public CORESubsystem, public CORETask {
@@ -23,6 +24,7 @@ public:
     void teleop() override;
     void teleopEnd() override;
     void placeGear();
+    void autoPlaceGear();
     void pickupGear();
     void holdIn();
     void feed();

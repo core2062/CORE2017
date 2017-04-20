@@ -189,7 +189,7 @@ void GearSubsystem::postLoopTask() {
 			setRoller(1.0);
 		}
 		pickupOut();
-		if(m_placeTimer.Get() > 2){
+		if(m_placeTimer.Get() > 1){
 			m_state = GearPickupState::HOLDING;
 		}
 		break;

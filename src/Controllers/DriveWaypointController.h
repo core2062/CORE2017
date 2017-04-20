@@ -20,7 +20,7 @@ public:
 	void autonInitTask() override;
 
 	void init();
-	void startPath(Path path, bool reversed = false, double maxAccel = 25.0, double tolerance = .25, bool gradualStop = true);
+	void startPath(Path path, bool reversed = false, double maxAccel = 25.0, double tolerance = .25, bool gradualStop = true, double lookahead = 24.0);
 	void resetTracker(Position2d initialPos);
 	bool isDone();
 	bool checkEvent(std::string event);

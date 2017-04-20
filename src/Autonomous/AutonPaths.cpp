@@ -150,8 +150,13 @@ Path * AutonPaths::getHopperToWallPath(double speedScale){
 		}
 	}
 Path * AutonPaths::getCrossFieldPath(double speedScale){
+	if(Robot->getStartingPosition() != StartingPosition::FEEDER){
 		return PathLoader::loadPath("boilerToOpposite.csv", speedScale,
 				(CORERobot::getAlliance() == CORERobot::RED));
+	} else {
+		return PathLoader::loadPath("boilerToCross_feeder.csv", speedScale,
+				(CORERobot::getAlliance() == CORERobot::RED));
+	}
 	}
 
 Path * AutonPaths::getPegToCrossPathA(double speedScale){

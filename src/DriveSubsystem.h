@@ -32,7 +32,7 @@ public:
     void startTurning(double angle, double tolerance, bool relative = false);
     bool pathDone();
     bool checkPathEvent(std::string event);
-    void followPath(Path path, bool reversed = false, double maxAccel = 25.0, double tolerance = .25, bool gradualStop = true);
+    void followPath(Path path, bool reversed = false, double maxAccel = 25.0, double tolerance = .25, bool gradualStop = true, double lookahead = 24.0);
     void setFrame(RobotFrame * frame);
     CANTalon * getLeftMaster();
     CANTalon * getRightMaster();

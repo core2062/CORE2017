@@ -14,12 +14,12 @@ public:
     void teleop() override;
     void preLoopTask() override;
     Rotation2d getError();
+    double getErrorPercent();
 
     double getUltraDist();
 
     COREConstant<double> gearPlaceDist;
     COREConstant<double> ultrakP;
-
 private:
     const string frontCamera = "front";
     const string gearCamera = "gear";
@@ -28,6 +28,7 @@ private:
     std::vector<double> m_timeOffsets;
     double m_timeOffset = 0.0;
     double m_lastPiTime = 0.0;
+    double m_pegX = 0.0;
 
     Rotation2d m_targetRotation;
 
@@ -36,4 +37,5 @@ private:
 
     AnalogInput m_leftUltra;
     AnalogInput m_rightUltra;
+    AnalogInput m_jumper;
 };

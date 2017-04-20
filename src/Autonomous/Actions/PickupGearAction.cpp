@@ -1,24 +1,23 @@
 #include "PickupGearAction.h"
 #include <Robot.h>
 
-PickupGearAction::PickupGearAction(){
+PickupGearAction::PickupGearAction(bool up){
+	m_up = up;
 	m_punchIsOut = false;
 }
 
 void PickupGearAction::actionInit(){
-	Robot->gearSubsystem.pickupGear();
-	m_endTimer.Reset();
-	m_endTimer.Start();
+	if(m_up){
+		Robot->gearSubsystem.safePickup();
+	} else {
+		Robot->gearSubsystem.pickupGear();
+	}
 
 }
 
 COREAutonAction::actionStatus PickupGearAction::action() {
-	if(m_endTimer.Get() > 3.5){
-		Robot->gearSubsystem.safePickup();
-		return COREAutonAction::actionStatus::END;
-	}
 
-	return COREAutonAction::actionStatus::CONTINUE;
+	return COREAutonAction::actionStatus::END;
 }
 
 void PickupGearAction::actionEnd() {

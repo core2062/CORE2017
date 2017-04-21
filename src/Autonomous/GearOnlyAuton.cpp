@@ -13,11 +13,11 @@ GearOnlyAuton::GearOnlyAuton(StartingPosition startingPosition) :
 
 void GearOnlyAuton::addNodes() {
 	m_setLowGear = new Node(1, new DriveShiftAction(GearPosition::LOW_GEAR));
-	if( Robot->getStartingPosition() != StartingPosition::CENTER){
+//	if( Robot->getStartingPosition() != StartingPosition::CENTER){
 //		m_driveForward = new Node( 3, new DriveDistanceAction(-1.0, feederForwardDist.Get()));
 //		m_turnToPeg = new Node( 3, new TurnAngleAction(Rotation2d::fromDegrees(-60 * Robot->getAlliance()), 5));
-		m_driveForward = new Node( 5, new DriveWaypointAction(AutonPaths::getWallToPegPath(), true, .25, 500, false));
-	}
+		m_driveForward = new Node( 5, new DriveWaypointAction(AutonPaths::getWallToPegPath(), true, .25, 125, true));
+//	}
 //	if( Robot->getStartingPosition() == StartingPosition::BOILER){
 //		m_driveForward = new Node( 3, new DriveDistanceAction(-1.0, boilerForwardDist.Get()));
 //		m_turnToPeg = new Node( 3, new TurnAngleAction(Rotation2d::fromDegrees(60 * Robot->getAlliance()), 5));
@@ -27,17 +27,17 @@ void GearOnlyAuton::addNodes() {
 	m_reverseDrive = new Node(15, new DriveWaypointAction(AutonPaths::getPegReversePath()));
 	m_prepCrossA = new Node(12, new DriveWaypointAction(AutonPaths::getPegToCrossPathA(), false, .25, 150.0, false));
 	m_prepCrossB = new Node(12, new DriveWaypointAction(AutonPaths::getPegToCrossPathB(), true, .25, 150.0, false));
-	m_cross = new Node(6, new DriveDistanceAction(-1.0, 100, true));
+	m_cross = new Node(6, new DriveDistanceAction(-1.0, 100, false));
 
 	addFirstNode(m_setLowGear);
-	if(m_driveForward != nullptr){
+//	if(m_driveForward != nullptr){
 		m_setLowGear->addNext(m_driveForward);
-		m_driveForward->addNext(m_driveToPeg);
-	} else {
-		m_setLowGear->addNext(m_driveToPeg);
-	}
+//		m_driveForward->addNext(m_driveToPeg);
+//	} else {
+//		m_setLowGear->addNext(m_driveToPeg);
+//	}
 
-	m_driveToPeg->addNext(m_loadGearOnPeg);
+	m_driveForward->addNext(m_loadGearOnPeg);
 
 	if (SmartDashboard::GetBoolean("Auto Cross Field", false)){
 		m_loadGearOnPeg->addNext(m_prepCrossA);

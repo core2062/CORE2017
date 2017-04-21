@@ -20,6 +20,8 @@ void VisionSubsystem::robotInit(){
 	visionTable->PutNumber("piTime", -1);
 	visionTable->PutNumber("targetX", -1);
 	visionTable->PutBoolean("disableGearVision", true);
+	visionTable->PutBoolean("disablePegVision", true);
+	visionTable->PutBoolean("disableVision", true);
 }
 
 void VisionSubsystem::teleopInit(){

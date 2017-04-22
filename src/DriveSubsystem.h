@@ -5,6 +5,7 @@
 #include "Controllers/DriveWaypointController.h"
 #include "Controllers/DriveOpenController.h"
 #include "Controllers/DriveGyroController.h"
+#include "Controllers/DriveHybridController.h"
 
 enum class DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
 
@@ -65,5 +66,6 @@ private:
 
     DriveOpenController m_driveTeleController;
     DriveGyroController m_driveGyroController;
+    DriveHybridController m_driveHybridController;
     DriveWaypointController * m_driveWaypointController = 0;
 };

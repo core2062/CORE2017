@@ -46,8 +46,10 @@ void DriveSubsystem::teleopInit() {
 	COREEtherDrive::setAB(m_etherAValue.Get(), m_etherBValue.Get());
 	COREEtherDrive::setQuickturn(m_etherQuickTurnValue.Get());
 
-	setController(&m_driveTeleController);
-	m_driveTeleController.enable();
+//	setController(&m_driveTeleController);
+//	m_driveTeleController.enable();
+	setController(&m_driveHybridController);
+	m_driveHybridController.enable();
 	m_driveWaypointController->disable();
 
 	if(!m_gyro->IsConnected()) {

@@ -13,5 +13,6 @@
 #include "Actions/DriveDistanceAction.h"
 #include "Actions/VisionAlignGearAction.h"
 #include "Actions/PickupGearAction.h"
+#include "Actions/VisionPathAction.h"
 
 

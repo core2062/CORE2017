@@ -8,17 +8,26 @@ AntiTitaniumAuton::AntiTitaniumAuton() :
 }
 
 void AntiTitaniumAuton::addNodes() {
-	if(SmartDashboard::GetNumber("TurnTest", -500) == -500){
-		SmartDashboard::PutNumber("TurnTest", 0);
+	m_setLowGear = new Node(1, new DriveShiftAction(GearPosition::LOW_GEAR));
+	m_approachPeg = new Node(5, new DriveWaypointAction(AutonPaths::getApproachPegPath(), true, .25, 125, true));
+	m_waitForVision = new Node(10, new WaitAction(.25));
+	m_driveOnPeg = new Node(7, new VisionPathAction());
+	m_loadGearOnPeg = new Node(1.5, new LoadGearOntoPegAction(), new WaitAction(.5));
+	m_reverseDrive = new Node(15, new DriveWaypointAction(AutonPaths::getPegReversePath()));
+	m_prepCrossA = new Node(12, new DriveWaypointAction(AutonPaths::getPegToCrossPathA(), false, .25, 150.0, false));
+	m_prepCrossB = new Node(12, new DriveWaypointAction(AutonPaths::getPegToCrossPathB(), true, .25, 1500.0, false));
+	m_cross = new Node(6, new DriveDistanceAction(-1.0, 100, false));
+
+	addFirstNode(m_setLowGear);
+	m_setLowGear->addNext(m_approachPeg);
+	m_approachPeg->addNext(m_waitForVision);
+	m_waitForVision->addNext(m_driveOnPeg);
+	m_driveOnPeg->addNext(m_loadGearOnPeg);
+	if (SmartDashboard::GetBoolean("Auto Cross Field", false)){
+		m_loadGearOnPeg->addNext(m_prepCrossA);
+		m_prepCrossA->addNext(m_prepCrossB);
+		m_prepCrossB->addNext(m_cross);
+	} else {
+		m_loadGearOnPeg->addNext(m_reverseDrive);
 	}
-//	m_setHighGearPosition = new Node(10, new VisionAlignGearAction(100,true,false));
-	m_setHighGearPosition = new Node(10, new DriveShiftAction(GearPosition::HIGH_GEAR));
-	m_goToTheOppositeSideOfTheField = new Node(10, new TurnAngleAction(Rotation2d::fromDegrees(SmartDashboard::GetNumber("TurnTest", 0)), 10));
-//	m_goToTheOppositeSideOfTheField = new Node(10, new DriveWaypointAction(	PathLoader::loadPath("def_legal.csv", 1.0,
-//			(CORERobot::getAlliance() == CORERobot::RED)), true, .25, 99999));
-	//TODO Add actual values to the DriveDistanceAction
-	addFirstNode(m_setHighGearPosition);
-	m_setHighGearPosition->addNext(m_goToTheOppositeSideOfTheField);
-
-
 }

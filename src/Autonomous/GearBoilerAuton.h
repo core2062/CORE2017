@@ -13,13 +13,13 @@ public:
 
 private:
 	Node * m_setLowGear = nullptr;
-	Node * m_driveForward = nullptr;
-	Node * m_turnToPeg = nullptr;
+	Node * m_approachPeg = nullptr;
+	Node * m_waitForVision = nullptr;
+	Node * m_driveOnPeg = nullptr;
 	Node * m_driveToPeg = nullptr;
 	Node * m_loadGearOnPeg = nullptr;
 	Node * m_driveToBoiler = nullptr;
 	Node * m_dumpBallsInBoiler = nullptr;
-	Node * m_goHigh = nullptr;
 	Node * m_cross = nullptr;
 	Node * m_driveCross = nullptr;
 

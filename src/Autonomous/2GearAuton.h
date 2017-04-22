@@ -13,17 +13,25 @@ public:
 
 private:
 
-	Node * m_driveA = nullptr;
+	Node * m_driveToPeg = nullptr;
 	Node * m_dropA = nullptr;
-	Node * m_driveB = nullptr;
-	Node * m_turnA = nullptr;
-	Node * m_driveC = nullptr;
-	Node * m_driveD = nullptr;
-	Node * m_turnB = nullptr;
-	Node * m_driveE = nullptr;
+	Node * m_driveToTurn = nullptr;
+	Node * m_turnToPickup = nullptr;
+	Node * m_driveToPickup = nullptr;
+	Node * m_driveTowardsCenter = nullptr;
+	Node * m_turnToPeg = nullptr;
+	Node * m_driveBackToPeg = nullptr;
+	Node * m_waitForVision = nullptr;
+	Node * m_driveOnPeg = nullptr;
 	Node * m_dropB = nullptr;
-	Node * m_driveF = nullptr;
 
+	Node * m_driveReverse = nullptr;
 
+	Node * m_driveToBoiler = nullptr;
+	Node * m_dumpBallsInBoiler = nullptr;
+
+	Node * m_prepCrossA = nullptr;
+	Node * m_prepCrossB = nullptr;
+	Node * m_cross = nullptr;
 };
 

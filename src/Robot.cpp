@@ -29,10 +29,13 @@ void Aergia::robotInit() {
 	m_positionChooser.AddObject("Feeder", new StartingPosition(StartingPosition::FEEDER));
 	SmartDashboard::PutData("Starting Position", &m_positionChooser);
 	SmartDashboard::PutBoolean("Auto Cross Field", false);
+	SmartDashboard::PutBoolean("Use Vision", true);
+	SmartDashboard::PutBoolean("Two Gear Boiler", false);
 }
 
 
 void Aergia::autonInit() {
+	driveSubsystem.setFrame(nullptr);
 	driveSubsystem.softResetYaw();
 
 	StartingPosition * pos = m_positionChooser.GetSelected();

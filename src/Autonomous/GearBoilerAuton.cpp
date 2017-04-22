@@ -8,33 +8,35 @@ GearBoilerAuton::GearBoilerAuton() :
 
 void GearBoilerAuton::addNodes() {
 	m_setLowGear = new Node(10, new DriveShiftAction(GearPosition::LOW_GEAR));
-	if( Robot->getStartingPosition() != StartingPosition::CENTER){
-		m_driveForward = new Node( 5, new DriveWaypointAction(AutonPaths::getWallToPegPath(), true, .25, 500, false));
-//		m_driveForward = new Node( 3, new DriveDistanceAction(-1.0, Robot->gearAuton.boilerForwardDist.Get()));
-//		m_turnToPeg = new Node( 3, new TurnAngleAction(Rotation2d::fromDegrees(60 * Robot->getAlliance()), 5));
-	}
-	m_driveToPeg = new Node(6.5, new VisionAlignGearAction());
+
+	m_approachPeg = new Node(5, new DriveWaypointAction(AutonPaths::getApproachPegPath(), true, .25, 125, true));
+	m_waitForVision = new Node(10, new WaitAction(.25));
+	m_driveOnPeg = new Node(7, new VisionPathAction());
+
+	m_driveToPeg = new Node(6.5, new DriveWaypointAction(AutonPaths::getWallToPegPath(), true, .25, 500, false));
 	m_loadGearOnPeg = new Node(15, new LoadGearOntoPegAction(), new WaitAction(.5));
 	m_driveToBoiler = new Node(10, new DriveWaypointAction(AutonPaths::getPegToBoilerPath(), false, .25, 250, true));
 	m_dumpBallsInBoiler = new Node(5, new DumpBallsAction(1.5));
 	m_cross = new Node(9, new DriveWaypointAction(AutonPaths::getCrossFieldPath(), true, .25, 2500, false));
-	m_goHigh = new Node(2,  new DriveShiftAction(GearPosition::HIGH_GEAR));
-	m_driveCross = new Node(5, new DriveDistanceAction(-1.0, 150, true));
+	m_driveCross = new Node(5, new DriveDistanceAction(-1.0, 150, true), new DriveShiftAction(GearPosition::HIGH_GEAR));
 
 	addFirstNode(m_setLowGear);
-	if(m_driveForward != nullptr){
-		m_setLowGear->addNext(m_driveForward);
-		m_driveForward->addNext(m_driveToPeg);
+
+	if (SmartDashboard::GetBoolean("Use Vision", false)){
+		m_setLowGear->addNext(m_approachPeg);
+		m_approachPeg->addNext(m_waitForVision);
+		m_waitForVision->addNext(m_driveOnPeg);
+		m_driveOnPeg->addNext(m_loadGearOnPeg);
 	} else {
 		m_setLowGear->addNext(m_driveToPeg);
+		m_driveToPeg->addNext(m_loadGearOnPeg);
 	}
-	m_driveToPeg->addNext(m_loadGearOnPeg);
+
 	m_loadGearOnPeg->addNext(m_driveToBoiler);
 	m_driveToBoiler->addNext(m_dumpBallsInBoiler);
 
 	if (SmartDashboard::GetBoolean("Auto Cross Field", false)){
-		m_dumpBallsInBoiler->addNext(m_goHigh);
-		m_goHigh->addNext(m_cross);
+		m_dumpBallsInBoiler->addNext(m_cross);
 		m_cross->addNext(m_driveCross);
 	}
 }

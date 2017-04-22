@@ -11,9 +11,15 @@ public:
 	void addNodes();
 
 private:
-	Node * m_setHighGearPosition = nullptr;
-	Node * m_goToTheOppositeSideOfTheField = nullptr;
-
+	Node * m_setLowGear = nullptr;
+	Node * m_approachPeg = nullptr;
+	Node * m_waitForVision = nullptr;
+	Node * m_driveOnPeg = nullptr;
+	Node * m_loadGearOnPeg = nullptr;
+	Node * m_reverseDrive = nullptr;
+	Node * m_prepCrossA = nullptr;
+	Node * m_prepCrossB = nullptr;
+	Node * m_cross = nullptr;
 };
 
 

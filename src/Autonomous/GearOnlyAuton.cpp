@@ -13,31 +13,29 @@ GearOnlyAuton::GearOnlyAuton(StartingPosition startingPosition) :
 
 void GearOnlyAuton::addNodes() {
 	m_setLowGear = new Node(1, new DriveShiftAction(GearPosition::LOW_GEAR));
-//	if( Robot->getStartingPosition() != StartingPosition::CENTER){
-//		m_driveForward = new Node( 3, new DriveDistanceAction(-1.0, feederForwardDist.Get()));
-//		m_turnToPeg = new Node( 3, new TurnAngleAction(Rotation2d::fromDegrees(-60 * Robot->getAlliance()), 5));
-		m_driveForward = new Node( 5, new DriveWaypointAction(AutonPaths::getWallToPegPath(), true, .25, 125, true));
-//	}
-//	if( Robot->getStartingPosition() == StartingPosition::BOILER){
-//		m_driveForward = new Node( 3, new DriveDistanceAction(-1.0, boilerForwardDist.Get()));
-//		m_turnToPeg = new Node( 3, new TurnAngleAction(Rotation2d::fromDegrees(60 * Robot->getAlliance()), 5));
-//	}
-	m_driveToPeg = new Node(7, new VisionAlignGearAction());
+
+	m_approachPeg = new Node(5, new DriveWaypointAction(AutonPaths::getApproachPegPath(), true, .25, 125, true));
+	m_waitForVision = new Node(10, new WaitAction(.25));
+	m_driveOnPeg = new Node(7, new VisionPathAction());
+
+	m_driveToPeg = new Node(7, new DriveWaypointAction(AutonPaths::getWallToPegPath(), true, .25, 125, true));
 	m_loadGearOnPeg = new Node(1.5, new LoadGearOntoPegAction(), new WaitAction(.5));
 	m_reverseDrive = new Node(15, new DriveWaypointAction(AutonPaths::getPegReversePath()));
 	m_prepCrossA = new Node(12, new DriveWaypointAction(AutonPaths::getPegToCrossPathA(), false, .25, 150.0, false));
-	m_prepCrossB = new Node(12, new DriveWaypointAction(AutonPaths::getPegToCrossPathB(), true, .25, 150.0, false));
+	m_prepCrossB = new Node(12, new DriveWaypointAction(AutonPaths::getPegToCrossPathB(), true, .25, 1500.0, false));
 	m_cross = new Node(6, new DriveDistanceAction(-1.0, 100, false));
 
 	addFirstNode(m_setLowGear);
-//	if(m_driveForward != nullptr){
-		m_setLowGear->addNext(m_driveForward);
-//		m_driveForward->addNext(m_driveToPeg);
-//	} else {
-//		m_setLowGear->addNext(m_driveToPeg);
-//	}
 
-	m_driveForward->addNext(m_loadGearOnPeg);
+	if (SmartDashboard::GetBoolean("Use Vision", false)){
+		m_setLowGear->addNext(m_approachPeg);
+		m_approachPeg->addNext(m_waitForVision);
+		m_waitForVision->addNext(m_driveOnPeg);
+		m_driveOnPeg->addNext(m_loadGearOnPeg);
+	} else {
+		m_setLowGear->addNext(m_driveToPeg);
+		m_driveToPeg->addNext(m_loadGearOnPeg);
+	}
 
 	if (SmartDashboard::GetBoolean("Auto Cross Field", false)){
 		m_loadGearOnPeg->addNext(m_prepCrossA);

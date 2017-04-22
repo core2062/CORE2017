@@ -6,6 +6,8 @@ class AutonPaths{
 public:
 	static Path * getWallToPegPath(double speedScale = 1.0);
 
+	static Path * getApproachPegPath(double speedScale = 1.0);
+
 	static Path * getWallToBoilerPath(double speedScale = 1.0);
 
 	static Path * getPegToHopperPathA(double speedScale = 1.0);

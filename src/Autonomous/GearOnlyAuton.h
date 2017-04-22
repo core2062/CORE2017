@@ -13,8 +13,9 @@ public:
 	COREConstant<double> feederForwardDist, boilerForwardDist;
 private:
 	Node * m_setLowGear = nullptr;
-	Node * m_driveForward = nullptr;
-	Node * m_turnToPeg = nullptr;
+	Node * m_approachPeg = nullptr;
+	Node * m_waitForVision = nullptr;
+	Node * m_driveOnPeg = nullptr;
 	Node * m_driveToPeg = nullptr;
 	Node * m_loadGearOnPeg = nullptr;
 	Node * m_reverseDrive = nullptr;

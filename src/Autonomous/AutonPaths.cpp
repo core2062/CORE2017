@@ -23,6 +23,27 @@ Path * AutonPaths::getWallToPegPath(double speedScale){
 				break;
 		}
 	}
+
+Path * AutonPaths::getApproachPegPath(double speedScale){
+		switch(Robot->getStartingPosition()){
+			case StartingPosition::BOILER:
+				return PathLoader::loadPath("approachPeg_boiler.csv", speedScale,
+						(CORERobot::getAlliance() == CORERobot::RED));
+				break;
+			case StartingPosition::FEEDER:
+				return PathLoader::loadPath("approachPeg_feeder.csv", speedScale,
+						(CORERobot::getAlliance() == CORERobot::RED));
+				break;
+			case StartingPosition::CENTER:
+				return PathLoader::loadPath("approachPeg_center.csv", speedScale,
+						(CORERobot::getAlliance() == CORERobot::RED));
+				break;
+			default:
+				return nullptr;
+				break;
+		}
+	}
+
 Path * AutonPaths::getWallToBoilerPath(double speedScale){
 		switch(Robot->getStartingPosition()){
 			case StartingPosition::BOILER:

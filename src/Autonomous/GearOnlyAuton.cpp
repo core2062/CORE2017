@@ -14,8 +14,20 @@ GearOnlyAuton::GearOnlyAuton(StartingPosition startingPosition) :
 void GearOnlyAuton::addNodes() {
 	m_setLowGear = new Node(1, new DriveShiftAction(GearPosition::LOW_GEAR));
 
+	switch(Robot->getStartingPosition()){
+		case StartingPosition::BOILER:
+				m_turnToPeg = new Node (3, new TurnAngleAction(Rotation2d::fromDegrees(60.0 * CORERobot::getAlliance()), 1, 5));
+			break;
+		case StartingPosition::FEEDER:
+			m_turnToPeg = new Node (3, new TurnAngleAction(Rotation2d::fromDegrees(-60.0 * CORERobot::getAlliance()), 1, 5));
+			break;
+		case StartingPosition::CENTER:
+			m_turnToPeg = new Node (3, new TurnAngleAction(Rotation2d::fromDegrees(0), 1, 5));
+			break;
+	}
+
 	m_approachPeg = new Node(5, new DriveWaypointAction(AutonPaths::getApproachPegPath(), true, .25, 125, true));
-	m_waitForVision = new Node(10, new WaitAction(.25));
+	m_waitForVision = new Node(10, new WaitAction(2.25));
 	m_driveOnPeg = new Node(7, new VisionPathAction());
 
 	m_driveToPeg = new Node(7, new DriveWaypointAction(AutonPaths::getWallToPegPath(), true, .25, 125, true));
@@ -29,7 +41,12 @@ void GearOnlyAuton::addNodes() {
 
 	if (SmartDashboard::GetBoolean("Use Vision", false)){
 		m_setLowGear->addNext(m_approachPeg);
-		m_approachPeg->addNext(m_waitForVision);
+		if(	SmartDashboard::GetBoolean("Vision Set Heading", false)){
+			m_approachPeg->addNext(m_turnToPeg);
+			m_turnToPeg->addNext(m_waitForVision);
+		} else {
+			m_approachPeg->addNext(m_waitForVision);
+		}
 		m_waitForVision->addNext(m_driveOnPeg);
 		m_driveOnPeg->addNext(m_loadGearOnPeg);
 	} else {

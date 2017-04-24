@@ -25,10 +25,10 @@ void DriveHybridController::enabledLoop() {
 	if(Robot->driverJoystick.getRisingEdge(COREJoystick::BACK_BUTTON)){
 		if(m_hybrid){
 			if(m_pursuit){
-				delete m_pursuit;
+//				delete m_pursuit;
 			}
 			if(m_frame){
-				delete m_frame;
+//				delete m_frame;
 			}
 			m_frame = nullptr;
 			m_pursuit = nullptr;
@@ -67,15 +67,27 @@ void DriveHybridController::enabledLoop() {
 		VelocityPair speeds = COREEtherDrive::calculate(mag, rot, .1);
 		Robot->driveSubsystem.setMotorSpeed(speeds.left, speeds.right);
 	} else {
-		if(m_visionTimer.Get() > .25){
-			if(!m_pursuit){
+		if(m_visionTimer.Get() > 2.25){
+			if(m_pursuit == nullptr){
 				Robot->visionSubsystem.calculatePath();
 				m_pursuit = new AdaptivePursuit(24, 150, .025, *Robot->visionSubsystem.getPath(), true, .25, true);
 				m_frame = Robot->visionSubsystem.getFrame();
 			}
-			if(m_pursuit){
+			if(m_pursuit != nullptr){
 				Position2d pos;
+				if(m_frame){
 				pos = m_frame->getLatest();
+				} else {
+					if(m_pursuit){
+//						delete m_pursuit;
+					}
+					m_frame = nullptr;
+					m_pursuit = nullptr;
+					m_hybrid = false;
+					Robot->visionSubsystem.visionTable->PutBoolean("disablePegVision", true);
+					Robot->visionSubsystem.visionTable->PutBoolean("disableVision", true);
+					return;
+				}
 
 				Position2d::Delta command = m_pursuit->update(pos, Timer::GetFPGATimestamp());
 				VelocityPair setpoint = TankKinematics::inverseKinematics(command);
@@ -92,10 +104,10 @@ void DriveHybridController::enabledLoop() {
 					Robot->driveSubsystem.setMotorSpeed(0,0);
 					Robot->gearSubsystem.placeGear();
 					if(m_pursuit){
-						delete m_pursuit;
+//						delete m_pursuit;
 					}
 					if(m_frame){
-						delete m_frame;
+//						delete m_frame;
 					}
 					m_frame = nullptr;
 					m_pursuit = nullptr;

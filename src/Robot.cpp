@@ -31,6 +31,7 @@ void Aergia::robotInit() {
 	SmartDashboard::PutBoolean("Auto Cross Field", false);
 	SmartDashboard::PutBoolean("Use Vision", true);
 	SmartDashboard::PutBoolean("Two Gear Boiler", false);
+	SmartDashboard::PutBoolean("Vision Set Heading", true);
 }
 
 

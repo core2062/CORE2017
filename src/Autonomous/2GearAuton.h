@@ -13,6 +13,9 @@ public:
 
 private:
 
+	Node * m_approachPeg = nullptr;
+	Node * m_waitForVisionA = nullptr;
+	Node * m_driveOnPegA = nullptr;
 	Node * m_driveToPeg = nullptr;
 	Node * m_dropA = nullptr;
 	Node * m_driveToTurn = nullptr;
@@ -21,8 +24,8 @@ private:
 	Node * m_driveTowardsCenter = nullptr;
 	Node * m_turnToPeg = nullptr;
 	Node * m_driveBackToPeg = nullptr;
-	Node * m_waitForVision = nullptr;
-	Node * m_driveOnPeg = nullptr;
+	Node * m_waitForVisionB = nullptr;
+	Node * m_driveOnPegB = nullptr;
 	Node * m_dropB = nullptr;
 
 	Node * m_driveReverse = nullptr;

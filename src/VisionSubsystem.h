@@ -3,6 +3,8 @@
 #include "WPILib.h"
 #include "WaypointFollower/RobotFrame.h"
 
+//#define OLD_MATH
+
 using namespace CORE;
 
 class VisionSubsystem : public CORESubsystem, public CORETask {
@@ -39,6 +41,7 @@ private:
     COREConstant<double> m_imageWidth;
     COREConstant<double> m_horizontalFieldOfView;
     COREConstant<double> m_pegApproachDist;
+    COREConstant<double> m_ultraToCenterDist;
     COREConstant<int> m_pegApproachSamples;
 
     RobotFrame m_visionFrame;

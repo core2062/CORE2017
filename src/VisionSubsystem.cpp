@@ -4,11 +4,12 @@
 using namespace CORE;
 
 VisionSubsystem::VisionSubsystem() : CORESubsystem("Vision"),
-	gearPlaceDist("Gear Place Distance", 12),
+	gearPlaceDist("Gear Place Distance", 35),
 	ultrakP("Ultrasonic kP", .03),
 	m_imageWidth("Image width", 640),
-	m_horizontalFieldOfView("Horizontal field of view", 60),
-	m_pegApproachDist("Peg Approach Distance", 24),
+	m_horizontalFieldOfView("Horizontal field of view", 61.9),
+	m_pegApproachDist("Peg Approach Distance", 12),
+	m_ultraToCenterDist("Ultrasonic To Robot Center Dist", 13.0),
 	m_pegApproachSamples("Peg Approach Samples", 10),
 	m_leftUltra(4),
 	m_rightUltra(5),
@@ -44,6 +45,7 @@ void VisionSubsystem::teleop() {
 
 void VisionSubsystem::preLoopTask() {
 	SmartDashboard::PutNumber("Ultra Distance", getUltraDist());
+	std::cout << "L: " << m_leftUltra.GetVoltage() << " R: " << m_rightUltra.GetVoltage() << " J: " << m_jumper.GetVoltage() << std::endl;
 	double piTime = visionTable->GetNumber("piTime", -1);
 	if(m_timeOffsets.size() < 30){
 		if(piTime != -1){
@@ -81,46 +83,88 @@ void VisionSubsystem::calculatePath() {
 //	double x = 1000;
 //	double y = 450;
 
-
-
-	x = m_imageWidth.Get() - x;
-
 	if(x == -1){
 		x = m_imageWidth.Get() * .5;
 		CORELog::logWarning("Couldn't See Vision Target!");
 	}
+
+	x = m_imageWidth.Get() - x;
 
 	Position2d capturePos = TankTracker::GetInstance()->getLatestFieldToVehicle();
 	double captureRot = capturePos.getRotation().getDegrees();
 	std::cout << "X:" << capturePos.getTranslation().getX() << " Y:" <<
 			capturePos.getTranslation().getY() << " T:" << capturePos.getRotation().getDegrees() << std::endl;
 
-	Rotation2d coordRot;
+	Rotation2d centerToY;
 
 	if(captureRot > -29 && captureRot < 29){
-		coordRot = capturePos.getRotation();
+		centerToY = capturePos.getRotation();
 		m_visionFrame = RobotFrame(Position2d(capturePos.getTranslation(), Rotation2d::fromDegrees(0)));
 	} else if (captureRot > 31 && captureRot < 89){
-		coordRot = capturePos.getRotation().rotateBy(Rotation2d::fromDegrees(-60));
+		centerToY = capturePos.getRotation().rotateBy(Rotation2d::fromDegrees(-60));
 		m_visionFrame = RobotFrame(Position2d(capturePos.getTranslation(), Rotation2d::fromDegrees(-60)));
 	} else if (captureRot > -89 && captureRot < -31){
 //		coordRot = Rotation2d::fromDegrees(-60).rotateBy(capturePos.getRotation().inverse());
-		coordRot = capturePos.getRotation().rotateBy(Rotation2d::fromDegrees(60));
+		centerToY = capturePos.getRotation().rotateBy(Rotation2d::fromDegrees(60));
 		m_visionFrame = RobotFrame(Position2d(capturePos.getTranslation(), Rotation2d::fromDegrees(60)));
 	}
 
-	std::cout << "deltaRot: " << coordRot.getDegrees() << std::endl;
+	std::cout << "deltaRot: " << centerToY.getDegrees() << std::endl;
 
 	double focalLen = m_imageWidth.Get() / (2 * tan(CORE::toRadians(m_horizontalFieldOfView.Get() * .5)));
+
+#ifndef OLD_MATH
+	double ultraHypot = getUltraDist();
+	double totalHypot = ultraHypot + m_ultraToCenterDist.Get();
+	Rotation2d ultraToTarget = Rotation2d::fromDegrees(atan((x-(m_imageWidth.Get() * .5 - .5)) / focalLen));
+	Rotation2d ultraYToTarget = ultraToTarget.rotateBy(centerToY);
+
+	double ultraForwardDist = cos(centerToY.getRadians()) * ultraHypot;
+	double centerForwardDist = cos(centerToY.getRadians()) * totalHypot;
+	double ultraSideDist = tan(ultraYToTarget.getRadians()) * ultraForwardDist;
+	double ultraToCenterSideDelta = sin(centerToY.getRadians()) * m_ultraToCenterDist.Get();
+	double centerSideDist = ultraSideDist - ultraToCenterSideDelta;
+
+	Translation2d pegPos(-centerForwardDist,-centerSideDist);
+
+	stringstream toLog;
+	toLog << std::endl << std::endl << "--Vision Stuff--" << std::endl;
+	toLog << "Robot to Target Angle: " << ultraToTarget.getDegrees() << std::endl;
+	toLog << "Robot to Peg Angle: " << centerToY.getDegrees() << std::endl;
+	toLog << "Peg Axis to Target Angle: " << ultraYToTarget.getDegrees() << std::endl;
+	toLog << "FWD: " << pegPos.getX() << " SIDE: " << pegPos.getY() << std::endl;
+	CORELog::logInfo(toLog.str());
+
+	std::cout << "About To generate points, x at" << pegPos.getX() << std::endl;
+	std::vector<Waypoint> points;
+	points.push_back(Waypoint(Translation2d(),100));
+	int samples = m_pegApproachSamples.Get();
+	std::cout << "Taking " << samples << " Samples" << std::endl;
+	double sampleDelta = fabs(m_pegApproachDist.Get()) / (double)samples;
+	for(int i = samples; i >= 0; i--){
+		points.push_back(Waypoint(Translation2d(pegPos.getX() + gearPlaceDist.Get() + sampleDelta * i,
+				pegPos.getY()), 100));
+	}
+	m_pathToPeg = Path(points);
+
+	for(auto i : points){
+		std::cout << "X:" << i.position.getX() << " Y:" << i.position.getY() << " Speed:" << i.speed << std::endl;
+	}
+
+	std::cout << "Done Calcing Vision" << std::endl;
+
+#else
 	double hAngle = atan((x-(m_imageWidth.Get() * .5 - .5)) / focalLen);
 	double distToPeg = getUltraDist();
 	double forward = cos(hAngle) * distToPeg;
 	double side = sin(hAngle) * distToPeg;
 
 	Translation2d pegPos(-forward,-side);
-	std::cout << "FWD: " << pegPos.getX() << " SIDE: " << pegPos.getY() << std::endl;
-	pegPos = pegPos.rotateBy(coordRot);
-	std::cout << "FWD: " << pegPos.getX() << " SIDE: " << pegPos.getY() << std::endl;
+	stringstream a;
+	a << "FWD: " << pegPos.getX() << " SIDE: " << pegPos.getY() << std::endl;
+	pegPos = pegPos.rotateBy(centerToY);
+	a << "FWD: " << pegPos.getX() << " SIDE: " << pegPos.getY() << std::endl;
+	CORELog::logInfo(a.str());
 
 	//MATH
 	std::cout << "About To generate points, x at" << pegPos.getX() << std::endl;
@@ -140,7 +184,7 @@ void VisionSubsystem::calculatePath() {
 	}
 
 	std::cout << "Done Calcing Vision" << std::endl;
-
+#endif
 
 }
 

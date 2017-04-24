@@ -2,8 +2,9 @@
 #include "Robot.h"
 
 VisionAlignGearAction::VisionAlignGearAction():
-	m_turnMult("Vision Turn Multiplier", 0.0)
-{}
+	m_turnMult("Vision Turn Multiplier", 0.0){
+
+}
 
 void VisionAlignGearAction::actionInit() {
 	Robot->driveSubsystem.setLowGear(true);

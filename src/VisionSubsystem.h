@@ -21,6 +21,7 @@ public:
     Path * getPath();
     RobotFrame * getFrame();
     void calculatePath();
+    double getGearX();
 
     double getUltraDist();
 

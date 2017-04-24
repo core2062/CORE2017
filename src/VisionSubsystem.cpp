@@ -25,6 +25,7 @@ void VisionSubsystem::robotInit(){
 	visionTable->PutBoolean("disableGearVision", true);
 	visionTable->PutBoolean("disablePegVision", false);
 	visionTable->PutBoolean("disableVision", false);
+
 }
 
 void VisionSubsystem::teleopInit(){
@@ -218,4 +219,8 @@ double VisionSubsystem::getUltraDist() {
 		v = (l + r) * .5;
 	}
 	return v;
+}
+
+double VisionSubsystem::getGearX() {
+	return visionTable->GetNumber("gearX", -1);
 }

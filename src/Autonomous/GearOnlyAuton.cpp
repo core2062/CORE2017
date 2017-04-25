@@ -35,7 +35,7 @@ void GearOnlyAuton::addNodes() {
 	m_reverseDrive = new Node(15, new DriveWaypointAction(AutonPaths::getPegReversePath()));
 	m_prepCrossA = new Node(12, new DriveWaypointAction(AutonPaths::getPegToCrossPathA(), false, .25, 150.0, false));
 	m_prepCrossB = new Node(12, new DriveWaypointAction(AutonPaths::getPegToCrossPathB(), true, .25, 1500.0, false));
-	m_cross = new Node(6, new DriveDistanceAction(-1.0, 100, false));
+	m_cross = new Node(6, new DriveDistanceAction(-1.0, 5, true));
 
 	addFirstNode(m_setLowGear);
 

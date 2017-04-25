@@ -89,11 +89,11 @@ void DriveSubsystem::setLowGear(bool lowGear) {
 }
 
 bool DriveSubsystem::getHighGear() {
-    return m_highGear;
+    return (m_leftDriveShifter.Get() == DoubleSolenoid::kForward);
 }
 
 bool DriveSubsystem::getLowGear() {
-    return !m_highGear;
+    return (m_leftDriveShifter.Get() == DoubleSolenoid::kReverse);
 }
 
 void DriveSubsystem::resetEncoders(DriveSide whichSide){

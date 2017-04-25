@@ -9,7 +9,7 @@ VisionPathAction::VisionPathAction(bool continuousUpdate) /*: m_driveForward()*/
 void VisionPathAction::actionInit() {
 	Robot->visionSubsystem.calculatePath();
 	Robot->driveSubsystem.setFrame(Robot->visionSubsystem.getFrame());
-	Robot->driveSubsystem.followPath(*Robot->visionSubsystem.getPath(), true, 150.0);
+	Robot->driveSubsystem.followPath(*Robot->visionSubsystem.getPath(), true, 100.0);
 }
 
 COREAutonAction::actionStatus VisionPathAction::action() {

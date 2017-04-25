@@ -29,9 +29,10 @@ void Aergia::robotInit() {
 	m_positionChooser.AddObject("Feeder", new StartingPosition(StartingPosition::FEEDER));
 	SmartDashboard::PutData("Starting Position", &m_positionChooser);
 	SmartDashboard::PutBoolean("Auto Cross Field", false);
-	SmartDashboard::PutBoolean("Use Vision", true);
+	SmartDashboard::PutBoolean("Use Vision", false);
 	SmartDashboard::PutBoolean("Two Gear Boiler", false);
-	SmartDashboard::PutBoolean("Vision Set Heading", true);
+	SmartDashboard::PutBoolean("Vision Set Heading", false);
+	SmartDashboard::PutBoolean("Tele Init Drive", false);
 }
 
 

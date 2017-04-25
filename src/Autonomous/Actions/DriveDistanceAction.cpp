@@ -26,7 +26,7 @@ DriveDistanceAction::DriveDistanceAction(double speedInFraction, double distance
     	std::pair<double, double> dists = Robot->driveSubsystem.getEncoderInches();
     	double averDist = (fabs(dists.first) + fabs(dists.second)) * .5;
     	//Is this less than how far we were supposed to go?
-    	if (averDist < m_distanceInInches || m_initTime.Get() < 1.0) {
+    	if (averDist < m_distanceInInches || m_initTime.Get() < .1) {
     		//If yes, set motors to appropriate speed, return CONTINUE.
     		Robot->driveSubsystem.setMotorSpeed(-1.0, -1.0);
     		return COREAutonAction::CONTINUE;

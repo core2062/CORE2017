@@ -18,7 +18,7 @@ void GearBoilerAuton::addNodes() {
 	m_driveToBoiler = new Node(10, new DriveWaypointAction(AutonPaths::getPegToBoilerPath(), false, .25, 250, true));
 	m_dumpBallsInBoiler = new Node(5, new DumpBallsAction(1.5));
 	m_cross = new Node(9, new DriveWaypointAction(AutonPaths::getCrossFieldPath(), true, .25, 2500, false));
-	m_driveCross = new Node(5, new DriveDistanceAction(-1.0, 150, true), new DriveShiftAction(GearPosition::HIGH_GEAR));
+	m_driveCross = new Node(5, new DriveDistanceAction(-1.0, 5, true));
 
 	addFirstNode(m_setLowGear);
 

@@ -149,15 +149,24 @@ bool HopperSubsystem::hopperIsDown(){
 }
 
 void HopperSubsystem::turnOnIntake() {
-	setIntake(m_intakeSpeed.Get());
+	if(m_intakeEnabled){
+		setIntake(m_intakeSpeed.Get());
+	} else {
+		turnOffIntake();
+	}
+
 }
 
 void HopperSubsystem::turnOffIntake() {
-	setIntake(0.0);
+	m_intakeMotor.Set(0);
 }
 
 void HopperSubsystem::setIntake(double val) {
-	m_intakeMotor.Set(val);
+	if(m_intakeEnabled){
+		m_intakeMotor.Set(val);
+	} else {
+		turnOffIntake();
+	}
 }
 
 bool HopperSubsystem::intakeIsOn() {
@@ -270,4 +279,12 @@ void HopperSubsystem::setRequestedState(HopperSubsystem::hopperState requestedSt
 
 HopperSubsystem::hopperState HopperSubsystem::getHopperState() {
     return m_actualHopperState;
+}
+
+void HopperSubsystem::enableIntake() {
+	m_intakeEnabled = true;
+}
+
+void HopperSubsystem::disableIntake() {
+	m_intakeEnabled = false;
 }

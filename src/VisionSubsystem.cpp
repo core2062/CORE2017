@@ -4,13 +4,13 @@
 using namespace CORE;
 
 VisionSubsystem::VisionSubsystem() : CORESubsystem("Vision"),
-	gearPlaceDist("Gear Place Distance", 35),
+	gearPlaceDist("Gear Place Distance", 22.5),
 	ultrakP("Ultrasonic kP", .03),
 	m_imageWidth("Image width", 640),
 	m_horizontalFieldOfView("Horizontal field of view", 61.9),
-	m_pegApproachDist("Peg Approach Distance", 12),
-	m_ultraToCenterDist("Ultrasonic To Robot Center Dist", 13.0),
-	m_pegApproachSamples("Peg Approach Samples", 10),
+	m_pegApproachDist("Peg Approach Distance", 24),
+	m_ultraToCenterDist("Ultrasonic To Robot Center Dist", 12.25),
+	m_pegApproachSamples("Peg Approach Samples", 30),
 	m_leftUltra(4),
 	m_rightUltra(5),
 	m_jumper(6){
@@ -105,7 +105,6 @@ void VisionSubsystem::calculatePath() {
 		centerToY = capturePos.getRotation().rotateBy(Rotation2d::fromDegrees(-60));
 		m_visionFrame = RobotFrame(Position2d(capturePos.getTranslation(), Rotation2d::fromDegrees(-60)));
 	} else if (captureRot > -89 && captureRot < -31){
-//		coordRot = Rotation2d::fromDegrees(-60).rotateBy(capturePos.getRotation().inverse());
 		centerToY = capturePos.getRotation().rotateBy(Rotation2d::fromDegrees(60));
 		m_visionFrame = RobotFrame(Position2d(capturePos.getTranslation(), Rotation2d::fromDegrees(60)));
 	}
@@ -115,10 +114,12 @@ void VisionSubsystem::calculatePath() {
 	double focalLen = m_imageWidth.Get() / (2 * tan(CORE::toRadians(m_horizontalFieldOfView.Get() * .5)));
 
 #ifndef OLD_MATH
+	centerToY = centerToY.inverse();
+
 	double ultraHypot = getUltraDist();
 	double totalHypot = ultraHypot + m_ultraToCenterDist.Get();
-	Rotation2d ultraToTarget = Rotation2d::fromDegrees(atan((x-(m_imageWidth.Get() * .5 - .5)) / focalLen));
-	Rotation2d ultraYToTarget = ultraToTarget.rotateBy(centerToY);
+	Rotation2d ultraToTarget = Rotation2d::fromRadians(atan((x-(m_imageWidth.Get() * .5 - .5)) / focalLen));
+	Rotation2d ultraYToTarget = ultraToTarget.rotateBy(centerToY.inverse());
 
 	double ultraForwardDist = cos(centerToY.getRadians()) * ultraHypot;
 	double centerForwardDist = cos(centerToY.getRadians()) * totalHypot;
@@ -130,10 +131,16 @@ void VisionSubsystem::calculatePath() {
 
 	stringstream toLog;
 	toLog << std::endl << std::endl << "--Vision Stuff--" << std::endl;
+	toLog << "Target X: " << x << std::endl;
 	toLog << "Robot to Target Angle: " << ultraToTarget.getDegrees() << std::endl;
 	toLog << "Robot to Peg Angle: " << centerToY.getDegrees() << std::endl;
 	toLog << "Peg Axis to Target Angle: " << ultraYToTarget.getDegrees() << std::endl;
+	toLog << "UltraSonic To Wall Y: " << ultraForwardDist << std::endl;
+	toLog << "Center Point to Wall Y: " << centerForwardDist << std::endl;
+	toLog << "UltraSonic To Peg X: " << ultraSideDist << std::endl;
+	toLog << "UltraSonic To Center X Offset" << ultraToCenterSideDelta << std::endl;
 	toLog << "FWD: " << pegPos.getX() << " SIDE: " << pegPos.getY() << std::endl;
+	toLog << std::endl;
 	CORELog::logInfo(toLog.str());
 
 	std::cout << "About To generate points, x at" << pegPos.getX() << std::endl;
@@ -144,7 +151,7 @@ void VisionSubsystem::calculatePath() {
 	double sampleDelta = fabs(m_pegApproachDist.Get()) / (double)samples;
 	for(int i = samples; i >= 0; i--){
 		points.push_back(Waypoint(Translation2d(pegPos.getX() + gearPlaceDist.Get() + sampleDelta * i,
-				pegPos.getY()), 100));
+				pegPos.getY()), 50));
 	}
 	m_pathToPeg = Path(points);
 
@@ -209,7 +216,7 @@ double VisionSubsystem::getUltraDist() {
 	double l = (1000.0 * (m_leftUltra.GetVoltage())) / ((m_jumper.GetVoltage() * 1000.0) / scale);
 	double r = (1000.0 * (m_rightUltra.GetVoltage())) / ((m_jumper.GetVoltage() * 1000.0) / scale);
 	double v;
-	if(abs(l-r) > 10){
+	if(fabs(l-r) > 10.0){
 		if(l>r){
 			v = r;
 		} else {

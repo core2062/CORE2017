@@ -37,6 +37,14 @@ void DriveOpenController::enabledLoop() {
 	double mag = -Robot->driverJoystick.getAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
 	double rot = Robot->driverJoystick.getAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_X);
 
+	if((SmartDashboard::GetBoolean("Auto Cross Field", false) && SmartDashboard::GetBoolean("Tele Init Drive", false))){
+		if(fabs(mag) < .1 && fabs(rot) < .1){
+			mag = -1.0;
+		} else {
+			SmartDashboard::PutBoolean("Tele Init Drive", false);
+		}
+	}
+
 	if(Robot->driverJoystick.getButton(CORE::COREJoystick::RIGHT_BUTTON)){
 		mag *=.5;
 		rot *=.5;
@@ -44,4 +52,10 @@ void DriveOpenController::enabledLoop() {
 
 	VelocityPair speeds = COREEtherDrive::calculate(mag, rot, .1);
 	Robot->driveSubsystem.setMotorSpeed(speeds.left, speeds.right);
+}
+
+void DriveOpenController::autonEndTask() {
+}
+
+void DriveOpenController::teleopEndTask() {
 }

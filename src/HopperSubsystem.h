@@ -40,6 +40,9 @@ public:
     void autonInitTask() override;
     void postLoopTask();
 
+    void enableIntake();
+    void disableIntake();
+
     COREConstant<double> liftGearFlapPos;
 private:
     COREMotor m_liftMotor, m_intakeMotor;
@@ -58,4 +61,5 @@ private:
 		DOWN = 2
 	};
     bool m_flapIsOpen;
+    bool m_intakeEnabled = true;
 };

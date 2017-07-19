@@ -7,11 +7,8 @@
 #include "Actions/GearFlapAction.h"
 #include "Actions/HopperFlapAction.h"
 #include "Actions/IntakeBallsAction.h"
-#include "Actions/ShimmyAction.h"
 #include "Actions/SetLiftPositionAction.h"
-#include "Actions/DriveShiftAction.h"
 #include "Actions/DriveDistanceAction.h"
-#include "Actions/VisionAlignGearAction.h"
 #include "Actions/PickupGearAction.h"
 #include "Actions/VisionPathAction.h"
 

@@ -12,7 +12,6 @@ GearOnlyAuton::GearOnlyAuton(StartingPosition startingPosition) :
 {}
 
 void GearOnlyAuton::addNodes() {
-	m_setLowGear = new Node(1, new DriveShiftAction(GearPosition::LOW_GEAR));
 
 	switch(Robot->getStartingPosition()){
 		case StartingPosition::BOILER:
@@ -35,12 +34,10 @@ void GearOnlyAuton::addNodes() {
 	m_reverseDrive = new Node(15, new DriveWaypointAction(AutonPaths::getPegReversePath()));
 	m_prepCrossA = new Node(12, new DriveWaypointAction(AutonPaths::getPegToCrossPathA(), false, .25, 150.0, false));
 	m_prepCrossB = new Node(12, new DriveWaypointAction(AutonPaths::getPegToCrossPathB(), true, .25, 1500.0, false));
-	m_cross = new Node(6, new DriveDistanceAction(-1.0, 5, true));
-
-	addFirstNode(m_setLowGear);
+	m_cross = new Node(6, new DriveDistanceAction(-1.0, 5));
 
 	if (SmartDashboard::GetBoolean("Use Vision", false)){
-		m_setLowGear->addNext(m_approachPeg);
+		addFirstNode(m_approachPeg);
 		if(	SmartDashboard::GetBoolean("Vision Set Heading", false)){
 			m_approachPeg->addNext(m_turnToPeg);
 			m_turnToPeg->addNext(m_waitForVision);
@@ -50,7 +47,7 @@ void GearOnlyAuton::addNodes() {
 		m_waitForVision->addNext(m_driveOnPeg);
 		m_driveOnPeg->addNext(m_loadGearOnPeg);
 	} else {
-		m_setLowGear->addNext(m_driveToPeg);
+		addFirstNode(m_driveToPeg);
 		m_driveToPeg->addNext(m_loadGearOnPeg);
 	}
 

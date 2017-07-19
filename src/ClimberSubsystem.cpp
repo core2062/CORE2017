@@ -49,16 +49,13 @@ void ClimberSubsystem::teleop() {
 	if (isClimbing()){
 		setClimber(1.0);
 		m_climberOn = true;
-		Robot->hopperSubsystem.disableIntake();
 	} else {
 		double stick = Robot->operatorJoystick.getAxis(COREJoystick::RIGHT_STICK_Y);
 		stick = fabs(stick);
 		if(stick > .1){
 			m_climberOn = true;
-			Robot->hopperSubsystem.disableIntake();
 			setClimber(stick);
 		}else {
-			Robot->hopperSubsystem.enableIntake();
 			m_climberOn = false;
 			setClimber(0);
 		}

@@ -9,8 +9,6 @@ GearHopperBoilerAuton::GearHopperBoilerAuton() :
 	}
 
 void GearHopperBoilerAuton::addNodes(){
-	m_setLowGear = new Node(10, new DriveShiftAction(GearPosition::LOW_GEAR));
-
 	m_approachPeg = new Node(5, new DriveWaypointAction(AutonPaths::getApproachPegPath(), true, .25, 125, true));
 	m_waitForVision = new Node(10, new WaitAction(.25));
 	m_driveOnPeg = new Node(7, new VisionPathAction());
@@ -24,17 +22,15 @@ void GearHopperBoilerAuton::addNodes(){
 
 	m_loadHopper = new Node(3, new WaitAction(2.5));
 	m_driveToBoiler = new Node(5, new DriveWaypointAction(AutonPaths::getHopperToBoilerPath(), false, .25, 250.0, false));
-	m_dumpBallsInBoiler = new Node(8, new DumpBallsAction(8), new ShimmyAction(8));
-
-	addFirstNode(m_setLowGear);
+	m_dumpBallsInBoiler = new Node(8, new DumpBallsAction(8));
 
 	if (SmartDashboard::GetBoolean("Use Vision", false)){
-		m_setLowGear->addNext(m_approachPeg);
+		addFirstNode(m_approachPeg);
 		m_approachPeg->addNext(m_waitForVision);
 		m_waitForVision->addNext(m_driveOnPeg);
 		m_driveOnPeg->addNext(m_loadGearOnPeg);
 	} else {
-		m_setLowGear->addNext(m_driveToPeg);
+		addFirstNode(m_driveToPeg);
 		m_driveToPeg->addNext(m_loadGearOnPeg);
 	}
 

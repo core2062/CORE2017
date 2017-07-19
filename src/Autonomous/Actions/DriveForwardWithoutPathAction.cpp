@@ -15,7 +15,6 @@ COREAutonAction::actionStatus DriveForwardWithoutPathAction::action() {
 
 	case GearPosition::HIGH_GEAR:
 		if(Robot->driveSubsystem.getDistanceInInches(DriveSide::BOTH) != 120){
-			Robot->driveSubsystem.setHighGear(true);
 			Robot->driveSubsystem.setMotorSpeed(1.0, 1.0);
 			return actionStatus::CONTINUE;
 		}
@@ -25,7 +24,6 @@ COREAutonAction::actionStatus DriveForwardWithoutPathAction::action() {
 	break;
 	case GearPosition::LOW_GEAR:
 		if(Robot->driveSubsystem.getDistanceInInches(DriveSide::BOTH) != 120){
-				Robot->driveSubsystem.setLowGear(true);
 				Robot->driveSubsystem.setMotorSpeed(1.0, 1.0);
 				return actionStatus::CONTINUE;
 		}
@@ -35,7 +33,6 @@ COREAutonAction::actionStatus DriveForwardWithoutPathAction::action() {
 	break;
 	default:
 		if(Robot->driveSubsystem.getDistanceInInches(DriveSide::BOTH) != 120){
-				Robot->driveSubsystem.setLowGear(true);
 				Robot->driveSubsystem.setMotorSpeed(1.0, 1.0);
 				return actionStatus::CONTINUE;
 		}

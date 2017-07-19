@@ -5,7 +5,6 @@
 #include "Controllers/DriveWaypointController.h"
 #include "Controllers/DriveOpenController.h"
 #include "Controllers/DriveGyroController.h"
-#include "Controllers/DriveHybridController.h"
 
 enum class DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
 
@@ -18,10 +17,6 @@ public:
     void teleopInit() override;
     void teleop() override;
     void initTalons();
-    void setHighGear(bool highGear = true);
-    void setLowGear(bool lowGear = true);
-    bool getHighGear();
-    bool getLowGear();
     void resetEncoders(DriveSide whichSide);
     double getDistanceInInches(DriveSide whichSide);
     void setMotorSpeed(double speedInFraction, DriveSide);
@@ -38,7 +33,6 @@ public:
     CANTalon * getLeftMaster();
     CANTalon * getRightMaster();
     AHRS * getGyro();
-    double getForwardPower();
 
 	std::pair<double, double> getEncoderInches();
 	std::pair<double, double> getEncoderSpeed();
@@ -56,8 +50,6 @@ public:
 private:
     COREConstant<double> m_etherAValue, m_etherBValue, m_etherQuickTurnValue, m_ticksPerInch;
     COREMotor m_leftMaster, m_rightMaster, m_leftSlave, m_rightSlave;
-    DoubleSolenoid m_leftDriveShifter, m_rightDriveShifter;
-    bool m_highGear;
     shared_ptr<AHRS> m_gyro = nullptr;
     bool m_currentlyTurning;
     double m_currentYawTarget;
@@ -66,6 +58,5 @@ private:
 
     DriveOpenController m_driveTeleController;
     DriveGyroController m_driveGyroController;
-    DriveHybridController m_driveHybridController;
     DriveWaypointController * m_driveWaypointController = 0;
 };

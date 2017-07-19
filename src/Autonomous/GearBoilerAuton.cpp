@@ -7,8 +7,6 @@ GearBoilerAuton::GearBoilerAuton() :
 		COREAuton("Gear and Boiler Auton", 0.0){}
 
 void GearBoilerAuton::addNodes() {
-	m_setLowGear = new Node(10, new DriveShiftAction(GearPosition::LOW_GEAR));
-
 	m_approachPeg = new Node(5, new DriveWaypointAction(AutonPaths::getApproachPegPath(), true, .25, 125, true));
 	m_waitForVision = new Node(10, new WaitAction(.25));
 	m_driveOnPeg = new Node(7, new VisionPathAction());
@@ -18,17 +16,15 @@ void GearBoilerAuton::addNodes() {
 	m_driveToBoiler = new Node(10, new DriveWaypointAction(AutonPaths::getPegToBoilerPath(), false, .25, 250, true));
 	m_dumpBallsInBoiler = new Node(5, new DumpBallsAction(1.5));
 	m_cross = new Node(9, new DriveWaypointAction(AutonPaths::getCrossFieldPath(), true, .25, 2500, false));
-	m_driveCross = new Node(5, new DriveDistanceAction(-1.0, 5, true));
-
-	addFirstNode(m_setLowGear);
+	m_driveCross = new Node(5, new DriveDistanceAction(-1.0, 5));
 
 	if (SmartDashboard::GetBoolean("Use Vision", false)){
-		m_setLowGear->addNext(m_approachPeg);
+		addFirstNode(m_approachPeg);
 		m_approachPeg->addNext(m_waitForVision);
 		m_waitForVision->addNext(m_driveOnPeg);
 		m_driveOnPeg->addNext(m_loadGearOnPeg);
 	} else {
-		m_setLowGear->addNext(m_driveToPeg);
+		addFirstNode(m_driveToPeg);
 		m_driveToPeg->addNext(m_loadGearOnPeg);
 	}
 

@@ -104,8 +104,6 @@ public:
     DriveForwardAuton driveForwardAuton;
     GearOnlyAuton gearAuton;
     GearBoilerAuton gearBoilerAuton;
-    HopperBoilerAuton hopperBoilerAuton;
-    AntiTitaniumAuton antiAuton;
     GearHopperBoilerAuton gearHopperBoilerAuton;
     TwoGearAuton twoGearAuton;
 

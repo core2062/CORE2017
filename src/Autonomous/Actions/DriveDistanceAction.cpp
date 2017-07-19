@@ -1,20 +1,13 @@
 #include "DriveDistanceAction.h"
 #include "Robot.h"
 
-DriveDistanceAction::DriveDistanceAction(double speedInFraction, double distanceInInches, bool setHighGear) {
+DriveDistanceAction::DriveDistanceAction(double speedInFraction, double distanceInInches) {
 	m_speedInFraction = speedInFraction;
 	m_distanceInInches = distanceInInches;
-	m_setHighGear = setHighGear;
-
 }
     void DriveDistanceAction::actionInit() {
         //driveMotorFR.CANTalonController->SetEncPosition(0);
         Robot->driveSubsystem.resetEncoders(DriveSide::BOTH);
-        if(m_setHighGear){
-        	Robot->driveSubsystem.setHighGear(true);
-        } else {
-        	Robot->driveSubsystem.setLowGear(true);
-        }
         m_initTime.Reset();
         m_initTime.Start();
 

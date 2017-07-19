@@ -15,8 +15,6 @@ Aergia::Aergia() :
 		driveForwardAuton(0,0),
 		gearAuton(StartingPosition::CENTER),
 		gearBoilerAuton(),
-		hopperBoilerAuton(),
-		antiAuton(),
 		gearHopperBoilerAuton()
 	{
 	Robot = this;
@@ -95,15 +93,6 @@ void Aergia::test(){
 		gearSubsystem.openFlap();
 	} else {
 		gearSubsystem.closeFlap();
-	}
-
-	//Intake Code
-	if(operatorJoystick.getButton(CORE::COREJoystick::JoystickButton::LEFT_BUTTON)){
-		hopperSubsystem.setIntake(.5);
-	} else if(operatorJoystick.getButton(CORE::COREJoystick::JoystickButton::RIGHT_BUTTON)){
-		hopperSubsystem.setIntake(-.5);
-	} else {
-		hopperSubsystem.turnOffIntake();
 	}
 
 	//Climber Code

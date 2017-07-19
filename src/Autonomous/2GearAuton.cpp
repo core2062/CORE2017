@@ -7,11 +7,11 @@ TwoGearAuton::TwoGearAuton() :
 	COREAuton("Two Gear Auton", 0.0){}
 
 void TwoGearAuton::addNodes() {
-	m_approachPeg = new Node(5, new DriveWaypointAction(AutonPaths::getApproachPegPath(), true, .25, 125, true), new DriveShiftAction(GearPosition::LOW_GEAR));
+	m_approachPeg = new Node(5, new DriveWaypointAction(AutonPaths::getApproachPegPath(), true, .25, 125, true));
 	m_waitForVisionA = new Node(10, new WaitAction(.25));
 	m_driveOnPegA = new Node(7, new VisionPathAction());
 
-	m_driveToPeg = new Node(7, new DriveWaypointAction(AutonPaths::getWallToPegPath(), true, .25, 125.0, true), new DriveShiftAction(GearPosition::LOW_GEAR));
+	m_driveToPeg = new Node(7, new DriveWaypointAction(AutonPaths::getWallToPegPath(), true, .25, 125.0, true));
 	m_dropA = new Node(2, new LoadGearOntoPegAction(), new WaitAction(.1));
 	m_driveToTurn = new Node(10, new DriveWaypointAction(	PathLoader::loadPath("2gearA.csv", 1.0,
 			(CORERobot::getAlliance() == CORERobot::RED)), false, .25, 250.0, false));
@@ -36,7 +36,7 @@ void TwoGearAuton::addNodes() {
 
 	m_prepCrossA = new Node(12, new DriveWaypointAction(AutonPaths::getPegToCrossPathA(), false, .25, 150.0, false));
 	m_prepCrossB = new Node(12, new DriveWaypointAction(AutonPaths::getPegToCrossPathB(), true, .25, 1500.0, false));
-	m_cross = new Node(6, new DriveDistanceAction(-1.0, 5, true));
+	m_cross = new Node(6, new DriveDistanceAction(-1.0, 5));
 
 	if (SmartDashboard::GetBoolean("Use Vision", false)){
 		addFirstNode(m_approachPeg);

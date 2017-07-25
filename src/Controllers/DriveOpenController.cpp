@@ -28,14 +28,6 @@ void DriveOpenController::enabledLoop() {
 		Robot->driveSubsystem.hardResetYaw();
 	}
 
-	if(Robot->driverJoystick.getRisingEdge(COREJoystick::LEFT_BUTTON)){
-		if(Robot->driveSubsystem.getHighGear()){
-			Robot->driveSubsystem.setLowGear();
-		} else {
-			Robot->driveSubsystem.setHighGear();
-		}
-	}
-
 	double mag = -Robot->driverJoystick.getAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
 	double rot = Robot->driverJoystick.getAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_X);
 

@@ -6,7 +6,6 @@ TurnAngleAction::TurnAngleAction(Rotation2d target, double tolerance, int requir
 }
 
 void TurnAngleAction::actionInit() {
-	Robot->driveSubsystem.setLowGear(true);
     Robot->driveSubsystem.teleopInit();
 }
 

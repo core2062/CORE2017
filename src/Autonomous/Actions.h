@@ -7,7 +7,6 @@
 #include "Actions/GearFlapAction.h"
 #include "Actions/HopperFlapAction.h"
 #include "Actions/SetLiftPositionAction.h"
-#include "Actions/DriveShiftAction.h"
 #include "Actions/DriveDistanceAction.h"
 #include "Actions/PickupGearAction.h"
 #include "Actions/VisionPathAction.h"

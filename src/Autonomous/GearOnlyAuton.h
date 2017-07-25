@@ -12,7 +12,6 @@ public:
 	void addNodes() override;
 	COREConstant<double> feederForwardDist, boilerForwardDist;
 private:
-	Node * m_setLowGear = nullptr;
 	Node * m_approachPeg = nullptr;
 	Node * m_turnToPeg = nullptr;
 	Node * m_waitForVision = nullptr;

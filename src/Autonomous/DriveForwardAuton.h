@@ -16,7 +16,6 @@ public:
     DriveForwardAuton(double speedInFraction, double distanceInFeet);
     void addNodes() override;
 private:
-    Node * m_setLowGearPosition = nullptr;
     Node * m_moveForwardToLine = nullptr;
     Node * m_spinInCircles = nullptr;
 

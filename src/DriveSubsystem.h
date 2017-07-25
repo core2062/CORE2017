@@ -17,10 +17,6 @@ public:
     void teleopInit() override;
     void teleop() override;
     void initTalons();
-    void setHighGear(bool highGear = true);
-    void setLowGear(bool lowGear = true);
-    bool getHighGear();
-    bool getLowGear();
     void resetEncoders(DriveSide whichSide);
     double getDistanceInInches(DriveSide whichSide);
     void setMotorSpeed(double speedInFraction, DriveSide);
@@ -43,7 +39,6 @@ public:
     CANTalon * getLeftBackSteer();
     CANTalon * getRightBackSteer();
     AHRS * getGyro();
-    double getForwardPower();
 
 	std::pair<double, double> getEncoderInches();
 	std::pair<double, double> getEncoderSpeed();

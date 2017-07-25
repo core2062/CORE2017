@@ -27,10 +27,6 @@ public:
     void closeFlap();
     bool hopperIsUp();
     bool hopperIsDown();
-    void turnOnIntake();
-    void turnOffIntake();
-    void setIntake(double val);
-    bool intakeIsOn();
     double getLiftSpeed();
     double getLiftEncoder();
     double getLiftPos();
@@ -40,12 +36,9 @@ public:
     void autonInitTask() override;
     void postLoopTask();
 
-    void enableIntake();
-    void disableIntake();
-
     COREConstant<double> liftGearFlapPos;
 private:
-    COREMotor m_liftMotor, m_intakeMotor;
+    COREMotor m_liftMotor;
     Servo m_leftDumpFlapServo, m_rightDumpFlapServo;
     COREConstant<double> m_liftBottomPos, m_liftHoldPos, m_liftIntakePos, m_liftTopPos, m_intakeSpeed,
 	m_liftPIDUp_P, m_liftPIDUp_I, m_liftPIDUp_D, m_liftPIDDown_P, m_liftPIDDown_I, m_liftPIDDown_D, m_shakeFrequency;

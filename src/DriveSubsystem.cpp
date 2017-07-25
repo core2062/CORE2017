@@ -82,40 +82,6 @@ void DriveSubsystem::teleop(){
 	initTalons();
 	COREVariableControlledSubsystem::teleop();
 }
-/*
-void DriveSubsystem::teleop() {
-    double y = Robot::driverJoystick->getAxis(COREJoystick::LEFT_STICK_Y);
-    double rot = Robot::driverJoystick->getAxis(COREJoystick::RIGHT_STICK_X);
-    if(Robot::driverJoystick->getRisingEdge(COREJoystick::LEFT_BUTTON)) {
-        if(m_highGear) {
-            setLowGear();
-        } else {
-            setHighGear();
-        }
-    }
-}
-*/
-/*
-void DriveSubsystem::setHighGear(bool highGear) {
-    m_leftDriveShifter.Set(DoubleSolenoid::kForward);
-    m_rightDriveShifter.Set(DoubleSolenoid::kForward);
-    m_highGear = true;
-}
-
-void DriveSubsystem::setLowGear(bool lowGear) {
-    m_leftDriveShifter.Set(DoubleSolenoid::kReverse);
-    m_rightDriveShifter.Set(DoubleSolenoid::kReverse);
-    m_highGear = false;
-}
-
-bool DriveSubsystem::getHighGear() {
-    return (m_leftDriveShifter.Get() == DoubleSolenoid::kForward);
-}
-
-bool DriveSubsystem::getLowGear() {
-    return (m_leftDriveShifter.Get() == DoubleSolenoid::kReverse);
-}
-*/
 
 void DriveSubsystem::resetEncoders(DriveSide whichSide){
 	//Encoders only on front drive motors
@@ -346,18 +312,6 @@ AHRS* DriveSubsystem::getGyro() {
 		CORELog::logError("NavX not connected!");
 	}
 	return m_gyro.get();
-}
-/*
-double DriveSubsystem::getForwardPower() {
-	double left = m_leftMaster.Get();
-	double right = m_rightMaster.Get();
-	double power  = 0;
-	if(left > 0 || right > 0) {
-		power = left + right;
-		power*=.25;
-		power = (power < 0)?0:power;
-	}
-	return power;
 }
 
 void DriveSubsystem::setPos(Position2d pos) {

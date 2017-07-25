@@ -12,7 +12,6 @@ public:
 	void addNodes();
 
 private:
-	Node * m_setLowGear = nullptr;
 	Node * m_approachPeg = nullptr;
 	Node * m_waitForVision = nullptr;
 	Node * m_driveOnPeg = nullptr;

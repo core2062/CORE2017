@@ -1,5 +1,7 @@
 #include "DriveOpenController.h"
 #include "Robot.h"
+#include "CORERobotLib.h"
+#include "CORESwerveDrive.h"
 
 DriveOpenController::DriveOpenController() : COREController(){
 }
@@ -51,7 +53,7 @@ void DriveOpenController::enabledLoop() {
 	}
 
 	VelocityPair speeds = COREEtherDrive::calculate(mag, rot, .1);
-	Robot->driveSubsystem.setMotorSpeed(speeds.left, speeds.right);
+	Robot->driveSubsystem.setMotors();
 }
 
 void DriveOpenController::autonEndTask() {

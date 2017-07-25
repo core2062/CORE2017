@@ -1,12 +1,13 @@
 #include "DriveWaypointController.h"
 #include "Robot.h"
 
+
 DriveWaypointController::DriveWaypointController():
 	m_path(),
     m_tracker(TankTracker::GetInstance()),
 	m_pursuit(0,0,.1,m_path,false,0)
 {
-    TankTracker::GetInstance()->init(Robot->driveSubsystem.getLeftMaster(), Robot->driveSubsystem.getRightMaster(), Robot->driveSubsystem.getGyro()),
+    TankTracker::GetInstance()->init(Robot->driveSubsystem.getLeftFrontDrive(), Robot->driveSubsystem.getRightFrontDrive(), Robot->driveSubsystem.getGyro()),
     std::cout << "Waypoint Controller Init" << std::endl;
 }
 
@@ -77,7 +78,8 @@ void DriveWaypointController::updatePathFollower() {
 		double scaling = 100 / maxVel;
 		setpoint = VelocityPair(setpoint.left * scaling, setpoint.right * scaling);
 	}
-	Robot->driveSubsystem.setMotorSpeed(setpoint.left * .01, setpoint.right * .01);
+	Robot->driveSubsystem.m_swerveDrive->tank(setpoint.left * .01, setpoint.right * .01);
+	//Robot->driveSubsystem.setMotorSpeed(setpoint.left * .01, setpoint.right * .01);
 }
 
 void DriveWaypointController::autonInitTask(){

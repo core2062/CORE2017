@@ -147,7 +147,7 @@ bool HopperSubsystem::hopperIsDown(){
 	/*return (m_liftPID.getPos() < m_liftBottomPos.Get() + m_liftTolerance.Get() * 1.1);*/
 	return true;
 }
-
+/*
 void HopperSubsystem::turnOnIntake() {
 	if(m_intakeEnabled){
 		setIntake(m_intakeSpeed.Get());
@@ -174,7 +174,7 @@ bool HopperSubsystem::intakeIsOn() {
 	return false;
 	//TODO Fill this in
 }
-
+*/
 double HopperSubsystem::getLiftSpeed() {
 	return Robot->climberSubsystem.getLiftEncoderMotor()->GetSpeed();
 	//return m_liftMotor.CANTalonController->GetSpeed();
@@ -280,7 +280,7 @@ void HopperSubsystem::setRequestedState(HopperSubsystem::hopperState requestedSt
 HopperSubsystem::hopperState HopperSubsystem::getHopperState() {
     return m_actualHopperState;
 }
-
+/*
 void HopperSubsystem::enableIntake() {
 	m_intakeEnabled = true;
 }
@@ -288,3 +288,4 @@ void HopperSubsystem::enableIntake() {
 void HopperSubsystem::disableIntake() {
 	m_intakeEnabled = false;
 }
+*/

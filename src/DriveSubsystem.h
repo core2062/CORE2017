@@ -5,7 +5,6 @@
 #include "Controllers/DriveWaypointController.h"
 #include "Controllers/DriveOpenController.h"
 #include "Controllers/DriveGyroController.h"
-#include "Controllers/DriveHybridController.h"
 
 enum class DriveSide{LEFT = 1, RIGHT = 2, BOTH = 3};
 
@@ -25,7 +24,7 @@ public:
     void resetEncoders(DriveSide whichSide);
     double getDistanceInInches(DriveSide whichSide);
     void setMotorSpeed(double speedInFraction, DriveSide);
-    void setMotorSpeed(double leftPercent, double rightPercent);
+    void setMotors();
     void hardResetYaw();
     void softResetYaw();
     double getYaw();
@@ -35,8 +34,14 @@ public:
     bool checkPathEvent(std::string event);
     void followPath(Path path, bool reversed = false, double maxAccel = 25.0, double tolerance = .25, bool gradualStop = true, double lookahead = 24.0);
     void setFrame(RobotFrame * frame);
-    CANTalon * getLeftMaster();
-    CANTalon * getRightMaster();
+    CANTalon * getLeftFrontDrive();
+    CANTalon * getRightFrontDrive();
+    CANTalon * getLeftFrontSteer();
+    CANTalon * getRightFrontSteer();
+    CANTalon * getLeftBackDrive();
+    CANTalon * getRightBackDrive();
+    CANTalon * getLeftBackSteer();
+    CANTalon * getRightBackSteer();
     AHRS * getGyro();
     double getForwardPower();
 
@@ -53,9 +58,11 @@ public:
     void autonEndTask();
     void teleopInitTask();
     void teleopEndTask();
+
 private:
     COREConstant<double> m_etherAValue, m_etherBValue, m_etherQuickTurnValue, m_ticksPerInch;
-    COREMotor m_leftMaster, m_rightMaster, m_leftSlave, m_rightSlave;
+    COREMotor m_leftFrontSteer, m_rightFrontSteer, m_leftBackSteer, m_rightBackSteer, m_rightFrontDrive, m_leftFrontDrive,
+		m_rightBackDrive, m_leftBackDrive;
     DoubleSolenoid m_leftDriveShifter, m_rightDriveShifter;
     bool m_highGear;
     shared_ptr<AHRS> m_gyro = nullptr;
@@ -63,9 +70,13 @@ private:
     double m_currentYawTarget;
     double m_currentYawTolerance;
     COREConstant<double> m_turnPIDMultiplier;
+    CORESwerve::SwerveModule * m_rightFrontModule;
+    CORESwerve::SwerveModule * m_rightBackModule;
+    CORESwerve::SwerveModule * m_leftFrontModule;
+    CORESwerve::SwerveModule * m_leftBackModule;
+    CORESwerve * m_swerveDrive;
 
     DriveOpenController m_driveTeleController;
     DriveGyroController m_driveGyroController;
-    DriveHybridController m_driveHybridController;
     DriveWaypointController * m_driveWaypointController = 0;
 };

@@ -24,7 +24,7 @@ void GearHopperBoilerAuton::addNodes(){
 
 	m_loadHopper = new Node(3, new WaitAction(2.5));
 	m_driveToBoiler = new Node(5, new DriveWaypointAction(AutonPaths::getHopperToBoilerPath(), false, .25, 250.0, false));
-	m_dumpBallsInBoiler = new Node(8, new DumpBallsAction(8), new ShimmyAction(8));
+	m_dumpBallsInBoiler = new Node(8, new DumpBallsAction(8)/*, new ShimmyAction(8)*/);
 
 	addFirstNode(m_setLowGear);
 

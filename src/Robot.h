@@ -19,10 +19,15 @@
 
 
 /****************************************************CAN TALONS********************************************************/
-#define FR_DRIVE_MOTOR_PORT 10
-#define BR_DRIVE_MOTOR_PORT 11
-#define BL_DRIVE_MOTOR_PORT 12
-#define FL_DRIVE_MOTOR_PORT 13
+#define RFD_DRIVE_MOTOR_PORT 10
+#define RFS_DRIVE_MOTOR_PORT 11
+#define LFD_DRIVE_MOTOR_PORT 12
+#define LFS_DRIVE_MOTOR_PORT 13
+#define RBD_DRIVE_MOTOR_PORT 14
+#define RBS_DRIVE_MOTOR_PORT 15
+#define LBD_DRIVE_MOTOR_PORT 16
+#define LBS_DRIVE_MOTOR_PORT 17
+
 #define LEFT_CLIMB_MOTOR_PORT 14
 #define RIGHT_CLIMB_MOTOR_PORT 15
 //#define LIFT_MOTOR_PORT 16
@@ -110,8 +115,6 @@ public:
     TwoGearAuton twoGearAuton;
 
     SendableChooser<StartingPosition*> m_positionChooser;
-
-private:
 
 };
 

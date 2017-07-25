@@ -1,5 +1,6 @@
 #include "DriveDistanceAction.h"
 #include "Robot.h"
+#include "CORERobotLib.h"
 
 DriveDistanceAction::DriveDistanceAction(double speedInFraction, double distanceInInches, bool setHighGear) {
 	m_speedInFraction = speedInFraction;
@@ -28,23 +29,23 @@ DriveDistanceAction::DriveDistanceAction(double speedInFraction, double distance
     	//Is this less than how far we were supposed to go?
     	if (averDist < m_distanceInInches || m_initTime.Get() < .1) {
     		//If yes, set motors to appropriate speed, return CONTINUE.
-    		Robot->driveSubsystem.setMotorSpeed(-1.0, -1.0);
+    		Robot->driveSubsystem.m_swerveDrive->tank(-1, -1);
     		return COREAutonAction::CONTINUE;
 
     	}else{
         	//If no, set motors to zero, return END.
-    		Robot->driveSubsystem.setMotorSpeed(0, DriveSide::BOTH);
+    		Robot->driveSubsystem.m_swerveDrive->tank(0, 0);
+    		//Robot->driveSubsystem.setMotorSpeed(0, DriveSide::BOTH);
     		return COREAutonAction::END;
 
     	}
-
 
     	// PLACEHOLDER
     	return COREAutonAction::END;
     }
 
     void DriveDistanceAction::actionEnd() {
-    	Robot->driveSubsystem.setMotorSpeed(0, DriveSide::BOTH);
+    	Robot->driveSubsystem.m_swerveDrive->tank(0, 0);
     }
 
 

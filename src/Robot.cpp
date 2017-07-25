@@ -120,7 +120,6 @@ void Aergia::test(){
 	double oldRight = right;
 	std::pair<double, double> driveSpeed = driveSubsystem.getEncoderSpeed();
 
-
 	if(abs(((driveSpeed.first > 0) - (driveSpeed.first < 0)) - ((oldLeft > 0) - (oldLeft < 0))) == 2){
 		std::cout << "Left Drive Encoder speed and power don't match!" << std::endl;
 	}
@@ -128,7 +127,8 @@ void Aergia::test(){
 		std::cout << "Right Drive Encoder speed and power don't match!" << std::endl;
 	}
 
-	driveSubsystem.setMotorSpeed(left, right);
+	driveSubsystem.setMotors();
+
 }
 
 

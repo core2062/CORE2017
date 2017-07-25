@@ -16,17 +16,17 @@ COREAutonAction::actionStatus TurnAngleAction::action() {
 	if(fabs(error) < m_tolerance){
 		m_seen++;
 		if(m_seen >= m_required){
-			Robot->driveSubsystem.setMotorSpeed(0,0);
+			Robot->driveSubsystem.m_swerveDrive->tank(0, 0);
 			return COREAutonAction::END;
 		}
 	} else {
 		m_seen = 0;
 	}
 
-	double rot = error * Robot->driveSubsystem.driveTurnkP.Get();
+	/*double rot = error * Robot->driveSubsystem.driveTurnkP.Get();
 	VelocityPair speeds = COREEtherDrive::calculate(0, rot, .01);
 	Robot->driveSubsystem.setMotorSpeed(speeds.left, speeds.right);
-
+*/
     return COREAutonAction::CONTINUE;
 }
 

@@ -69,7 +69,9 @@ private:
     CORESwerve::SwerveModule * m_rightBackModule;
     CORESwerve::SwerveModule * m_leftFrontModule;
     CORESwerve::SwerveModule * m_leftBackModule;
+public:
     CORESwerve * m_swerveDrive;
+private:
 
     DriveOpenController m_driveTeleController;
     DriveGyroController m_driveGyroController;

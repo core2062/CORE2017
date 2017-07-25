@@ -319,7 +319,7 @@ void DriveSubsystem::setPos(Position2d pos) {
 		m_driveWaypointController->resetTracker(pos);
 	}
 }
-*/
+
 void DriveSubsystem::autonInitTask() {
 	m_leftFrontSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
 	m_rightFrontSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);

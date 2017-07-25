@@ -213,6 +213,8 @@ void VisionSubsystem::autonInitTask() {
 
 double VisionSubsystem::getUltraDist() {
 	double scale = (1024.0 / 2.54); //403.1496
+	double jumperVoltage = m_jumper.GetVoltage();
+	jumperVoltage = (jumperVoltage > 2.7 && jumperVoltage < 3.9) ? jumperVoltage : 3.12;
 	double l = (1000.0 * (m_leftUltra.GetVoltage())) / ((m_jumper.GetVoltage() * 1000.0) / scale);
 	double r = (1000.0 * (m_rightUltra.GetVoltage())) / ((m_jumper.GetVoltage() * 1000.0) / scale);
 	double v;

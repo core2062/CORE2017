@@ -1,6 +1,7 @@
 #pragma once
 
 #define GEAR_PICKUP
+#define USING_SWERVE
 
 #include <iostream>
 #include <memory>

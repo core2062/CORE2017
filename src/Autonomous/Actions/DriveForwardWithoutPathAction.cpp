@@ -15,7 +15,6 @@ COREAutonAction::actionStatus DriveForwardWithoutPathAction::action() {
 
 	case GearPosition::HIGH_GEAR:
 		if(Robot->driveSubsystem.getDistanceInInches(DriveSide::BOTH) != 120){
-			Robot->driveSubsystem.setHighGear(true);
 			Robot->driveSubsystem.m_swerveDrive->tank(1, 1);
 			return actionStatus::CONTINUE;
 		}
@@ -25,8 +24,7 @@ COREAutonAction::actionStatus DriveForwardWithoutPathAction::action() {
 	break;
 	case GearPosition::LOW_GEAR:
 		if(Robot->driveSubsystem.getDistanceInInches(DriveSide::BOTH) != 120){
-				Robot->driveSubsystem.setLowGear(true);
-				CORESwerve().tank(1, 1);
+			Robot->driveSubsystem.m_swerveDrive->tank(1, 1);
 				return actionStatus::CONTINUE;
 		}
 		else{
@@ -35,7 +33,6 @@ COREAutonAction::actionStatus DriveForwardWithoutPathAction::action() {
 	break;
 	default:
 		if(Robot->driveSubsystem.getDistanceInInches(DriveSide::BOTH) != 120){
-				Robot->driveSubsystem.setLowGear(true);
 				Robot->driveSubsystem.m_swerveDrive->tank(1, 1);
 				return actionStatus::CONTINUE;
 		}

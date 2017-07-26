@@ -27,6 +27,10 @@ DriveSubsystem::DriveSubsystem() : COREVariableControlledSubsystem("Drive Subsys
 								   m_turnPIDMultiplier("Turn PID Multiplier", 0.1),
 								   m_driveTeleController(),
 								   m_driveGyroController(),
+								   m_drivePIDValue_P("Drive PID P value", 0),
+								   m_drivePIDValue_I("Drive PID P value", 0),
+								   m_drivePIDValue_D("Drive PID value", 0),
+								   m_angleOffset("Angle offset", 0),
 								   m_leftBackModule(m_leftBackDrive, m_leftBackSteer),
 								   m_rightBackModule(m_rightBackDrive, m_rightBackSteer),
 								   m_rightFrontModule(m_rightFrontDrive, m_rightBackSteer),
@@ -40,10 +44,8 @@ void DriveSubsystem::robotInit() {
     Robot->driverJoystick.registerButton(COREJoystick::RIGHT_BUTTON);
 	Robot->driverJoystick.registerAxis(CORE::COREJoystick::JoystickAxis::LEFT_STICK_Y);
 	Robot->driverJoystick.registerAxis(CORE::COREJoystick::JoystickAxis::RIGHT_STICK_X);
+	Robot->driverJoystick.registerButton(CORE::COREJoystick::LEFT_TRIGGER);
     initTalons();
-    SmartDashboard::PutNumber("P value", 0);
-    SmartDashboard::PutNumber("I value", 0);
-    SmartDashboard::PutNumber("D value", 0);
 
 	try {
 		m_gyro = make_shared<AHRS>(SerialPort::Port::kUSB, AHRS::SerialDataType::kProcessedData, 200);
@@ -71,10 +73,6 @@ void DriveSubsystem::teleopInit() {
 	if(!m_gyro->IsConnected()) {
 		CORELog::logError("NavX not connected!");
 	}
-	//TODO not sure if this is right
-	SmartDashboard::PutValue("P value", 0);
-	SmartDashboard::PutValue("I value", 0);
-	SmartDashboard::PutValue("D value", 0);
 }
 
 
@@ -117,31 +115,36 @@ double DriveSubsystem::getDistanceInInches(DriveSide whichSide) {
 */
 
 void DriveSubsystem::setMotors() {
-	m_rightFrontModule->setAnglePID(SmartDashboard::GetNumber("P value", 0),
-			SmartDashboard::GetNumber("I value", 0), SmartDashboard::GetNumber("D value", 0));
-	m_rightBackModule->setAnglePID(SmartDashboard::GetNumber("P value", 0),
-			SmartDashboard::GetNumber("I value", 0), SmartDashboard::GetNumber("D value", 0));
-	m_leftFrontModule->setAnglePID(SmartDashboard::GetNumber("P value", 0),
-			SmartDashboard::GetNumber("I value", 0), SmartDashboard::GetNumber("D value", 0));
-	m_leftBackModule->setAnglePID(SmartDashboard::GetNumber("P value", 0),
-			SmartDashboard::GetNumber("I value", 0), SmartDashboard::GetNumber("D value", 0));
+	m_rightFrontModule->setAnglePID(m_drivePIDValue_P.m_value,
+			m_drivePIDValue_I.m_value, m_drivePIDValue_D.m_value);
+	m_rightBackModule->setAnglePID(m_drivePIDValue_P.m_value,
+			m_drivePIDValue_I.m_value, m_drivePIDValue_D.m_value);
+	m_leftFrontModule->setAnglePID(m_drivePIDValue_P.m_value,
+			m_drivePIDValue_I.m_value, m_drivePIDValue_D.m_value);
+	m_leftBackModule->setAnglePID(m_drivePIDValue_P.m_value,
+			m_drivePIDValue_I.m_value, m_drivePIDValue_D.m_value);
 
     double y = Robot->driverJoystick.getAxis(COREJoystick::LEFT_STICK_Y);
     double x = Robot->driverJoystick.getAxis(COREJoystick::LEFT_STICK_X);
     double z = Robot->driverJoystick.getAxis(COREJoystick::RIGHT_STICK_X);
-    double forward = y * cos(Robot->driveSubsystem.getYaw()) + x * sin(Robot->driveSubsystem.getYaw());
-    double strafeRight = -y * sin(Robot->driveSubsystem.getYaw()) + x * cos(Robot->driveSubsystem.getYaw());
+    double forward = y * cos(Robot->driveSubsystem.getYaw() - m_angleOffset) +
+    		x * sin(Robot->driveSubsystem.getYaw() - m_angleOffset);
+    double strafeRight = -y * sin(Robot->driveSubsystem.getYaw() - m_angleOffset) +
+    		x * cos(Robot->driveSubsystem.getYaw() - m_angleOffset);
 
-	m_swerveDrive->calculate(forward, strafeRight, z);
-
+    if (Robot->driverJoystick.getButton(COREJoystick::LEFT_TRIGGER)) {
+    	m_swerveDrive->calculate(y, x, z);
+    } else {
+    	m_swerveDrive->calculate(forward, strafeRight, z);
+    }
 	m_rightFrontModule->drive(fabs(m_rightFrontDrive.getEncoder()->GetEncVel()),
-					m_rightFrontModule->getAngle());
+					(m_rightFrontModule->getAngle() - m_angleOffset));
 	m_rightBackModule->drive(fabs(m_rightBackDrive.getEncoder()->GetEncVel()),
-					m_rightBackModule->getAngle());
+					(m_rightBackModule->getAngle() - m_angleOffset));
 	m_leftBackModule->drive(fabs(m_leftBackDrive.getEncoder()->GetEncVel()),
-					m_leftBackModule->getAngle());
+					(m_leftBackModule->getAngle() - m_angleOffset));
 	m_leftFrontModule->drive(fabs(m_leftFrontDrive.getEncoder()->GetEncVel()),
-					m_leftFrontModule->getAngle());
+					(m_leftFrontModule->getAngle() - m_angleOffset));
 
 	m_swerveDrive->update();
 }

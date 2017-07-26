@@ -56,6 +56,7 @@ public:
 
 private:
     COREConstant<double> m_etherAValue, m_etherBValue, m_etherQuickTurnValue, m_ticksPerInch;
+	COREConstant<double> m_drivePIDValue_P, m_drivePIDValue_I, m_drivePIDValue_D, m_angleOffset;
     COREMotor m_leftFrontSteer, m_rightFrontSteer, m_leftBackSteer, m_rightBackSteer, m_rightFrontDrive, m_leftFrontDrive,
 		m_rightBackDrive, m_leftBackDrive;
     DoubleSolenoid m_leftDriveShifter, m_rightDriveShifter;

@@ -215,9 +215,19 @@ void DriveSubsystem::initTalons() {
 	rightFrontDrive->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
 	leftBackDrive->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
 	rightBackDrive->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
+	leftFrontSteer->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
+	rightFrontSteer->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
+	leftBackSteer->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
+	rightBackSteer->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
 
 	leftFrontDrive->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 	rightFrontDrive->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	leftBackDrive->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	rightBackDrive->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	leftFrontSteer->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	rightFrontSteer->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	leftBackSteer->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	rightBackSteer->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 
 	m_leftFrontDrive.Set(0);
 	m_rightFrontDrive.Set(0);

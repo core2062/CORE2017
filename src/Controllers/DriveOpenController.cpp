@@ -1,7 +1,6 @@
 #include "DriveOpenController.h"
 #include "Robot.h"
 #include "CORERobotLib.h"
-#include "CORESwerveDrive.h"
 
 DriveOpenController::DriveOpenController() : COREController(){
 }

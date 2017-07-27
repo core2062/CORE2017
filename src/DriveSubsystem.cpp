@@ -147,6 +147,15 @@ void DriveSubsystem::setMotors() {
 					(m_leftFrontModule->getAngle() - m_angleOffset));
 
 	m_swerveDrive->update();
+	SmartDashboard::PutNumber("Left Front Steer Analog", m_leftFrontSteer.getCANTalon()->GetAnalogInRaw());
+	SmartDashboard::PutNumber("Right Front Steer Analog", m_leftBackSteer.getCANTalon()->GetAnalogInRaw());
+	SmartDashboard::PutNumber("Left Back Steer Analog", m_rightBackSteer.getCANTalon()->GetAnalogInRaw());
+	SmartDashboard::PutNumber("Right Back Steer Analog", m_rightFrontSteer.getCANTalon()->GetAnalogInRaw());
+	SmartDashboard::PutNumber("Right Back Drive Encoder", m_rightBackDrive.getEncoder()->GetEncVel());
+	SmartDashboard::PutNumber("Left Front Drive Encoder", m_leftFrontDrive.getEncoder()->GetEncVel());
+	SmartDashboard::PutNumber("Right Front Drive Encoder", m_rightFrontDrive.getEncoder()->GetEncVel());
+	SmartDashboard::PutNumber("Left Back Drive Encoder", m_leftBackDrive.getEncoder()->GetEncVel());
+
 }
 
 void DriveSubsystem::hardResetYaw() {

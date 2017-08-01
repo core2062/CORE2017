@@ -54,15 +54,14 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.362679811" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.1895838080" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
 								<option id="gnu.cpp.link.option.libs.1363675797" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="CORERobotLib"/>
-									<listOptionValue builtIn="false" value="wpi"/>
+									<listOptionValue builtIn="false" value="CORERobotLib"/>
 									<listOptionValue builtIn="false" value="CTRLib"/>
 									<listOptionValue builtIn="false" value="navx_frc_cpp"/>
+									<listOptionValue builtIn="false" value="wpi"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1566479969" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CORERobotLib/Debug}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CORERobotLib/lib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/CORERobotLib/lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CORERobotLib/lib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CORERobotLib/3rdparty/CTRE/Linux/arm}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CORERobotLib/3rdparty/navx-mxp/Linux/arm}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${WPILIB}/cpp/current/lib&quot;"/>
@@ -83,33 +82,14 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1104744751.1130867298" name="/" resourcePath="CORERobotLib">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.cross.exe.debug.1581541504" name="Cross GCC" superClass="cdt.managedbuild.toolchain.gnu.cross.exe.debug" unusedChildren="">
-							<option id="cdt.managedbuild.option.gnu.cross.prefix.541714056.661959985" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix.541714056"/>
-							<option id="cdt.managedbuild.option.gnu.cross.path.1246856819.2009763865" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path.1246856819"/>
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
-							<tool id="cdt.managedbuild.tool.gnu.cross.c.compiler.1876985834" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler.1261239456">
-								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.719878786" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
-							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.2017028321" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler.1505235107">
-								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.2104822197" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
-							</tool>
-							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.1310545864" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker.362679811"/>
-							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.1110772194" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker.1895838080"/>
-							<tool id="cdt.managedbuild.tool.gnu.cross.archiver.28534254" name="Cross GCC Archiver" superClass="cdt.managedbuild.tool.gnu.cross.archiver.412234585"/>
-							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.807288071" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler.1047448065">
-								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1110839551" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
-							</tool>
-						</toolChain>
-					</folderInfo>
 					<fileInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1104744751.975429971" name="CMakeLists.txt" rcbsApplicability="disable" resourcePath="CMakeLists.txt" toolsToInvoke=""/>
 					<sourceEntries>
-						<entry excluding="Paths|cmake-build-debug" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="Paths|cmake-build-debug|CORERobotLib" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
-				<externalSettings containerId="CORERobotLib;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+				<externalSettings containerId="CORERobotLib;cdt.managedbuild.config.gnu.cross.exe.debug.1104744751.154973368" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/GearsBotCPPWin"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/CORERobotLib"/>

@@ -31,7 +31,7 @@ void DriveGyroController::enabledLoop() {
 	m_error = getError();
 
 	double output = m_error * Robot->driveSubsystem.driveTurnkP.Get();
-	Robot->driveSubsystem.setMotorSpeed(output, -output);
+	Robot->driveSubsystem.m_swerveDrive.tank(output, -output);
 }
 
 bool DriveGyroController::isDone() {

@@ -66,12 +66,12 @@ private:
     double m_currentYawTarget;
     double m_currentYawTolerance;
     COREConstant<double> m_turnPIDMultiplier;
-    CORESwerve::SwerveModule * m_rightFrontModule;
-    CORESwerve::SwerveModule * m_rightBackModule;
-    CORESwerve::SwerveModule * m_leftFrontModule;
-    CORESwerve::SwerveModule * m_leftBackModule;
+    CORESwerve::SwerveModule m_rightFrontModule;
+    CORESwerve::SwerveModule m_rightBackModule;
+    CORESwerve::SwerveModule m_leftFrontModule;
+    CORESwerve::SwerveModule m_leftBackModule;
 public:
-    CORESwerve * m_swerveDrive;
+    CORESwerve m_swerveDrive;
 private:
 
     DriveOpenController m_driveTeleController;

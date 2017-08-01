@@ -15,7 +15,7 @@ COREAutonAction::actionStatus TurnAngleAction::action() {
 	if(fabs(error) < m_tolerance){
 		m_seen++;
 		if(m_seen >= m_required){
-			Robot->driveSubsystem.m_swerveDrive->tank(0, 0);
+			Robot->driveSubsystem.m_swerveDrive.tank(0, 0);
 			return COREAutonAction::END;
 		}
 	} else {

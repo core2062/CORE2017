@@ -17,17 +17,17 @@ DriveDistanceAction::DriveDistanceAction(double speedInFraction, double distance
     }
     COREAutonAction::actionStatus DriveDistanceAction::action() {
     	//How far have we gone since the reset?
-    	std::pair<double, double> dists = Robot->driveSubsystem.getEncoderInches();
+    	std::pair<double, double> dists = {2.0,3.0}/*Robot->driveSubsystem.getEncoderInches()*/;
     	double averDist = (fabs(dists.first) + fabs(dists.second)) * .5;
     	//Is this less than how far we were supposed to go?
     	if (averDist < m_distanceInInches || m_initTime.Get() < .1) {
     		//If yes, set motors to appropriate speed, return CONTINUE.
-    		Robot->driveSubsystem.m_swerveDrive->tank(-1, -1);
+    		Robot->driveSubsystem.m_swerveDrive.tank(-1, -1);
     		return COREAutonAction::CONTINUE;
 
     	}else{
         	//If no, set motors to zero, return END.
-    		Robot->driveSubsystem.m_swerveDrive->tank(0, 0);
+    		Robot->driveSubsystem.m_swerveDrive.tank(0, 0);
     		//Robot->driveSubsystem.setMotorSpeed(0, DriveSide::BOTH);
     		return COREAutonAction::END;
 
@@ -38,7 +38,7 @@ DriveDistanceAction::DriveDistanceAction(double speedInFraction, double distance
     }
 
     void DriveDistanceAction::actionEnd() {
-    	Robot->driveSubsystem.m_swerveDrive->tank(0, 0);
+    	Robot->driveSubsystem.m_swerveDrive.tank(0, 0);
     }
 
 

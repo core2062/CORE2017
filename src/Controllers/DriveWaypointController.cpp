@@ -78,7 +78,7 @@ void DriveWaypointController::updatePathFollower() {
 		double scaling = 100 / maxVel;
 		setpoint = VelocityPair(setpoint.left * scaling, setpoint.right * scaling);
 	}
-	Robot->driveSubsystem.m_swerveDrive->tank(setpoint.left * .01, setpoint.right * .01);
+	Robot->driveSubsystem.m_swerveDrive.tank(setpoint.left * .01, setpoint.right * .01);
 	//Robot->driveSubsystem.setMotorSpeed(setpoint.left * .01, setpoint.right * .01);
 }
 

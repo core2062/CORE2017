@@ -107,14 +107,14 @@ void Aergia::test(){
 
 	double oldLeft = left;
 	double oldRight = right;
-	std::pair<double, double> driveSpeed = driveSubsystem.getEncoderSpeed();
+//	std::pair<double, double> driveSpeed = driveSubsystem.getEncoderSpeed();
 
-	if(abs(((driveSpeed.first > 0) - (driveSpeed.first < 0)) - ((oldLeft > 0) - (oldLeft < 0))) == 2){
-		std::cout << "Left Drive Encoder speed and power don't match!" << std::endl;
-	}
-	if(abs(((driveSpeed.second > 0) - (driveSpeed.second < 0)) - ((oldRight > 0) - (oldRight < 0))) == 2){
-		std::cout << "Right Drive Encoder speed and power don't match!" << std::endl;
-	}
+//	if(abs(((driveSpeed.first > 0) - (driveSpeed.first < 0)) - ((oldLeft > 0) - (oldLeft < 0))) == 2){
+//		std::cout << "Left Drive Encoder speed and power don't match!" << std::endl;
+//	}
+//	if(abs(((driveSpeed.second > 0) - (driveSpeed.second < 0)) - ((oldRight > 0) - (oldRight < 0))) == 2){
+//		std::cout << "Right Drive Encoder speed and power don't match!" << std::endl;
+//	}
 
 	driveSubsystem.setMotors();
 

@@ -3,12 +3,11 @@
 
 using namespace CORE;
 
-ClimberSubsystem::ClimberSubsystem() : CORESubsystem("Climber"),
-										m_leftClimbMotor(LEFT_CLIMB_MOTOR_PORT, CANTALON, PERCENTAGE),
-										m_rightClimbMotor(RIGHT_CLIMB_MOTOR_PORT, CANTALON, PERCENTAGE),
-										m_climbMotorCurrentLimit("Climber Current Limit",-1),
-										m_climbLimitSwitch(CLIMB_LIMIT_SWITCH_PORT),
-										m_climbing(false){
+ClimberSubsystem::ClimberSubsystem() : m_leftClimbMotor(LEFT_CLIMB_MOTOR_PORT, CANTALON, PERCENTAGE),
+									   m_rightClimbMotor(RIGHT_CLIMB_MOTOR_PORT, CANTALON, PERCENTAGE),
+									   m_climbMotorCurrentLimit("Climber Current Limit",-1),
+									   m_climbLimitSwitch(CLIMB_LIMIT_SWITCH_PORT),
+									   m_climbing(false) {
 	shared_ptr<CANTalon> liftEncoder = m_leftClimbMotor.getCANTalon();
 	liftEncoder->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
 	liftEncoder->SetSensorDirection(false);

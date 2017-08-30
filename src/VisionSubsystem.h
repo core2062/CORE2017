@@ -1,6 +1,7 @@
 #pragma once
 #include "CORERobotLib.h"
 #include "WPILib.h"
+#include "COREUtilities/Rotation2d.h"
 #include "WaypointFollower/RobotFrame.h"
 
 //#define OLD_MATH

@@ -17,7 +17,7 @@ void GearHopperBoilerAuton::addNodes(){
 	m_loadGearOnPeg = new Node(15, new LoadGearOntoPegAction(), new WaitAction(.5));
 
 	m_driveToHopperA = new Node(5, new DriveWaypointAction(AutonPaths::getPegToHopperPathA(), false, .25, 500.0, false));
-	m_turnToHopper = new Node(3, new TurnAngleAction(Rotation2d::fromDegrees(-90 * CORERobot::getAlliance()), 10));
+	m_turnToHopper = new Node(3, new TurnAngleAction(Rotation2d::fromDegrees(-90 * COREDriverstation::getAlliance()), 10));
 	m_driveToHopperB = new Node(5, new DriveWaypointAction(AutonPaths::getPegToHopperPathB(), true, .25, 500.0, false));
 
 	m_loadHopper = new Node(3, new WaitAction(2.5));

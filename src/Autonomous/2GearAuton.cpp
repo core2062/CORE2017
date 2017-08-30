@@ -14,12 +14,12 @@ void TwoGearAuton::addNodes() {
 	m_driveToPeg = new Node(7, new DriveWaypointAction(AutonPaths::getWallToPegPath(), true, .25, 125.0, true));
 	m_dropA = new Node(2, new LoadGearOntoPegAction(), new WaitAction(.1));
 	m_driveToTurn = new Node(10, new DriveWaypointAction(	PathLoader::loadPath("2gearA.csv", 1.0,
-			(CORERobot::getAlliance() == CORERobot::RED)), false, .25, 250.0, false));
-	m_turnToPickup = new Node(3, new TurnAngleAction(Rotation2d::fromDegrees(-135 * CORERobot::getAlliance()), 15));
+			(COREDriverstation::getAlliance() == COREDriverstation::RED)), false, .25, 250.0, false));
+	m_turnToPickup = new Node(3, new TurnAngleAction(Rotation2d::fromDegrees(-135 * COREDriverstation::getAlliance()), 15));
 	m_driveToPickup = new Node(10, new DriveWaypointAction(	PathLoader::loadPath("2gearB.csv", 1.0,
-			(CORERobot::getAlliance() == CORERobot::RED)), true, .25, 250.0, false), new PickupGearAction());
+			(COREDriverstation::getAlliance() == COREDriverstation::RED)), true, .25, 250.0, false), new PickupGearAction());
 	m_driveTowardsCenter = new Node(10, new DriveWaypointAction(	PathLoader::loadPath("2gearC.csv", 1.0,
-			(CORERobot::getAlliance() == CORERobot::RED)), false, 25, 250.0, false), new PickupGearAction(true));
+			(COREDriverstation::getAlliance() == COREDriverstation::RED)), false, 25, 250.0, false), new PickupGearAction(true));
 	m_turnToPeg = new Node(3, new TurnAngleAction(Rotation2d::fromDegrees(0), 1, 5));
 
 	m_driveBackToPeg = new Node(5, new DriveWaypointAction(AutonPaths::getWallToPegPath(), true, .25, 125.0, true));

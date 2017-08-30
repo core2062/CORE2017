@@ -4,7 +4,7 @@
 
 #include "CORERobotLib.h"
 #include "WPILib.h"
-#include "WaypointFollower/Rotation2d.h"
+#include "COREUtilities/Rotation2d.h"
 using namespace CORE;
 
 class TurnAngleAction : public COREAutonAction {

@@ -1,9 +1,9 @@
 #include "VisionSubsystem.h"
 #include "Robot.h"
-#include "Math.h"
+
 using namespace CORE;
 
-VisionSubsystem::VisionSubsystem() : CORESubsystem("Vision"),
+VisionSubsystem::VisionSubsystem() :
 	gearPlaceDist("Gear Place Distance", 22.5),
 	ultrakP("Ultrasonic kP", .03),
 	m_imageWidth("Image width", 640),

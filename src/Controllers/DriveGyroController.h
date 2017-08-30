@@ -1,7 +1,7 @@
 #pragma once
 
-#include "COREScheduler.h"
-#include "WaypointFollower/Rotation2d.h"
+#include "COREFramework/COREScheduler.h"
+#include "COREUtilities/Rotation2d.h"
 
 class DriveGyroController : public COREController{
 public:

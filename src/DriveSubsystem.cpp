@@ -1,11 +1,10 @@
 #include "DriveSubsystem.h"
 #include "Robot.h"
-#include "Math.h"
+#include "COREUtilities/COREMath.h"
 
 using namespace CORE;
 
-DriveSubsystem::DriveSubsystem() : COREVariableControlledSubsystem("Drive Subsystem"),
-								   driveTurnkP("Drive Turn P Value", .05),
+DriveSubsystem::DriveSubsystem() : driveTurnkP("Drive Turn P Value", .05),
 								   m_etherAValue("Ether A Value", .6),
                                    m_etherBValue("Ether B Value", .4),
 								   m_etherQuickTurnValue("Ether Quick Turn Value", 1.0),
@@ -366,7 +365,7 @@ void DriveSubsystem::autonInitTask() {
 	m_leftBackDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
 }
 void DriveSubsystem::autonEndTask() {
-	if(!CORERobot::IsCompetition()) { //This should make it easier to move robot manually when it is disabled
+	if(!COREDriverstation::IsCompetition()) { //This should make it easier to move robot manually when it is disabled
 		m_leftFrontDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
 		m_rightFrontDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
 		m_leftBackDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
@@ -388,7 +387,7 @@ void DriveSubsystem::teleopInitTask() {
 	m_leftBackDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
 }
 void DriveSubsystem::teleopEndTask() {
-	if(!CORERobot::IsCompetition()) { //This should make it easier to move robot manually when it is disabled
+	if(!COREDriverstation::IsCompetition()) { //This should make it easier to move robot manually when it is disabled
 		m_leftFrontDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
 		m_rightFrontDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
 		m_leftBackDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);

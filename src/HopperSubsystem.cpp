@@ -3,8 +3,7 @@
 
 using namespace CORE;
 
-HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
-									 liftGearFlapPos("Lift Gear Flap Position", 2930),
+HopperSubsystem::HopperSubsystem() : liftGearFlapPos("Lift Gear Flap Position", 2930),
 									 m_liftMotor(LIFT_MOTOR_PORT, VICTOR),
 									 m_leftDumpFlapServo(LEFT_DUMP_FLAP_SERVO_CHANNEL),
 									 m_rightDumpFlapServo(RIGHT_DUMP_FLAP_SERVO_CHANNEL),
@@ -20,7 +19,7 @@ HopperSubsystem::HopperSubsystem() : CORESubsystem("Hopper"),
 									 m_liftPIDDown_I("Lift PID Down I Value", 0),
 									 m_liftPIDDown_D("Lift PID Down D Value", 0.0005),
 									 m_shakeFrequency("Hopper Shake Frequency", 0.5),
-									 m_liftPID(POS, 0, 0, 0, 1, 0, 0, 0, 1),
+									 m_liftPID(0, 0, 0),
 									 m_stringPot(0),
 									 m_lastPressedButton(-1),
 									 m_requestedHopperState(MANUAL),
@@ -40,24 +39,24 @@ void HopperSubsystem::robotInit(){
 	Robot->operatorJoystick.registerAxis(COREJoystick::RIGHT_STICK_Y);
 	m_liftMotor.setDeadband(0.1);
 
-	m_liftPID.setP(m_liftPIDUp_P.Get(), POS, UP);
-	m_liftPID.setI(m_liftPIDUp_I.Get(), POS, UP);
-	m_liftPID.setD(m_liftPIDUp_D.Get(), POS, UP);
-	m_liftPID.setP(m_liftPIDDown_P.Get(), POS, DOWN);
-	m_liftPID.setI(m_liftPIDDown_I.Get(), POS, DOWN);
-	m_liftPID.setD(m_liftPIDDown_D.Get(), POS, DOWN);
+	m_liftPID.setProportionalConstant(m_liftPIDUp_P.Get());
+	m_liftPID.setIntegralConstant(m_liftPIDUp_I.Get());
+	m_liftPID.setDerivativeConstant(m_liftPIDUp_D.Get());
+	m_liftPID.setProportionalConstant(m_liftPIDDown_P.Get());
+	m_liftPID.setIntegralConstant(m_liftPIDDown_I.Get());
+	m_liftPID.setDerivativeConstant(m_liftPIDDown_D.Get());
 }
 
 void HopperSubsystem::teleopInit(){
 	closeFlap();
 	setLiftBottom();
 	m_requestedHopperState = HOLD_BALLS;
-	m_liftPID.setP(m_liftPIDUp_P.Get(), POS, UP);
-	m_liftPID.setI(m_liftPIDUp_I.Get(), POS, UP);
-	m_liftPID.setD(m_liftPIDUp_D.Get(), POS, UP);
-	m_liftPID.setP(m_liftPIDDown_P.Get(), POS, DOWN);
-	m_liftPID.setI(m_liftPIDDown_I.Get(), POS, DOWN);
-	m_liftPID.setD(m_liftPIDDown_D.Get(), POS, DOWN);
+	m_upProfile.kP = m_liftPIDUp_P.Get();
+	m_upProfile.kI = m_liftPIDUp_I.Get();
+	m_upProfile.kD = m_liftPIDUp_D.Get();
+	m_downProfile.kP = m_liftPIDDown_P.Get();
+	m_downProfile.kI = m_liftPIDDown_I.Get();
+	m_downProfile.kD = m_liftPIDDown_D.Get();
 }
 
 void HopperSubsystem::teleop() {
@@ -90,7 +89,6 @@ void HopperSubsystem::teleop() {
 			m_flapIsOpen = true;
 		}
 	}
-	m_liftPID.putToDashboard();
 }
 
 void HopperSubsystem::setLiftTop() {
@@ -106,11 +104,12 @@ void HopperSubsystem::setLiftHold() {
 }
 
 void HopperSubsystem::setLiftPos(double height) {
-	m_liftPID.setPos(height);
 	if(m_stringPot.GetValue() > height) { //Need to go down
-		setLift(m_liftPID.calculate(DOWN));
+		m_liftPID.setPIDProfile(m_downProfile);
+		setLift(m_liftPID.calculate(getLiftPos(), height));
 	} else { //Need to go up
-		setLift(m_liftPID.calculate(UP));
+		m_liftPID.setPIDProfile(m_upProfile);
+		setLift(m_liftPID.calculate(getLiftPos(), height));
 	}
 }
 
@@ -165,7 +164,6 @@ void HopperSubsystem::autonInitTask(){
 
 void HopperSubsystem::postLoopTask() {
     double liftHeight = m_stringPot.GetValue();
-    m_liftPID.setActualPos(liftHeight);
     SmartDashboard::PutNumber("Lift Pot", liftHeight);
     switch(m_requestedHopperState) {
         case INTAKE_BALLS:
@@ -182,9 +180,8 @@ void HopperSubsystem::postLoopTask() {
         	setLiftPos(liftGearFlapPos.Get());
             break;
         case MANUAL:
-            m_liftPID.setPos(liftHeight);
             if(abs(Robot->operatorJoystick.getAxis(COREJoystick::LEFT_STICK_Y)) < 0.05) {
-                setLift(m_liftPID.calculate());
+                setLift(m_liftPID.calculate(getLiftPos(), liftHeight));
             } else {
                 setLift(-Robot->operatorJoystick.getAxis(COREJoystick::LEFT_STICK_Y));
             }

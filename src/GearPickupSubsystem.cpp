@@ -6,7 +6,7 @@
 
 using namespace CORE;
 
-GearSubsystem::GearSubsystem() : CORESubsystem("Gear"),
+GearSubsystem::GearSubsystem() :
 //								m_leftManipulatorSolenoid(GEAR_PICKUP_LEFT_PCM, GEAR_PICKUP_LEFT_OUT_PORT, GEAR_PICKUP_LEFT_IN_PORT),
 //								m_rightManipulatorSolenoid(GEAR_PICKUP_RIGHT_PCM, GEAR_PICKUP_RIGHT_OUT_PORT, GEAR_PICKUP_RIGHT_IN_PORT),
 //								m_out(GEAR_PICKUP_RIGHT_PCM,GEAR_PICKUP_RIGHT_OUT_PORT),

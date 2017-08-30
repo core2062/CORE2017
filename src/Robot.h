@@ -86,13 +86,14 @@
 #endif
 
 using namespace CORE;
+using namespace frc;
 using namespace std;
 
-class Aergia : public CORERobot {
+class Aergia : public CORERobot, public CORETask {
 public:
 	Aergia();
     void robotInit() override;
-    void autonInit() override;
+    void autonInitTask() override;
     void teleopInit() override;
     void teleop() override;
     void test() override;

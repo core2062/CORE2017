@@ -1,6 +1,6 @@
 #pragma once
 
-#include "COREScheduler.h"
+#include "COREFramework/COREScheduler.h"
 #include "WaypointFollower/WaypointFollower.h"
 #include "WaypointFollower/RobotFrame.h"
 

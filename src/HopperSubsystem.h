@@ -42,17 +42,14 @@ private:
     Servo m_leftDumpFlapServo, m_rightDumpFlapServo;
     COREConstant<double> m_liftBottomPos, m_liftHoldPos, m_liftIntakePos, m_liftTopPos, m_intakeSpeed,
 	m_liftPIDUp_P, m_liftPIDUp_I, m_liftPIDUp_D, m_liftPIDDown_P, m_liftPIDDown_I, m_liftPIDDown_D, m_shakeFrequency;
-    COREPID m_liftPID;
+    COREPositionPID m_liftPID;
     AnalogInput m_stringPot;
     int m_lastPressedButton;
     hopperState m_requestedHopperState;
 	hopperState m_actualHopperState;
 	CORETimer m_shakeTimer;
+	COREPID::PIDProfile m_upProfile, m_downProfile;
 	double m_lastLiftHeight;
-	enum pidProfileDirection {
-		UP = 1,
-		DOWN = 2
-	};
     bool m_flapIsOpen;
     bool m_intakeEnabled = true;
 };

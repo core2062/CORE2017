@@ -1,6 +1,7 @@
 #include "Robot.h"
 
 using namespace CORE;
+using namespace frc;
 
 Aergia * Robot = nullptr;
 
@@ -34,20 +35,20 @@ void Aergia::robotInit() {
 }
 
 
-void Aergia::autonInit() {
+void Aergia::autonInitTask() {
 	driveSubsystem.setFrame(nullptr);
 	driveSubsystem.softResetYaw();
 
 	StartingPosition * pos = m_positionChooser.GetSelected();
 	switch(*pos){
 	case (StartingPosition::BOILER):
-		driveSubsystem.setPos(Position2d(Translation2d(-19,236 * CORERobot::getAlliance()), Rotation2d::fromDegrees(0)));
+		driveSubsystem.setPos(Position2d(Translation2d(-19,236 * COREDriverstation::getAlliance()), Rotation2d::fromDegrees(0)));
 		break;
 	case (StartingPosition::CENTER):
-		driveSubsystem.setPos(Position2d(Translation2d(-19,162 * CORERobot::getAlliance()), Rotation2d::fromDegrees(0)));
+		driveSubsystem.setPos(Position2d(Translation2d(-19,162 * COREDriverstation::getAlliance()), Rotation2d::fromDegrees(0)));
 		break;
 	case (StartingPosition::FEEDER):
-		driveSubsystem.setPos(Position2d(Translation2d(-19,102 * CORERobot::getAlliance()), Rotation2d::fromDegrees(0)));
+		driveSubsystem.setPos(Position2d(Translation2d(-19,102 * COREDriverstation::getAlliance()), Rotation2d::fromDegrees(0)));
 		break;
 	}
 }

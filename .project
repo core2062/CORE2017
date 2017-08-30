@@ -3,7 +3,6 @@
 	<name>CORE2017</name>
 	<comment></comment>
 	<projects>
-		<project>CORERobotLib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -20,6 +19,7 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>nl.usetechnology.cmake.nature</nature>
 		<nature>org.eclipse.cdt.core.cnature</nature>
 		<nature>org.eclipse.cdt.core.ccnature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>

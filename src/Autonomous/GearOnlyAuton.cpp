@@ -15,10 +15,10 @@ void GearOnlyAuton::addNodes() {
 
 	switch(Robot->getStartingPosition()){
 		case StartingPosition::BOILER:
-				m_turnToPeg = new Node (3, new TurnAngleAction(Rotation2d::fromDegrees(60.0 * CORERobot::getAlliance()), 1, 5));
+				m_turnToPeg = new Node (3, new TurnAngleAction(Rotation2d::fromDegrees(60.0 * COREDriverstation::getAlliance()), 1, 5));
 			break;
 		case StartingPosition::FEEDER:
-			m_turnToPeg = new Node (3, new TurnAngleAction(Rotation2d::fromDegrees(-60.0 * CORERobot::getAlliance()), 1, 5));
+			m_turnToPeg = new Node (3, new TurnAngleAction(Rotation2d::fromDegrees(-60.0 * COREDriverstation::getAlliance()), 1, 5));
 			break;
 		case StartingPosition::CENTER:
 			m_turnToPeg = new Node (3, new TurnAngleAction(Rotation2d::fromDegrees(0), 1, 5));

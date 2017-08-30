@@ -15,7 +15,7 @@ COREAutonAction::actionStatus DriveForwardWithoutPathAction::action() {
 
 	case GearPosition::HIGH_GEAR:
 //		if(Robot->driveSubsystem.getDistanceInInches(DriveSide::BOTH) != 120){
-//			Robot->driveSubsystem.m_swerveDrive.tank(1, 1);
+			Robot->driveSubsystem.m_swerveDrive.tank(1, 1);
 //			return actionStatus::CONTINUE;
 //		}
 //		else{
@@ -45,6 +45,6 @@ COREAutonAction::actionStatus DriveForwardWithoutPathAction::action() {
 }
 
 void DriveForwardWithoutPathAction::actionEnd() {
-	Robot->driveSubsystem.m_swerveDrive.tank(0, 0);
+	Robot->driveSubsystem.m_swerveDrive.cartesian(0, 0, 0);
 }
 

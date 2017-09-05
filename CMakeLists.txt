@@ -39,3 +39,6 @@ set(SOURCE_FILES
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} CORERobotLib CTRE NAVX-MXP WPILIB seasocks JSON)
+
+add_custom_target(antDeploy COMMAND ant WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+set_target_properties(antDeploy PROPERTIES EXCLUDE_FROM_ALL TRUE)

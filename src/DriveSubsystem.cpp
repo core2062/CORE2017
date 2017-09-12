@@ -83,16 +83,16 @@ void DriveSubsystem::teleop(){
 void DriveSubsystem::resetEncoders(DriveSide whichSide){
 	//Encoders only on front drive motors
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::RIGHT){
-		m_rightFrontDrive.getCANTalon()->SetEncPosition(0);
-		m_rightFrontDrive.getCANTalon()->SetPosition(0);
-		m_rightBackSteer.getCANTalon()->SetPosition(0);
-		m_rightBackSteer.getCANTalon()->SetEncPosition(0);
+		m_rightFrontDrive.SetEncPosition(0);
+		m_rightFrontDrive.SetPosition(0);
+		m_rightBackSteer.SetPosition(0);
+		m_rightBackSteer.SetEncPosition(0);
 	}
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::LEFT){
-		m_leftFrontSteer.getCANTalon()->SetEncPosition(0);
-		m_leftFrontSteer.getCANTalon()->SetPosition(0);
-		m_leftBackSteer.getCANTalon()->SetEncPosition(0);
-		m_leftBackSteer.getCANTalon()->SetPosition(0);
+		m_leftFrontSteer.SetEncPosition(0);
+		m_leftFrontSteer.SetPosition(0);
+		m_leftBackSteer.SetEncPosition(0);
+		m_leftBackSteer.SetPosition(0);
 	}
 }
 /*
@@ -100,10 +100,10 @@ double DriveSubsystem::getDistanceInInches(DriveSide whichSide) {
 	double accumulator = 0;
 	//Encoders only on front drive motors
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::RIGHT){
-		accumulator += abs(m_rightMaster.getCANTalon()->GetEncPosition());
+		accumulator += abs(m_rightMaster->GetEncPosition());
 	}
 	if (whichSide == DriveSide::BOTH || whichSide == DriveSide::LEFT){
-		accumulator += abs(m_leftMaster.getCANTalon()->GetEncPosition());
+		accumulator += abs(m_leftMaster->GetEncPosition());
 	}
 	if (whichSide == DriveSide::BOTH){
 		accumulator *= 0.5;
@@ -145,19 +145,14 @@ void DriveSubsystem::setMotors() {
     	m_swerveDrive.calculate(forward, strafeRight, z);
     }
 
-	SmartDashboard::PutNumber("Front Left Magnitude", m_leftBackDrive.getEncoder()->GetEncVel());
 	SmartDashboard::PutNumber("Front Left Angle", (m_leftFrontModule.getAngle() - m_angleOffset.Get()));
 
 	m_swerveDrive.update();
 
-	SmartDashboard::PutNumber("Left Front Steer Analog", m_leftFrontSteer.getCANTalon()->GetAnalogInRaw());
-	SmartDashboard::PutNumber("Right Front Steer Analog", m_leftBackSteer.getCANTalon()->GetAnalogInRaw());
-	SmartDashboard::PutNumber("Left Back Steer Analog", m_rightBackSteer.getCANTalon()->GetAnalogInRaw());
-	SmartDashboard::PutNumber("Right Back Steer Analog", m_rightFrontSteer.getCANTalon()->GetAnalogInRaw());
-	SmartDashboard::PutNumber("Right Back Drive Encoder", m_rightBackDrive.getEncoder()->GetEncVel());
-	SmartDashboard::PutNumber("Left Front Drive Encoder", m_leftFrontDrive.getEncoder()->GetEncVel());
-	SmartDashboard::PutNumber("Right Front Drive Encoder", m_rightFrontDrive.getEncoder()->GetEncVel());
-	SmartDashboard::PutNumber("Left Back Drive Encoder", m_leftBackDrive.getEncoder()->GetEncVel());
+	SmartDashboard::PutNumber("Left Front Steer Analog", m_leftFrontSteer.GetAnalogInRaw());
+	SmartDashboard::PutNumber("Right Front Steer Analog", m_leftBackSteer.GetAnalogInRaw());
+	SmartDashboard::PutNumber("Left Back Steer Analog", m_rightBackSteer.GetAnalogInRaw());
+	SmartDashboard::PutNumber("Right Back Steer Analog", m_rightFrontSteer.GetAnalogInRaw());
 	SmartDashboard::PutNumber("Front Left Drive", m_rightFrontDrive.Get());
 	SmartDashboard::PutNumber("Front Left Steer", m_rightFrontSteer.Get());
 	SmartDashboard::PutNumber("Front Right Drive", m_leftFrontDrive.Get());
@@ -223,32 +218,23 @@ void DriveSubsystem::setFrame(RobotFrame * frame){
 }
 
 void DriveSubsystem::initTalons() {
-	shared_ptr<CANTalon> leftFrontDrive = m_leftFrontDrive.getCANTalon();
-	shared_ptr<CANTalon> rightFrontDrive = m_rightFrontDrive.getCANTalon();
-	shared_ptr<CANTalon> leftBackDrive = m_leftBackDrive.getCANTalon();
-	shared_ptr<CANTalon> rightBackDrive = m_rightBackDrive.getCANTalon();
-	shared_ptr<CANTalon> leftFrontSteer = m_leftFrontSteer.getCANTalon();
-	shared_ptr<CANTalon> rightFrontSteer = m_rightFrontSteer.getCANTalon();
-	shared_ptr<CANTalon> leftBackSteer = m_leftBackSteer.getCANTalon();
-	shared_ptr<CANTalon> rightBackSteer = m_rightBackSteer.getCANTalon();
+    m_leftFrontDrive.SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
+	m_rightFrontDrive.SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
+	m_leftBackDrive.SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
+	m_rightBackDrive.SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
+	m_leftFrontSteer.SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
+	m_rightFrontSteer.SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
+	m_leftBackSteer.SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
+	m_rightBackSteer.SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
 
-	leftFrontDrive->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
-	rightFrontDrive->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
-	leftBackDrive->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
-	rightBackDrive->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
-	leftFrontSteer->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
-	rightFrontSteer->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
-	leftBackSteer->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
-	rightBackSteer->SetStatusFrameRateMs(CANTalon::StatusFrameRateFeedback, 10);
-
-	leftFrontDrive->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-	rightFrontDrive->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-	leftBackDrive->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-	rightBackDrive->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-	leftFrontSteer->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-	rightFrontSteer->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-	leftBackSteer->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-	rightBackSteer->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	m_leftFrontDrive.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	m_rightFrontDrive.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	m_leftBackDrive.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	m_rightBackDrive.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	m_leftFrontSteer.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	m_rightFrontSteer.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	m_leftBackSteer.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+	m_rightBackSteer.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 
 	m_leftFrontDrive.Set(0);
 	m_rightFrontDrive.Set(0);
@@ -259,23 +245,23 @@ void DriveSubsystem::initTalons() {
 	m_leftBackSteer.Set(0);
 	m_rightBackSteer.Set(0);
 
-	leftFrontDrive->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Absolute);
-	rightFrontDrive->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Absolute);
-	leftBackDrive->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Absolute);
-	rightBackDrive->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Absolute);
-	leftFrontSteer->SetFeedbackDevice(CANTalon::FeedbackDevice::AnalogEncoder);
-	rightFrontSteer->SetFeedbackDevice(CANTalon::FeedbackDevice::AnalogEncoder);
-	leftBackSteer->SetFeedbackDevice(CANTalon::FeedbackDevice::AnalogEncoder);
-	rightBackSteer->SetFeedbackDevice(CANTalon::FeedbackDevice::AnalogEncoder);
+	m_leftFrontDrive.SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Absolute);
+	m_rightFrontDrive.SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Absolute);
+	m_leftBackDrive.SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Absolute);
+	m_rightBackDrive.SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Absolute);
+	m_leftFrontSteer.SetFeedbackDevice(CANTalon::FeedbackDevice::AnalogEncoder);
+	m_rightFrontSteer.SetFeedbackDevice(CANTalon::FeedbackDevice::AnalogEncoder);
+	m_leftBackSteer.SetFeedbackDevice(CANTalon::FeedbackDevice::AnalogEncoder);
+	m_rightBackSteer.SetFeedbackDevice(CANTalon::FeedbackDevice::AnalogEncoder);
 
-	leftFrontDrive->ConfigEncoderCodesPerRev(1024);
-	rightFrontDrive->ConfigEncoderCodesPerRev(1024);
-	leftBackDrive->ConfigEncoderCodesPerRev(1024);
-	rightBackDrive->ConfigEncoderCodesPerRev(1024);
-	leftFrontSteer->ConfigEncoderCodesPerRev(1024);
-	rightFrontSteer->ConfigEncoderCodesPerRev(1024);
-	leftBackSteer->ConfigEncoderCodesPerRev(1024);
-	rightBackSteer->ConfigEncoderCodesPerRev(1024);
+	m_leftFrontDrive.ConfigEncoderCodesPerRev(1024);
+	m_rightFrontDrive.ConfigEncoderCodesPerRev(1024);
+	m_leftBackDrive.ConfigEncoderCodesPerRev(1024);
+	m_rightBackDrive.ConfigEncoderCodesPerRev(1024);
+	m_leftFrontSteer.ConfigEncoderCodesPerRev(1024);
+	m_rightFrontSteer.ConfigEncoderCodesPerRev(1024);
+	m_leftBackSteer.ConfigEncoderCodesPerRev(1024);
+	m_rightBackSteer.ConfigEncoderCodesPerRev(1024);
 	/*leftFrontDrive->SetSensorDirection(false);
 	leftMaster->SetInverted(false);
 	leftSlave->SetInverted(false);
@@ -287,12 +273,12 @@ void DriveSubsystem::initTalons() {
 /*
 std::pair<double, double> DriveSubsystem::getEncoderInches() {
 	double factor = TankKinematics::wheelDiameter.Get() * PI;
-	return {m_leftMaster.getCANTalon()->GetPosition() * factor, m_rightMaster.getCANTalon()->GetPosition() * factor};
+	return {m_leftMaster->GetPosition() * factor, m_rightMaster->GetPosition() * factor};
 }
 
 std::pair<double, double> DriveSubsystem::getEncoderSpeed() {
 	double factor = TankKinematics::wheelDiameter.Get() * PI * .0166666666; //Multiply by 1/60 to get RPS from RPM
-	return {m_leftMaster.getCANTalon()->GetSpeed() * factor, m_rightMaster.getCANTalon()->GetSpeed() * factor};
+	return {m_leftMaster->GetSpeed() * factor, m_rightMaster->GetSpeed() * factor};
 }
 */
 Rotation2d DriveSubsystem::getGyroAngle() {
@@ -302,42 +288,42 @@ Rotation2d DriveSubsystem::getGyroAngle() {
 
 CANTalon* DriveSubsystem::getLeftFrontSteer() {
 	std::cout << "Drive Get Left Front Steer: " << std::endl;
-	return m_leftFrontSteer.getCANTalon().get();
+	return &m_leftFrontSteer;
 }
 
 CANTalon* DriveSubsystem::getRightFrontSteer() {
 	std::cout << "Drive Get Right Front Steer" << std::endl;
-	return m_rightFrontSteer.getCANTalon().get();
+	return &m_rightFrontSteer;
 }
 
 CANTalon * DriveSubsystem::getLeftBackSteer() {
 	std::cout << "Drive Get Left Back Steer" << std::endl;
-	return m_rightBackSteer.getCANTalon().get();
+	return &m_rightBackSteer;
 }
 
 CANTalon * DriveSubsystem::getRightBackSteer() {
 	std::cout << "Drive Get Right Back Steer" << std::endl;
-	return m_rightBackSteer.getCANTalon().get();
+	return &m_rightBackSteer;
 }
 
 CANTalon * DriveSubsystem::getLeftFrontDrive() {
 	std::cout << "Drive Get Left Front Drive" << std::endl;
-	return m_leftFrontDrive.getCANTalon().get();
+	return &m_leftFrontDrive;
 }
 
 CANTalon * DriveSubsystem::getRightFrontDrive() {
 	std::cout << "Drive Get Right Front Drive" << std::endl;
-	return m_rightFrontDrive.getCANTalon().get();
+	return &m_rightFrontDrive;
 }
 
 CANTalon * DriveSubsystem::getLeftBackDrive() {
 	std::cout << "Drive Get Left Back Drive" << std::endl;
-	return m_leftBackDrive.getCANTalon().get();
+	return &m_leftBackDrive;
 }
 
 CANTalon * DriveSubsystem::getRightBackDrive() {
 	std::cout << "Drive Get Right Back Drive" << std::endl;
-		return m_rightBackDrive.getCANTalon().get();
+		return &m_rightBackDrive;
 }
 
 AHRS* DriveSubsystem::getGyro() {
@@ -355,46 +341,46 @@ void DriveSubsystem::setPos(Position2d pos) {
 }
 
 void DriveSubsystem::autonInitTask() {
-	m_leftFrontSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
-	m_rightFrontSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
-	m_leftBackSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
-	m_rightBackSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
-	m_rightFrontDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
-	m_leftFrontDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
-	m_rightBackDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
-	m_leftBackDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_leftFrontSteer.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_rightFrontSteer.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_leftBackSteer.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_rightBackSteer.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_rightFrontDrive.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_leftFrontDrive.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_rightBackDrive.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_leftBackDrive.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
 }
 void DriveSubsystem::autonEndTask() {
-	if(!COREDriverstation::IsCompetition()) { //This should make it easier to move robot manually when it is disabled
-		m_leftFrontDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
-		m_rightFrontDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
-		m_leftBackDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
-		m_rightBackDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
-		m_leftFrontSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
-		m_rightFrontSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
-		m_leftBackSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
-		m_rightBackSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+	if(!COREDriverstation::isCompetition()) { //This should make it easier to move robot manually when it is disabled
+		m_leftFrontDrive.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_rightFrontDrive.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_leftBackDrive.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_rightBackDrive.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_leftFrontSteer.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_rightFrontSteer.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_leftBackSteer.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_rightBackSteer.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
 	}
 }
 void DriveSubsystem::teleopInitTask() {
-	m_leftFrontSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
-	m_rightFrontSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
-	m_leftBackSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
-	m_rightBackSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
-	m_rightFrontDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
-	m_leftFrontDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
-	m_rightBackDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
-	m_leftBackDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_leftFrontSteer.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_rightFrontSteer.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_leftBackSteer.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_rightBackSteer.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_rightFrontDrive.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_leftFrontDrive.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_rightBackDrive.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	m_leftBackDrive.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
 }
 void DriveSubsystem::teleopEndTask() {
-	if(!COREDriverstation::IsCompetition()) { //This should make it easier to move robot manually when it is disabled
-		m_leftFrontDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
-		m_rightFrontDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
-		m_leftBackDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
-		m_rightBackDrive.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
-		m_leftFrontSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
-		m_rightFrontSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
-		m_leftBackSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
-		m_rightBackSteer.getCANTalon()->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+	if(!COREDriverstation::isCompetition()) { //This should make it easier to move robot manually when it is disabled
+		m_leftFrontDrive.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_rightFrontDrive.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_leftBackDrive.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_rightBackDrive.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_leftFrontSteer.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_rightFrontSteer.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_leftBackSteer.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+		m_rightBackSteer.ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
 	}
 }

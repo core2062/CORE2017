@@ -34,7 +34,6 @@ void Aergia::robotInit() {
 	SmartDashboard::PutBoolean("Tele Init Drive", false);
 }
 
-
 void Aergia::autonInitTask() {
 	driveSubsystem.setFrame(nullptr);
 	driveSubsystem.softResetYaw();
@@ -128,8 +127,4 @@ Aergia::~Aergia() {
 	CORELog::logInfo("Robot successfully deleted");
 }
 
-#ifdef __arm__
 START_ROBOT_CLASS(Aergia)
-#else
-START_SIMULATED_ROBOT_CLASS(Aergia)
-#endif
